@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: HelloWorld
+Bundle-SymbolicName: com.javaworld.sample.HelloWorld
+Bundle-Version: 1.0.0
+Bundle-Activator: com.javaworld.sample.helloworld.Activator
+Bundle-Vendor: JAVAWORLD
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: desarc.osgi.testservice,
+ org.osgi.framework;version="1.3.0"

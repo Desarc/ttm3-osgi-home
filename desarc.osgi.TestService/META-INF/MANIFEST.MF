@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TestService
+Bundle-SymbolicName: desarc.osgi.TestService
+Bundle-Version: 1.0.0
+Bundle-Activator: desarc.osgi.testservice.impl.TestServiceActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.osgi.framework;version="1.3.0"
+Export-Package: desarc.osgi.testservice
