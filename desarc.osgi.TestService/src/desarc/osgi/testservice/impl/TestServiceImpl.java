@@ -2,7 +2,7 @@ package desarc.osgi.testservice.impl;
 
 import desarc.osgi.testservice.*;;
 
-public class TestServiceImpl implements TestServiceInterface {
+public class TestServiceImpl implements ITestService {
 
 	@Override
 	public String sayHello() {

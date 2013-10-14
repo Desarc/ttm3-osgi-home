@@ -1,5 +1,5 @@
 package desarc.osgi.testservice;
 
-public interface TestServiceInterface {
+public interface ITestService {
 	public String sayHello();
 }

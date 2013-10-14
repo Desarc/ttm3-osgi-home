@@ -4,7 +4,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import desarc.osgi.testservice.TestServiceInterface;
+import desarc.osgi.testservice.ITestService;
 
 public class TestServiceActivator implements BundleActivator {
 
@@ -16,7 +16,8 @@ public class TestServiceActivator implements BundleActivator {
 	 */
 	public void start(BundleContext context) throws Exception {
 		TestServiceImpl testService = new TestServiceImpl();
-		testServiceRegistration = context.registerService(TestServiceInterface.class.getName(), testService, null);
+		testServiceRegistration = context.registerService(ITestService.class.getName(), testService, null);
+		System.out.println("TestService registered.");
 	}
 	
 	/*
@@ -25,6 +26,7 @@ public class TestServiceActivator implements BundleActivator {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		testServiceRegistration.unregister();
+		System.out.println("TestService unregistered.");
 	}
 
 }
