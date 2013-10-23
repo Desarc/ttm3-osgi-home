@@ -1,0 +1,8 @@
+-buildpath: osgi.core,\
+	osgi.cmpn,\
+	biz.aQute.bnd.annotation,\
+	junit.osgi,\
+	desarc.osgi.ServicesAPI;version=latest,\
+	org.apache.felix.gogo.runtime
+-sub: *.bnd
+Bundle-Version: 1.0.0

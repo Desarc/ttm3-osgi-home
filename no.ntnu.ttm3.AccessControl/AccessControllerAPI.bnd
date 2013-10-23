@@ -1,0 +1,2 @@
+Service-Component: *
+Export-Package: controller.api

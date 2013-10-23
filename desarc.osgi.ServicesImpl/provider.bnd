@@ -1,0 +1,4 @@
+Private-Package: desarc.osgi.servicesimpl
+Service-Component: *
+Bundle-Version: 1.0.0
+Test-Cases: desarc.osgi.servicesimpl.CalculatorTest
