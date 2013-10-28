@@ -12,7 +12,6 @@ public class Message {
 	// message recipient
 	public final static String MANAGER = "manager";
 	
-	
 	// message types
 	public final static String ACCESSRSP = "accessrsp";
 	public final static String ACCESSREQ = "accessreq";
@@ -28,8 +27,13 @@ public class Message {
 	public final static String VALUE = "value";
 	public final static String LOCATION = "location";
 	public final static String TYPE = "type";
+	public final static String COMPONENTTYPE = "type";
 	public final static String PREFERREDTYPE = "preferredtype";
 	
+	// component types
+	public final static String ACCESSPOINT = "accesspoint";
+	public final static String CONTROLLER = "controller";
+	public final static String AUTHENTICATOR = "authenticator";
 	
 	public Message(String type, String to, String from) {
 		this.type = type;

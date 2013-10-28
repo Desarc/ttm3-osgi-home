@@ -8,6 +8,10 @@ import accesspoint.api.IAccessPoint;
 
 public abstract class AccessPoint implements IAccessPoint {
 	
+	public final static String LOCKED_DOOR = "lockeddoor";
+	public final static String AUTOMATIC_DOOR = "automaticdoor";
+	public final static String INTERNET_TERMINAL = "inetterminal";
+	
 	protected HydnaApi hydnaSvc;
 	protected HydnaListener listener;
 	protected String id;
@@ -16,7 +20,7 @@ public abstract class AccessPoint implements IAccessPoint {
 	protected String preferredControllerType;
 	protected String location;
 
-	public void setUp() {
+	protected void setUp() {
 		this.listener = new HydnaListener() {
 			
 			@Override
@@ -63,13 +67,14 @@ public abstract class AccessPoint implements IAccessPoint {
 		Message msg = new Message(Message.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.LOCATION, this.location);
 		msg.addData(Message.TYPE, this.type);
+		msg.addData(Message.COMPONENTTYPE, Message.ACCESSPOINT);
 		msg.addData(Message.PREFERREDTYPE, this.preferredControllerType);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
-	public abstract void grantAccess();
+	protected abstract void grantAccess();
 
-	public abstract void revokeAccess();
+	protected abstract void revokeAccess();
 	
 	@Override
 	public String getAccessPointID() {

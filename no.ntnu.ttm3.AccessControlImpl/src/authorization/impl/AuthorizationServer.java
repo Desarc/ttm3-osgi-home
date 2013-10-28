@@ -13,10 +13,9 @@ public abstract class AuthorizationServer implements IAuthorizationServer {
 	protected HydnaListener listener;
 	protected String id;
 	protected String location;
-	protected String areaCode = "testarea";
 	protected String type;
 
-	public void setUp() {
+	protected void setUp() {
 		this.listener = new HydnaListener() {
 			
 			@Override
@@ -41,6 +40,16 @@ public abstract class AuthorizationServer implements IAuthorizationServer {
 		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
 		System.out.println("AuthenticationServer "+this.id+" active.");
+		registerAuthorizationServer();
+	}
+	
+
+	private void registerAuthorizationServer() {
+		Message msg = new Message(Message.REGISTER, Message.MANAGER, this.id);
+		msg.addData(Message.LOCATION, this.location);
+		msg.addData(Message.TYPE, this.type);
+		msg.addData(Message.COMPONENTTYPE, Message.AUTHENTICATOR);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
 	private void handleMessage(Message msg) {
@@ -56,7 +65,7 @@ public abstract class AuthorizationServer implements IAuthorizationServer {
 		}
 	}
 	
-	public abstract boolean authenticate(AuthenticationToken token);
+	protected abstract boolean authenticate(AuthenticationToken token);
 
 	@Override
 	public void authorizeAccess(boolean ok, String controller) {

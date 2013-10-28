@@ -2,8 +2,7 @@ package notification.impl;
 
 import notification.api.IAccessNotification;
 
-// notify every time area is accessed
-public class AccessLogger implements IAccessNotification {
+public abstract class AccessNotification implements IAccessNotification {
 
 	@Override
 	public void registerEvent() {

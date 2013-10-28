@@ -1,0 +1,5 @@
+Service-Component: *
+Private-Package: accesspoint.impl.internetterminal,\
+	accesspoint.impl,\
+	communication
+Bundle-Version: 1.0.0

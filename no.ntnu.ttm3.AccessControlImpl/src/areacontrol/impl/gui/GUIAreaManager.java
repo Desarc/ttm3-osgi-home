@@ -1,17 +1,16 @@
-package accesspoint.impl.lockeddoor;
+package areacontrol.impl.gui;
 
 import hydna.ntnu.student.api.HydnaApi;
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
-import accesspoint.impl.AccessPoint;
+import areacontrol.impl.AreaManager;
 
 @Component
-public class LockedDoor extends AccessPoint {
+public class GUIAreaManager extends AreaManager {
 
 	@Activate
 	public void activate() {
-		this.type = LOCKED_DOOR;
 		super.setUp();
 	}
 	
@@ -20,15 +19,4 @@ public class LockedDoor extends AccessPoint {
 		this.hydnaSvc = hydna;
 	}
 	
-	
-	@Override
-	public void grantAccess() {
-		System.out.println("Door unlocked!");
-	}
-
-	@Override
-	public void revokeAccess() {
-		System.out.println("Door locked!");
-	}
-
 }

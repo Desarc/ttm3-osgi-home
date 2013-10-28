@@ -18,7 +18,7 @@ public abstract class AccessController implements IAccessController {
 	protected String preferredAuthenticationType;
 	protected String type;
 
-	public void setUp() {
+	protected void setUp() {
 		this.id = this.type+System.currentTimeMillis(); 
 		this.listener = new HydnaListener() {
 			
@@ -46,7 +46,16 @@ public abstract class AccessController implements IAccessController {
 		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
 		System.out.println("Controller "+id+" active.");
+		registerAccessController();
 		requestIdentification();
+	}
+	
+	private void registerAccessController() {
+		Message msg = new Message(Message.REGISTER, Message.MANAGER, this.id);
+		msg.addData(Message.LOCATION, this.location);
+		msg.addData(Message.TYPE, this.type);
+		msg.addData(Message.PREFERREDTYPE, this.preferredAuthenticationType);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
 	private void handleMessage(Message msg) {
@@ -58,11 +67,11 @@ public abstract class AccessController implements IAccessController {
 		}
 	}
 	
-	public abstract void requestIdentification();
+	protected abstract void requestIdentification();
 	
-	public abstract void requestAuthorization(String passcode);
+	protected abstract void requestAuthorization(String passcode);
 	
-	public abstract void handleAuthorizationResponse(String result);
+	protected abstract void handleAuthorizationResponse(String result);
 	
 	protected void grantAccess() {
 		System.out.println("Granting access...");
