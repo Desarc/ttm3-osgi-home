@@ -1,10 +1,11 @@
 package controller.impl.nfc;
 
+import controller.api.IAccessController;
 import controller.impl.AccessController;
 import aQute.bnd.annotation.component.Component;
 
 @Component
-public class NFCController extends AccessController {
+public class NFCController extends AccessController implements IAccessController {
 
 	@Override
 	public void requestIdentification() {

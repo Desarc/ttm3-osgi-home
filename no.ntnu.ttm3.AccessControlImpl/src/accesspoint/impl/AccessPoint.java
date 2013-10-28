@@ -41,8 +41,7 @@ public abstract class AccessPoint implements IAccessPoint {
 				handleMessage(m);
 			}
 		};
-		//this.id = this.type+System.currentTimeMillis();
-		this.id = "testdoor";
+		this.id = this.type+System.currentTimeMillis();
 		hydnaSvc.registerListener(this.listener);
 		this.location = "testlocation";
 		hydnaSvc.stayConnected(true);
@@ -52,7 +51,6 @@ public abstract class AccessPoint implements IAccessPoint {
 	}
 	
 	private void handleMessage(Message msg) {
-		System.out.println(msg.getType());
 		if (msg.getTo().equals(this.id)) {
 			if (msg.getType().equals(Message.OPEN)) {
 				grantAccess();

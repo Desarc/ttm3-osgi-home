@@ -5,10 +5,11 @@ import communication.AuthenticationToken;
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
+import authorization.api.IAuthorizationServer;
 import authorization.impl.AuthorizationServer;
 
 @Component
-public class TimedAuthorizationServer extends AuthorizationServer{
+public class TimedAuthorizationServer extends AuthorizationServer implements IAuthorizationServer {
 
 
 	@Activate

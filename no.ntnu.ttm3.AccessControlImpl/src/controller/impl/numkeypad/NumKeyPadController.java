@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 import communication.Message;
 import communication.Serializer;
-
+import controller.api.IAccessController;
 import controller.impl.AccessController;
 import aQute.bnd.annotation.component.*;
 
 @Component
-public class NumKeyPadController extends AccessController {
+public class NumKeyPadController extends AccessController implements IAccessController {
 
 	@Activate
 	public void activate() {

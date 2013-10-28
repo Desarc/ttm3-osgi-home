@@ -4,9 +4,10 @@ import communication.AuthenticationToken;
 import hydna.ntnu.student.api.HydnaApi;
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Reference;
+import authorization.api.IAuthorizationServer;
 import authorization.impl.AuthorizationServer;
 
-public class DBAuthorizationServer extends AuthorizationServer {
+public class DBAuthorizationServer extends AuthorizationServer implements IAuthorizationServer {
 
 	@Activate
 	public void activate() {

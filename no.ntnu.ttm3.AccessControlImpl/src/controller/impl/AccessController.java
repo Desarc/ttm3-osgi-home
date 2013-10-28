@@ -59,7 +59,6 @@ public abstract class AccessController implements IAccessController {
 	}
 	
 	private void handleMessage(Message msg) {
-		System.out.println(msg.getType());
 		if (msg.getTo().equals(this.id)) {
 			if (msg.getType().equals(Message.ACCESSRSP)) {
 				handleAuthorizationResponse(msg.getData(Message.ACCESSRES));

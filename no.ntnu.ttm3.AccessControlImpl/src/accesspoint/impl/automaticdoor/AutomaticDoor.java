@@ -1,8 +1,9 @@
 package accesspoint.impl.automaticdoor;
 
+import accesspoint.api.IAccessPoint;
 import accesspoint.impl.AccessPoint;
 
-public class AutomaticDoor extends AccessPoint {
+public class AutomaticDoor extends AccessPoint implements IAccessPoint {
 
 	public void grantAccess() {
 		// TODO Auto-generated method stub

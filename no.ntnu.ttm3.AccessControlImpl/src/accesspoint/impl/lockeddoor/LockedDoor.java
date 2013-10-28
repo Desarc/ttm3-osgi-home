@@ -4,10 +4,11 @@ import hydna.ntnu.student.api.HydnaApi;
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
+import accesspoint.api.IAccessPoint;
 import accesspoint.impl.AccessPoint;
 
 @Component
-public class LockedDoor extends AccessPoint {
+public class LockedDoor extends AccessPoint implements IAccessPoint {
 
 	@Activate
 	public void activate() {
