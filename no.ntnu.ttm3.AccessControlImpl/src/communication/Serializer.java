@@ -8,10 +8,9 @@ public class Serializer {
 		s += "to:"+msg.getTo()+";";
 		s += "from:"+msg.getFrom()+";";
 		s += "data;";
-		String keys[] = (String[])msg.getKeys().toArray();
-		for (int i = 0; i < keys.length; i++) {
-			s += keys[i]+":";
-			s += msg.getData(keys[i])+";";
+		for (String key : msg.getKeys()) {
+			s += key+":";
+			s += msg.getData(key)+";";
 		}
 		return s;
 	}
@@ -36,7 +35,7 @@ public class Serializer {
 		int index1 = -1;
 		String value = null;
 		if ((index1 = msg.indexOf(key)) > 0) {
-			int index2 = msg.indexOf(";");
+			int index2 = msg.indexOf(";", index1);
 			value = msg.substring(index1+key.length()+1, index2);
 		}
 		return value;

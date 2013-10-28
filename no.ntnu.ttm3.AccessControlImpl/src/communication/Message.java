@@ -13,6 +13,7 @@ public class Message {
 		this.type = type;
 		this.to = to;
 		this.from = from;
+		data = new HashMap<>();
 	}
 	
 	public void addData(String key, String value) {
