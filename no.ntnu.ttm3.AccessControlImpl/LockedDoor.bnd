@@ -1,4 +1,5 @@
 Service-Component: *
 Private-Package: accesspoint.impl,\
-	accesspoint.impl.lockeddoor
+	accesspoint.impl.lockeddoor,\
+	communication
 Bundle-Version: 1.0.0
