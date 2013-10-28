@@ -1,16 +1,15 @@
 package accesspoint.impl.automaticdoor;
 
-import accesspoint.api.IAccessPoint;
+import accesspoint.impl.AccessPoint;
 
-public class AutomaticDoor implements IAccessPoint {
+public class AutomaticDoor extends AccessPoint {
 
-	@Override
 	public void grantAccess() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void revokeAccess() {
 		// TODO Auto-generated method stub
 

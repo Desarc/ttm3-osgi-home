@@ -1,4 +1,5 @@
 Service-Component: *
-Private-Package: areacontrol.impl.databaseauth,\
-	areacontrol.impl
+Private-Package: authorization.impl.database,\
+	communication,\
+	authorization.impl
 Bundle-Version: 1.0.0

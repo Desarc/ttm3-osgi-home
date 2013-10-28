@@ -1,16 +1,11 @@
 package areacontrol.api;
 
+import aQute.bnd.annotation.ConsumerType;
 
 
+@ConsumerType
 public interface IAreaManager {
 
-	public void registerAccessPoint();
+	public void setLocation(String location);
 	
-	public void registerAccessController();
-	
-	public void registerAlarm();
-	
-	public boolean authenticate(int type, String value);
-	
-	public void authorizeAccess(boolean ok, String controller);
 }

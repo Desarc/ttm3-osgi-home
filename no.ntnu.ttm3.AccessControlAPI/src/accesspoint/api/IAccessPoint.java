@@ -9,8 +9,12 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface IAccessPoint {
 
-	public void grantAccess();
+	public String getAccessPointID();
 	
-	public void revokeAccess();
+	public String getAccessPointType();
+	
+	public void setLocation(String location);
+	
+	public void setPreferredControllerType(String type);
 	
 }

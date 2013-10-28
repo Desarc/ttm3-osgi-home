@@ -24,7 +24,6 @@ public class NumKeyPadController extends AccessController {
 		this.hydnaSvc = hydna;
 	}
 	
-	@Override
 	public void requestIdentification() {
 		//Scanner scanIn = new Scanner(System.in);
 		System.out.println("Welcome to the locked door. Please input the numeric passcode: ");

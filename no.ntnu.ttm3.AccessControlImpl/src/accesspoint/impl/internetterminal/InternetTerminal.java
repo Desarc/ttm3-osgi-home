@@ -1,16 +1,14 @@
 package accesspoint.impl.internetterminal;
 
-import accesspoint.api.IAccessPoint;
+import accesspoint.impl.AccessPoint;
 
-public class InternetTerminal implements IAccessPoint {
+public class InternetTerminal extends AccessPoint {
 
-	@Override
 	public void grantAccess() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void revokeAccess() {
 		// TODO Auto-generated method stub
 

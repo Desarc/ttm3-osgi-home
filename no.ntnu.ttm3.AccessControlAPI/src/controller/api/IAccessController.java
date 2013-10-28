@@ -9,10 +9,13 @@ import aQute.bnd.annotation.ConsumerType;
 @ConsumerType
 public interface IAccessController {
 	
-	public void requestIdentification();
+	public String getAccessControllerId();
 	
-	public void requestAuthorization(String passcode);
+	public String getAccessControllerType();
 	
-	public void handleAuthorizationResponse(String result);
+	public void setLocation(String location);
+	
+	public void setPreferredAuthenticationType(String type);
+	
 	
 }

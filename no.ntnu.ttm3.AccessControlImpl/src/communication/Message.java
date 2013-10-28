@@ -9,15 +9,26 @@ public class Message {
 	private String to, from;
 	private HashMap<String, String> data;
 	
+	// message recipient
+	public final static String MANAGER = "manager";
+	
+	
 	// message types
 	public final static String ACCESSRSP = "accessrsp";
 	public final static String ACCESSREQ = "accessreq";
 	public final static String OPEN = "open";
 	public final static String CLOSE = "close";
+	public final static String REGISTER = "register";
 	
 	// message data fields
-	public final static String ACCESS = "access";
-	public final static String PASSCODE = "passcode";	
+	public final static String ACCESSRES = "accessres";
+	public final static String TOKEN = "token";
+	public final static String ID = "id";
+	public final static String PASSCODE = "passcode";
+	public final static String VALUE = "value";
+	public final static String LOCATION = "location";
+	public final static String TYPE = "type";
+	public final static String PREFERREDTYPE = "preferredtype";
 	
 	
 	public Message(String type, String to, String from) {

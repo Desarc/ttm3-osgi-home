@@ -11,6 +11,9 @@ public abstract class AccessPoint implements IAccessPoint {
 	protected HydnaApi hydnaSvc;
 	protected HydnaListener listener;
 	protected String id;
+	protected String type;
+	protected String controller;
+	protected String preferredControllerType;
 	protected String location;
 
 	public void setUp() {
@@ -28,20 +31,23 @@ public abstract class AccessPoint implements IAccessPoint {
 			
 			@Override
 			public void messageRecieved(String msg) {
-				System.out.println("Message received in AccessPoint!");
-				System.out.println(msg);
+				System.out.println("Message received in AccessPoint "+getAccessPointID()+"!");
+				//System.out.println(msg);
 				Message m = Serializer.deSerialize(msg);
 				handleMessage(m);
 			}
 		};
+		//this.id = this.type+System.currentTimeMillis();
+		this.id = "testdoor";
 		hydnaSvc.registerListener(this.listener);
 		this.location = "testlocation";
-		System.out.println("AccessPoint "+this.id+" active.");
 		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
+		System.out.println("AccessPoint "+this.id+" active.");
+		registerAccessPoint();
 	}
 	
-	public void handleMessage(Message msg) {
+	private void handleMessage(Message msg) {
 		System.out.println(msg.getType());
 		if (msg.getTo().equals(this.id)) {
 			if (msg.getType().equals(Message.OPEN)) {
@@ -53,10 +59,36 @@ public abstract class AccessPoint implements IAccessPoint {
 		}
 	}
 	
-	@Override
+	private void registerAccessPoint() {
+		Message msg = new Message(Message.REGISTER, Message.MANAGER, this.id);
+		msg.addData(Message.LOCATION, this.location);
+		msg.addData(Message.TYPE, this.type);
+		msg.addData(Message.PREFERREDTYPE, this.preferredControllerType);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
+	}
+	
 	public abstract void grantAccess();
 
-	@Override
 	public abstract void revokeAccess();
+	
+	@Override
+	public String getAccessPointID() {
+		return this.id;
+	}
+
+	@Override
+	public String getAccessPointType() {
+		return this.type;
+	}
+	
+	@Override
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	@Override
+	public void setPreferredControllerType(String type) {
+		this.preferredControllerType = type;
+	}
 	
 }

@@ -3,8 +3,6 @@ package controller.impl;
 import hydna.ntnu.student.api.HydnaApi;
 import hydna.ntnu.student.listener.api.HydnaListener;
 
-import java.util.Scanner;
-
 import communication.Message;
 import communication.Serializer;
 import controller.api.IAccessController;
@@ -17,6 +15,7 @@ public abstract class AccessController implements IAccessController {
 	protected String location;
 	protected String accessPoint;
 	protected String authorizationServer;
+	protected String preferredAuthenticationType;
 	protected String type;
 
 	public void setUp() {
@@ -41,30 +40,25 @@ public abstract class AccessController implements IAccessController {
 				handleMessage(m);
 			}
 		};
-		/*Scanner scanIn = new Scanner(System.in);
-		System.out.println("Where is the controller located?");
-	    this.location = scanIn.nextLine();
-	    System.out.println("Which access point is the controller controlling?");
-		this.accessPoint = scanIn.nextLine();
-		scanIn.close();*/
 		this.location = "testlocation";
 		this.accessPoint = "testdoor";
 		hydnaSvc.registerListener(this.listener);
 		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
 		System.out.println("Controller "+id+" active.");
-		//requestIdentification();
-		grantAccess();
+		requestIdentification();
 	}
 	
 	private void handleMessage(Message msg) {
 		System.out.println(msg.getType());
 		if (msg.getTo().equals(this.id)) {
 			if (msg.getType().equals(Message.ACCESSRSP)) {
-				handleAuthorizationResponse(msg.getData(Message.ACCESS));
+				handleAuthorizationResponse(msg.getData(Message.ACCESSRES));
 			}
 		}
 	}
+	
+	public abstract void requestIdentification();
 	
 	public abstract void requestAuthorization(String passcode);
 	
@@ -80,6 +74,22 @@ public abstract class AccessController implements IAccessController {
 		System.out.println("Revoking access...");
 		Message msg = new Message(Message.CLOSE, this.accessPoint, this.id);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
+	}
+	
+	public String getAccessControllerId() {
+		return this.id;
+	}
+	
+	public String getAccessControllerType() {
+		return this.type;
+	}
+	
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	public void setPreferredAuthenticationType(String type) {
+		this.preferredAuthenticationType = type;
 	}
 
 }
