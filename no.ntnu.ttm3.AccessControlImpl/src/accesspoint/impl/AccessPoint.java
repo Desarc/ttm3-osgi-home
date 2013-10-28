@@ -1,5 +1,7 @@
 package accesspoint.impl;
 
+import communication.Message;
+import communication.Serializer;
 import hydna.ntnu.student.api.HydnaApi;
 import hydna.ntnu.student.listener.api.HydnaListener;
 import accesspoint.api.IAccessPoint;
@@ -9,6 +11,7 @@ public abstract class AccessPoint implements IAccessPoint {
 	protected HydnaApi hydnaSvc;
 	protected HydnaListener listener;
 	protected String id;
+	protected String location;
 
 	public void setUp() {
 		this.listener = new HydnaListener() {
@@ -20,22 +23,30 @@ public abstract class AccessPoint implements IAccessPoint {
 			
 			@Override
 			public void signalRecieved(String msg) {
-				if (msg.equals("open")) {
-					grantAccess();
-				}
-				else if (msg.equals("close")) {
-					revokeAccess();
-				}
+				System.out.println("got signal: "+msg);
 			}
 			
 			@Override
 			public void messageRecieved(String msg) {
-				System.out.println("got msg: "+msg);
+				Message m = Serializer.deSerialize(msg);
+				handleMessage(m);
 			}
 		};
 		hydnaSvc.registerListener(this.listener);
+		this.location = "testlocation";
 		System.out.println("AccessPoint "+this.id+" active.");
-		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+id, "r");
+		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
+	}
+	
+	private void handleMessage(Message msg) {
+		if (msg.getTo().equals(this.id)) {
+			if (msg.getType().equals(Message.OPEN)) {
+				grantAccess();
+			}
+			else if (msg.getType().equals(Message.CLOSE)) {
+				revokeAccess();
+			}
+		}
 	}
 	
 	@Override

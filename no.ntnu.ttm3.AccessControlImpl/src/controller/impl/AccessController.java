@@ -5,6 +5,8 @@ import hydna.ntnu.student.listener.api.HydnaListener;
 
 import java.util.Scanner;
 
+import communication.Message;
+import communication.Serializer;
 import controller.api.IAccessController;
 
 public abstract class AccessController implements IAccessController {
@@ -14,7 +16,7 @@ public abstract class AccessController implements IAccessController {
 	protected String id;
 	protected String location;
 	protected String accessPoint;
-	protected String areaCode = "testarea";
+	protected String authorizationServer;
 	protected String type;
 
 	public void setUp() {
@@ -33,15 +35,8 @@ public abstract class AccessController implements IAccessController {
 			
 			@Override
 			public void messageRecieved(String msg) {
-				int index;
-				if ((index = msg.indexOf("areacode:")) > 0){
-					setAreaCode(msg.substring(index+9));
-					requestIdentification();
-				}
-				else if ((index = msg.indexOf("controller:")) > 0){
-					int index2 = msg.indexOf("access:");
-					handleAuthorizationResponse(msg.substring(index+11, index2), msg.substring(index2+7));
-				}
+				Message m = Serializer.deSerialize(msg);
+				handleMessage(m);
 			}
 		};
 		/*Scanner scanIn = new Scanner(System.in);
@@ -53,36 +48,35 @@ public abstract class AccessController implements IAccessController {
 		this.location = "bedroom";
 		this.accessPoint = "testdoor";
 		hydnaSvc.registerListener(this.listener);
+		hydnaSvc.stayConnected(true);
+		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
 		System.out.println("Controller "+id+" active.");
-		//requestAreaCode();
-		requestIdentification();
+		//requestIdentification();
+		grantAccess();
 	}
 	
-	private void requestAreaCode() {
-		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/mainframe", "rwe");
-		System.out.println("Connected to mainframe, requesting area code...");
-		hydnaSvc.sendMessage("arearequest:"+location);
-	}
-	
-	private void setAreaCode(String code) {
-		System.out.println("Received area code: "+code);
-		this.areaCode = code;
+	private void handleMessage(Message msg) {
+		if (msg.getTo().equals(this.id)) {
+			if (msg.getType().equals(Message.ACCESSRSP)) {
+				handleAuthorizationResponse(msg.getData(Message.ACCESS));
+			}
+		}
 	}
 	
 	public abstract void requestAuthorization(String passcode);
 	
-	public abstract void handleAuthorizationResponse(String controller, String response);
+	public abstract void handleAuthorizationResponse(String result);
 	
 	protected void grantAccess() {
 		System.out.println("Granting access...");
-		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.accessPoint, "w");
-		hydnaSvc.emitSignal("open");
+		Message msg = new Message(Message.OPEN, this.accessPoint, this.id);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
 	protected void revokeAccess() {
 		System.out.println("Revoking access...");
-		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.accessPoint, "w");
-		hydnaSvc.emitSignal("close");
+		Message msg = new Message(Message.CLOSE, this.accessPoint, this.id);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 
 }

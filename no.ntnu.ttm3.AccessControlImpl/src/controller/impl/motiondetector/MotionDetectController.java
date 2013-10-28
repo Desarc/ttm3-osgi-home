@@ -18,7 +18,7 @@ public class MotionDetectController extends AccessController {
 	}
 
 	@Override
-	public void handleAuthorizationResponse(String controller, String response) {
+	public void handleAuthorizationResponse(String result) {
 		// TODO Auto-generated method stub
 		
 	}

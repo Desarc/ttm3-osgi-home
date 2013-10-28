@@ -13,6 +13,6 @@ public interface IAccessController {
 	
 	public void requestAuthorization(String passcode);
 	
-	public void handleAuthorizationResponse(String controller, String response);
+	public void handleAuthorizationResponse(String result);
 	
 }

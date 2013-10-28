@@ -9,6 +9,17 @@ public class Message {
 	private String to, from;
 	private HashMap<String, String> data;
 	
+	// message types
+	public final static String ACCESSRSP = "accessrsp";
+	public final static String ACCESSREQ = "accessreq";
+	public final static String OPEN = "open";
+	public final static String CLOSE = "close";
+	
+	// message data fields
+	public final static String ACCESS = "access";
+	public final static String PASSCODE = "passcode";	
+	
+	
 	public Message(String type, String to, String from) {
 		this.type = type;
 		this.to = to;

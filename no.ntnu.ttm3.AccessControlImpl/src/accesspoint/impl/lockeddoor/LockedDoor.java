@@ -19,12 +19,6 @@ public class LockedDoor extends AccessPoint {
 		//System.out.println("LockedDoor started, what is the ID of this door?: ");
 		//this.id = scanIn.nextLine();
 		this.id = "testdoor";
-		Message msg = new Message("test", "me", "you");
-		msg.addData("testdata", "null!");
-		String s = Serializer.serialize(msg);
-		System.out.println(s);
-		Message msg2 = Serializer.deSerialize(s);
-		System.out.println(msg2.getData("testdata"));
 		//scanIn.close();
 		super.setUp();
 	}

@@ -22,7 +22,7 @@ public class Serializer {
 		from = find("from", msg);
 		Message m = new Message(type, to, from);
 		int index2 = msg.indexOf("data;")+5;
-		while (index2 > msg.length()-1) {
+		while (index2 < msg.length()-1) {
 			int index1 = msg.indexOf(":", index2);
 			String key = msg.substring(index2, index1);
 			m.addData(key, find(key, msg));
