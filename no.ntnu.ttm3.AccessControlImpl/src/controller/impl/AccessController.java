@@ -35,6 +35,8 @@ public abstract class AccessController implements IAccessController {
 			
 			@Override
 			public void messageRecieved(String msg) {
+				System.out.println("Message received in AccessController!");
+				System.out.println(msg);
 				Message m = Serializer.deSerialize(msg);
 				handleMessage(m);
 			}
@@ -45,7 +47,7 @@ public abstract class AccessController implements IAccessController {
 	    System.out.println("Which access point is the controller controlling?");
 		this.accessPoint = scanIn.nextLine();
 		scanIn.close();*/
-		this.location = "bedroom";
+		this.location = "testlocation";
 		this.accessPoint = "testdoor";
 		hydnaSvc.registerListener(this.listener);
 		hydnaSvc.stayConnected(true);

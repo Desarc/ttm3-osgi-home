@@ -28,6 +28,8 @@ public abstract class AccessPoint implements IAccessPoint {
 			
 			@Override
 			public void messageRecieved(String msg) {
+				System.out.println("Message received in AccessPoint!");
+				System.out.println(msg);
 				Message m = Serializer.deSerialize(msg);
 				handleMessage(m);
 			}
@@ -35,10 +37,12 @@ public abstract class AccessPoint implements IAccessPoint {
 		hydnaSvc.registerListener(this.listener);
 		this.location = "testlocation";
 		System.out.println("AccessPoint "+this.id+" active.");
+		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
 	}
 	
-	private void handleMessage(Message msg) {
+	public void handleMessage(Message msg) {
+		System.out.println(msg.getType());
 		if (msg.getTo().equals(this.id)) {
 			if (msg.getType().equals(Message.OPEN)) {
 				grantAccess();
