@@ -15,4 +15,10 @@ public class InternetTerminal extends AccessPoint implements IAccessPoint {
 
 	}
 
+	@Override
+	public void activate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

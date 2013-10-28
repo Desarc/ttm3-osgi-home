@@ -4,6 +4,8 @@ import accesspoint.api.IAccessPoint;
 import accesspoint.impl.AccessPoint;
 
 public class AutomaticDoor extends AccessPoint implements IAccessPoint {
+	
+	
 
 	public void grantAccess() {
 		// TODO Auto-generated method stub
@@ -14,6 +16,13 @@ public class AutomaticDoor extends AccessPoint implements IAccessPoint {
 	public void revokeAccess() {
 		// TODO Auto-generated method stub
 
+	}
+
+
+	@Override
+	public void activate() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

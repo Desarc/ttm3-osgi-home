@@ -6,6 +6,8 @@ package accesspoint.api;
  */
 public interface IAccessPoint {
 
+	public void activate();
+	
 	public String getAccessPointID();
 	
 	public String getAccessPointType();

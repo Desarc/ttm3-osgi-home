@@ -6,7 +6,7 @@ import hydna.ntnu.student.api.HydnaApi;
 import hydna.ntnu.student.listener.api.HydnaListener;
 import accesspoint.api.IAccessPoint;
 
-public abstract class AccessPoint implements IAccessPoint {
+public abstract class AccessPoint {
 	
 	public final static String LOCKED_DOOR = "lockeddoor";
 	public final static String AUTOMATIC_DOOR = "automaticdoor";
@@ -47,7 +47,7 @@ public abstract class AccessPoint implements IAccessPoint {
 		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
 		System.out.println("AccessPoint "+this.id+" active.");
-		registerAccessPoint();
+		//registerAccessPoint();
 	}
 	
 	private void handleMessage(Message msg) {
@@ -74,22 +74,18 @@ public abstract class AccessPoint implements IAccessPoint {
 
 	protected abstract void revokeAccess();
 	
-	@Override
 	public String getAccessPointID() {
 		return this.id;
 	}
 
-	@Override
 	public String getAccessPointType() {
 		return this.type;
 	}
-	
-	@Override
+
 	public void setLocation(String location) {
 		this.location = location;
 	}
 	
-	@Override
 	public void setPreferredControllerType(String type) {
 		this.preferredControllerType = type;
 	}

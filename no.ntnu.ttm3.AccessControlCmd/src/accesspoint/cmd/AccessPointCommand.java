@@ -12,6 +12,7 @@ import org.apache.felix.service.command.*;
 		CommandProcessor.COMMAND_FUNCTION + ":String=apinfo",
 		CommandProcessor.COMMAND_FUNCTION + ":String=setLocation",
 		CommandProcessor.COMMAND_FUNCTION + ":String=setPreferred",
+		CommandProcessor.COMMAND_FUNCTION + ":String=activate",
 	},
 	provide = Object.class
 )
@@ -23,10 +24,14 @@ public class AccessPointCommand {
 	private String type;
 
 	@Reference
-	public void setGreeting(IAccessPoint accessPointSvc) {
+	public void setAccessPoint(IAccessPoint accessPointSvc) {
 		this.accessPointSvc = accessPointSvc;
 		this.id = accessPointID();
 		this.type = accessPointType();
+	}
+	
+	public void activate() {
+		accessPointSvc.activate();
 	}
 
 	public String accessPointID() {
