@@ -1,0 +1,4 @@
+Service-Component: *
+Private-Package: controller.impl.numkeypad,\
+	controller.impl
+Bundle-Version: 1.0.0

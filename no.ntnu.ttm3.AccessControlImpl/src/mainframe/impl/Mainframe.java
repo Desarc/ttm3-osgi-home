@@ -1,21 +1,21 @@
-package hydna.student.ntnu.client;
+package mainframe.impl;
 
-import hydna.ntnu.student.api.HydnaApi;
-import hydna.ntnu.student.listener.api.HydnaListener;
-
+import mainframe.api.IMainframe;
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
+import hydna.ntnu.student.api.HydnaApi;
+import hydna.ntnu.student.listener.api.HydnaListener;
 
 @Component
-public class Client {
-	
+public class Mainframe implements IMainframe {
+
 	private HydnaApi hydnaSvc;
 	private HydnaListener listener;
+	private String areaCode = "testarea";
 
 	@Activate
-	public void activate() {
-		System.out.println("STARTED");
+	public void setUp() {
 		this.listener = new HydnaListener() {
 			
 			@Override
@@ -30,20 +30,22 @@ public class Client {
 			
 			@Override
 			public void messageRecieved(String msg) {
-				System.out.println("got msg: "+msg);
+				int index;
+				if ((index = msg.indexOf("arearequest:")) > 0){
+					if (msg.substring(index+12).equals("location:")) {
+						hydnaSvc.sendMessage("areacode:"+areaCode);
+					}
+				}
 			}
 		};
 		hydnaSvc.registerListener(this.listener);
-		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/room", "rwe");
-		hydnaSvc.emitSignal("SINGALS CLIENT");
-		hydnaSvc.sendMessage("MESSAGE CLIENT");
+		hydnaSvc.stayConnected(true);
+		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/mainframe", "rwe");
 	}
 	
 	@Reference
 	public void setHydnaApi(HydnaApi hydna) {
-		System.out.println("SETTING SERVICES");
 		this.hydnaSvc = hydna;
 	}
 	
-
 }

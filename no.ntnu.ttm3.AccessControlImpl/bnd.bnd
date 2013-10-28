@@ -1,0 +1,13 @@
+Private-Package: org.example
+Service-Component: *
+-buildpath: osgi.core,\
+	osgi.cmpn,\
+	biz.aQute.bnd.annotation,\
+	junit.osgi,\
+	no.ntnu.ttm3.AccessControlAPI.AccessControllerAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.AccessPointAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.AreaControlAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.NotificationAPI;version=latest,\
+	hydna-ntnu-student-bundle;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.MainframeAPI;version=latest
+-sub: *.bnd
