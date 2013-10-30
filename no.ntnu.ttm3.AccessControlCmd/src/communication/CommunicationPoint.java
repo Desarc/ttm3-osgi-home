@@ -28,7 +28,7 @@ public abstract class CommunicationPoint {
 			public void messageRecieved(String msg) {
 				//System.out.println("Message received in AccessPoint "+getAccessPointID()+"!");
 				System.out.println(msg);
-				Message m = Serializer.deSerialize(msg);
+				Message m = Serializer.deserialize(msg);
 				handleMessage(m);
 			}
 		};

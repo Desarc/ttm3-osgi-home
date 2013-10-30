@@ -15,7 +15,7 @@ public class Serializer {
 		return s;
 	}
 	
-	public static Message deSerialize(String msg) {
+	public static Message deserialize(String msg) {
 		String type, to, from;
 		type = find("type", msg);
 		to = find("to", msg);
