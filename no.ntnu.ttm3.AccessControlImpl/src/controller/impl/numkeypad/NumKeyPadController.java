@@ -12,8 +12,13 @@ public class NumKeyPadController implements IAccessController {
 	 * In this case it is safe to use #getClass(), because the fact that this code is running
 	 * means we're dealing with the real object and not a composed object.
 	 */
-	public String getType() {
+	/* see comment in LockedDoor.java
+	 * public String getType() {
 		return getClass().getName();
+	}*/
+	
+	public Type getType() {
+		return IAccessController.Type.NUM_KEY_PAD;
 	}
 	
 	public String requestIdentification() {

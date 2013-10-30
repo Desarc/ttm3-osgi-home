@@ -7,8 +7,8 @@ Service-Component: *
 	no.ntnu.ttm3.AccessControlAPI.AccessControllerAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AccessPointAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AreaControlAPI;version=latest,\
-	no.ntnu.ttm3.AccessControlAPI.AuthorizationServerAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.NotificationAPI;version=latest,\
 	org.apache.felix.gogo.runtime,\
-	hydna-ntnu-student-bundle;version=latest
+	hydna-ntnu-student-bundle;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.AuthorizationAPI;version=latest
 -sub: *.bnd

@@ -13,13 +13,7 @@ import communication.Message;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=accesspoint",
-		CommandProcessor.COMMAND_FUNCTION + ":String=apinfo",
-		CommandProcessor.COMMAND_FUNCTION + ":String=setLocation",
 		CommandProcessor.COMMAND_FUNCTION + ":String=connect",
-		CommandProcessor.COMMAND_FUNCTION + ":String=grantAccess",
-		CommandProcessor.COMMAND_FUNCTION + ":String=revokeAccess",
-		CommandProcessor.COMMAND_FUNCTION + ":String=getId",
-		CommandProcessor.COMMAND_FUNCTION + ":String=getType",
 	},
 	provide = Object.class
 )
@@ -27,7 +21,12 @@ import communication.Message;
 public class AccessPointCommand extends CommunicationPoint {
 
 	private IAccessPoint accessPointSvc;
-	private String accessPointType;
+	
+	public AccessPointCommand() {
+		this.location = "testlocation";
+		this.type = "test";
+		this.id = "test";
+	}
 
 	@Reference
 	public void setAccessPoint(IAccessPoint accessPointSvc) {
@@ -39,10 +38,7 @@ public class AccessPointCommand extends CommunicationPoint {
 	}
 	
 	public void connect() {
-		this.location = "testlocation";
-		this.type = "test";
 		setUp();
-		this.id = "test";
 	}
 	
 	public void grantAccess() {
@@ -53,8 +49,12 @@ public class AccessPointCommand extends CommunicationPoint {
 		accessPointSvc.revokeAccess();
 	}
 	
-	public void apinfo() {
-		System.out.println("This is AccessController "+this.id+" of type "+this.accessPointType+".");
+	public void apInfo() {
+		System.out.println("This is AccessPoint "+this.id+" of type "+this.accessPointSvc.getType()+" at location "+this.location+".");
+	}
+	
+	public String getType() {
+		return accessPointSvc.getType().toString();
 	}
 
 	@Override

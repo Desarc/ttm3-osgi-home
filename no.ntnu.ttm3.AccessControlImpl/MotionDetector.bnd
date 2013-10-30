@@ -1,5 +1,3 @@
 Bundle-Version: 1.0.0
 Service-Component: *
-Private-Package: controller.impl.motiondetector,\
-	controller.impl,\
-	communication
+Private-Package: controller.impl.motiondetector

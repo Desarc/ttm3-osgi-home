@@ -1,4 +1,2 @@
 Service-Component: *
-Private-Package: accesspoint.impl.automaticdoor,\
-	accesspoint.impl,\
-	communication
+Private-Package: accesspoint.impl.automaticdoor

@@ -1,5 +1,3 @@
 Bundle-Version: 1.0.0
 Service-Component: *
-Private-Package: authorization.impl.timedauth,\
-	authorization.impl,\
-	communication
+Private-Package: authorization.impl.timedauth

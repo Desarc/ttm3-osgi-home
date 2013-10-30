@@ -6,6 +6,12 @@ package accesspoint.api;
  */
 public interface IAccessPoint {
 
+	public enum Type {
+		LOCKED_DOOR,
+		AUTOMATIC_DOOR,
+		INET_TERM,
+	}
+	
 	/**
 	 * Indicate that the access point should provide access (e.g. not "block")
 	 * until {@link #revokeAccess()} is called.
@@ -22,6 +28,6 @@ public interface IAccessPoint {
 	 * Return a string (the type) which is unique for this type of accesspoint.
 	 * @return
 	 */
-	String getType();
+	Type getType();
 	
 }

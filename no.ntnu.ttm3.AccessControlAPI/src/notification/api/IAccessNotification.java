@@ -6,10 +6,18 @@ package notification.api;
  */
 public interface IAccessNotification {
 
+	public enum Type {
+		ACCESS_LOG,
+		CONTEXT_ALARM,
+		REMOTE_NOTIFICATION,
+	}
+	
 	void registerEvent();
 	
 	void activateAlarm();
 	
 	void deactivateAlarm();
+	
+	Type getType();
 	
 }

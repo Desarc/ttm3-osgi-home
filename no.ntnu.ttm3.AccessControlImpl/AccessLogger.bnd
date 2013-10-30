@@ -1,5 +1,3 @@
 Bundle-Version: 1.0.0
 Service-Component: *
-Private-Package: notification.impl.accesslog,\
-	notification.impl,\
-	communication
+Private-Package: notification.impl.accesslog

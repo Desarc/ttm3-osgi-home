@@ -5,8 +5,14 @@ package controller.api;
  * authenticates/authorizes through an authorization server, and grants access/sends notification based on result.
  */
 public interface IAccessController {
+	
+	public enum Type {
+		NUM_KEY_PAD,
+		NFC,
+		MOTION_DETECT,
+	}
 		
-	String getType();
+	Type getType();
 	
 	String requestIdentification();
 	

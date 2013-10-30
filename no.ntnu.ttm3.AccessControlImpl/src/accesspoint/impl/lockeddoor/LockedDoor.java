@@ -11,9 +11,18 @@ public class LockedDoor implements IAccessPoint {
 	 * but guaranteed the same for different versions of the same type.
 	 * In this case it is safe to use #getClass(), because the fact that this code is running
 	 * means we're dealing with the real object and not a composed object.
+	 * 
+	 * comment:
+	 * How is the problem of finding all possible AccessPoint types solved? AccessControllers and AreaManager might need
+	 * to be preconfigured to work with a specific type of AccessPoint (though this is probably more relevant for
+	 * AccessController and AuthorizationServer)
 	 */
-	public String getType() {
+	/*public String getType() {
 		return getClass().getName();
+	}*/
+	
+	public Type getType() {
+		return IAccessPoint.Type.LOCKED_DOOR;
 	}
 
 	@Override

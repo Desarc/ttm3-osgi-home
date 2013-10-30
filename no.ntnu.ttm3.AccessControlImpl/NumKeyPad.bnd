@@ -1,5 +1,3 @@
 Service-Component: *
-Private-Package: controller.impl.numkeypad,\
-	controller.impl,\
-	communication
+Private-Package: controller.impl.numkeypad
 Bundle-Version: 1.0.0

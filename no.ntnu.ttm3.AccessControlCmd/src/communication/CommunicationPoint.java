@@ -11,6 +11,10 @@ public abstract class CommunicationPoint {
 	protected String type;
 	protected String location;
 
+	
+	/**
+	 * Set id, location and type before calling this
+	 */
 	protected void setUp() {
 		this.listener = new HydnaListener() {
 			
@@ -32,7 +36,6 @@ public abstract class CommunicationPoint {
 				handleMessage(m);
 			}
 		};
-		this.id = this.type+System.currentTimeMillis(); // temporary ID?
 		hydnaSvc.registerListener(this.listener);
 		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
@@ -50,10 +53,6 @@ public abstract class CommunicationPoint {
 	
 	public String getId() {
 		return this.id;
-	}
-
-	public String getType() {
-		return this.type;
 	}
 
 	public void setLocation(String location) {

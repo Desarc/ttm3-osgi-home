@@ -45,13 +45,20 @@ public class ObservableAccessPoint extends Observable implements IAccessPoint {
 	/* (non-Javadoc)
 	 * @see accesspoint.api.IAccessPoint#getType()
 	 */
-	@Override
+	/*@Override
 	public String getType() {
 		return type;
-	}
+	}*/
+	
 	
 	public boolean hasAccess() {
 		return access == Boolean.TRUE;
+	}
+
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

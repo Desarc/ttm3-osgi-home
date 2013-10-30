@@ -16,7 +16,7 @@ public class Message {
 	public enum Type {ACCESSRSP, ACCESSREQ, OPEN, CLOSE, REGISTER};
 	
 	// message data fields
-	public enum Field {ACCESSRES, TOKEN, ID, PASSCODE, VALUE, LOCATION, TYPE, COMPONENTTYPE, PREFERREDTYPE };
+	public enum Field {ACCESSRES, TOKEN, ID, PASSCODE, VALUE, LOCATION, TYPE, AUTHTYPE, COMPONENTTYPE, PREFERREDTYPE };
 	
 	// component types
 	public enum Component {ACCESSPOINT, CONTROLLER, AUTHENTICATOR };

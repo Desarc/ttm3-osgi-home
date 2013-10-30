@@ -12,12 +12,18 @@ public class NFCController implements IAccessController {
 	 * In this case it is safe to use #getClass(), because the fact that this code is running
 	 * means we're dealing with the real object and not a composed object.
 	 */
-	public String getType() {
+	/*public String getType() {
 		return getClass().getName();
-	}
+	}*/
 
 	@Override
 	public String requestIdentification() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Type getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

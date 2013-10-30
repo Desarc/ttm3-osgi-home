@@ -10,9 +10,10 @@ public class InternetTerminal implements IAccessPoint {
 	 * In this case it is safe to use #getClass(), because the fact that this code is running
 	 * means we're dealing with the real object and not a composed object.
 	 */
-	public String getType() {
+	/*public String getType() {
 		return getClass().getName();
-	}
+	}*/
+	
 
 	public void grantAccess() {
 		// TODO Auto-generated method stub
@@ -22,6 +23,12 @@ public class InternetTerminal implements IAccessPoint {
 	public void revokeAccess() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
