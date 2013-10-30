@@ -10,16 +10,12 @@ import org.apache.felix.service.command.*;
 
 import communication.CommunicationPoint;
 import communication.Message;
+import communication.Serializer;
 
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
-		CommandProcessor.COMMAND_SCOPE + ":String=accesspoint",
-		CommandProcessor.COMMAND_FUNCTION + ":String=authInfo",
-		CommandProcessor.COMMAND_FUNCTION + ":String=setLocation",
-		CommandProcessor.COMMAND_FUNCTION + ":String=connect",
-		CommandProcessor.COMMAND_FUNCTION + ":String=getId",
-		CommandProcessor.COMMAND_FUNCTION + ":String=getAuthType",
-		CommandProcessor.COMMAND_FUNCTION + ":String=getNotifType",
+		CommandProcessor.COMMAND_SCOPE + ":String=areaManager",
+		CommandProcessor.COMMAND_FUNCTION + ":String=run",
 	},
 	provide = Object.class
 )
@@ -33,6 +29,8 @@ public class AreaManagerCommand extends CommunicationPoint {
 
 	private IAuthorization authorizationSvc;
 	private IAccessNotification notificationSvc;
+	private String accessPointId;
+	private String accessControllerId;
 
 	@Reference
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
@@ -56,7 +54,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 		setUp();
 	}
 	
-	public void authInfo() {
+	public void managerInfo() {
 		System.out.println("This is the AreaManager for "+this.location);
 	}
 	
@@ -67,9 +65,26 @@ public class AreaManagerCommand extends CommunicationPoint {
 	public IAccessNotification.Type getNotifType() {
 		return this.notificationSvc.getType();
 	}
+	
+	public void grantAccess() {
+		System.out.println("Granting access...");
+		Message msg = new Message(Message.Type.OPEN, this.accessPointId, Message.MANAGER);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
+	}
+	
+	public void revokeAccess() {
+		System.out.println("Revoking access...");
+		Message msg = new Message(Message.Type.CLOSE, this.accessPointId, Message.MANAGER);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
+	}
 
 	@Override
 	protected void handleMessage(Message msg) {
-		
+		if (msg.getTo().equals(Message.MANAGER)) {
+			if (msg.getType().equals(Message.Type.REGISTER)) {
+				
+				
+			}
+		}
 	}
 }

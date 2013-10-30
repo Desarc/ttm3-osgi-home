@@ -12,7 +12,7 @@ import communication.Message;
 
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
-		CommandProcessor.COMMAND_SCOPE + ":String=accesspoint",
+		CommandProcessor.COMMAND_SCOPE + ":String=accessPoint",
 		CommandProcessor.COMMAND_FUNCTION + ":String=connect",
 	},
 	provide = Object.class

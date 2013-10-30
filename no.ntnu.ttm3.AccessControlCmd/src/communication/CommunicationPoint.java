@@ -47,7 +47,7 @@ public abstract class CommunicationPoint {
 	private void registerCommunicationPoint() {
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);
-		msg.addData(Message.Field.TYPE, this.type);
+		msg.addData(Message.Field.COMPONENT_TYPE, this.type);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	

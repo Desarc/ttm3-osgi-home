@@ -3,6 +3,46 @@ package communication;
 import java.util.HashMap;
 import java.util.Set;
 
+/* MESSAGE FORMATS:
+ * 
+ * Type: ACCESS_REQ
+ * To: MANAGER
+ * From: AccessController
+ * Fields: AUTH_TYPE, optional: TOKEN, ID, PASSCODE, VALUE
+ * 
+ * 
+ * Type: ACCESS_RSP
+ * To: sender of ACCESS_REQ (AccessController)
+ * From: MANAGER
+ * Fields: ACCES_RES
+ * 
+ * 
+ * Type: OPEN (equivalent to grantAccess)
+ * To: AccessPoint
+ * From: MANAGER
+ * Fields: none
+ * 
+ * 
+ * Type: CLOSE (equivalent to revokeAccess)
+ * To: relevant AccessPoint
+ * From: MANAGER
+ * Fields: none
+ * 
+ * 
+ * Type: REGISTER
+ * To: MANAGER
+ * From: any component
+ * Fields: COMPONENT_TYPE, ID, LOCATION, optional: PREFERRED_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE
+ * 
+ * 
+ * Type: ASSOCIATE
+ * To: AccessPoint or AccessController
+ * From: MANAGER
+ * Fields: COMPONENT_TYPE, COMPONENT_ID
+ * 
+ */
+
+
 public class Message {
 
 	private Type type;
@@ -13,13 +53,13 @@ public class Message {
 	public final static String MANAGER = "manager";
 	
 	// message types
-	public enum Type {ACCESSRSP, ACCESSREQ, OPEN, CLOSE, REGISTER};
+	public enum Type { ACCESS_RSP, ACCESS_REQ, OPEN, CLOSE, REGISTER, ASSOCIATE, };
 	
 	// message data fields
-	public enum Field {ACCESSRES, TOKEN, ID, PASSCODE, VALUE, LOCATION, TYPE, AUTHTYPE, COMPONENTTYPE, PREFERREDTYPE };
+	public enum Field { ACCESS_RES, TOKEN, ID, PASSCODE, VALUE, LOCATION, AUTH_TYPE, COMPONENT_TYPE, COMPONENT_ID, PREFERRED_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE, };
 	
 	// component types
-	public enum Component {ACCESSPOINT, CONTROLLER, AUTHENTICATOR };
+	public enum Component { ACCESSPOINT, CONTROLLER, AUTHENTICATOR, };
 	
 	public Message(Type type, String to, String from) {
 		this.type = type;
