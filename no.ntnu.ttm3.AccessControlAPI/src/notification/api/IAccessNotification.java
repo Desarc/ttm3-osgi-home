@@ -6,10 +6,10 @@ package notification.api;
  */
 public interface IAccessNotification {
 
-	public void registerEvent();
+	void registerEvent();
 	
-	public void activateAlarm();
+	void activateAlarm();
 	
-	public void deactivateAlarm();
+	void deactivateAlarm();
 	
 }

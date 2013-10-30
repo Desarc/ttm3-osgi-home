@@ -6,8 +6,8 @@ package controller.api;
  */
 public interface IAccessController {
 		
-	public String getType();
+	String getType();
 	
-	public String requestIdentification();
+	String requestIdentification();
 	
 }

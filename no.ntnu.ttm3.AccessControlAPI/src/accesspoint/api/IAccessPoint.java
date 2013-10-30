@@ -6,10 +6,10 @@ package accesspoint.api;
  */
 public interface IAccessPoint {
 
-	public void grantAccess();
+	void grantAccess();
 	
-	public void revokeAccess();
+	void revokeAccess();
 	
-	public String getType();
+	String getType();
 	
 }
