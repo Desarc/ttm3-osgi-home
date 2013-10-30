@@ -34,7 +34,6 @@ public abstract class CommunicationPoint {
 		};
 		this.id = this.type+System.currentTimeMillis(); // temporary ID?
 		hydnaSvc.registerListener(this.listener);
-		this.location = "testlocation";
 		hydnaSvc.stayConnected(true);
 		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/"+this.location, "rwe");
 		registerCommunicationPoint();

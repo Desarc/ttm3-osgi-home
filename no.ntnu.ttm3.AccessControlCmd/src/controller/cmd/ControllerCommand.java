@@ -36,9 +36,10 @@ public class ControllerCommand extends CommunicationPoint {
 	}
 	
 	public void connect() {
-		super.setUp();
 		this.accessPoint = "test";
 		this.location = "testlocation";
+		this.type = "test";
+		super.setUp();
 	}
 	
 	public String requestIdentification() {
