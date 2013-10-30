@@ -47,7 +47,7 @@ public class ControllerCommand extends CommunicationPoint {
 	}
 	
 	private Message createAuthorizationRequest(String passcode){
-		return new Message("", "", "");
+		return new Message(null, "", "");
 	}
 	
 	public void requestAuthorization(String passcode) {
@@ -72,13 +72,13 @@ public class ControllerCommand extends CommunicationPoint {
 	
 	public void grantAccess() {
 		System.out.println("Granting access...");
-		Message msg = new Message(Message.OPEN, this.accessPoint, this.id);
+		Message msg = new Message(Message.Type.OPEN, this.accessPoint, this.id);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
 	public void revokeAccess() {
 		System.out.println("Revoking access...");
-		Message msg = new Message(Message.CLOSE, this.accessPoint, this.id);
+		Message msg = new Message(Message.Type.CLOSE, this.accessPoint, this.id);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
@@ -89,8 +89,8 @@ public class ControllerCommand extends CommunicationPoint {
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(this.id)) {
-			if (msg.getType().equals(Message.ACCESSRSP)) {
-				if (msg.getData(Message.ACCESSRES).equals("true")) {
+			if (msg.getType().equals(Message.Type.ACCESSRSP)) {
+				if (msg.getData(Message.Field.ACCESSRES).equals("true")) {
 					grantAccess();
 				}
 				else {

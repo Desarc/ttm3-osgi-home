@@ -5,56 +5,42 @@ import java.util.Set;
 
 public class Message {
 
-	private String type;
+	private Type type;
 	private String to, from;
-	private HashMap<String, String> data;
+	private HashMap<Field, String> data;
 	
 	// message recipient
 	public final static String MANAGER = "manager";
 	
 	// message types
-	public final static String ACCESSRSP = "accessrsp";
-	public final static String ACCESSREQ = "accessreq";
-	public final static String OPEN = "open";
-	public final static String CLOSE = "close";
-	public final static String REGISTER = "register";
+	public enum Type {ACCESSRSP, ACCESSREQ, OPEN, CLOSE, REGISTER};
 	
 	// message data fields
-	public final static String ACCESSRES = "accessres";
-	public final static String TOKEN = "token";
-	public final static String ID = "id";
-	public final static String PASSCODE = "passcode";
-	public final static String VALUE = "value";
-	public final static String LOCATION = "location";
-	public final static String TYPE = "type";
-	public final static String COMPONENTTYPE = "type";
-	public final static String PREFERREDTYPE = "preferredtype";
+	public enum Field {ACCESSRES, TOKEN, ID, PASSCODE, VALUE, LOCATION, TYPE, COMPONENTTYPE, PREFERREDTYPE };
 	
 	// component types
-	public final static String ACCESSPOINT = "accesspoint";
-	public final static String CONTROLLER = "controller";
-	public final static String AUTHENTICATOR = "authenticator";
+	public enum Component {ACCESSPOINT, CONTROLLER, AUTHENTICATOR };
 	
-	public Message(String type, String to, String from) {
+	public Message(Type type, String to, String from) {
 		this.type = type;
 		this.to = to;
 		this.from = from;
 		data = new HashMap<>();
 	}
 	
-	public void addData(String key, String value) {
+	public void addData(Field key, String value) {
 		data.put(key, value);
 	}
 	
-	public String getData(String key) {
+	public String getData(Field key) {
 		return data.get(key);
 	}
 	
-	public Set<String> getKeys() {
+	public Set<Field> getKeys() {
 		return data.keySet();
 	}
 	
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
 	

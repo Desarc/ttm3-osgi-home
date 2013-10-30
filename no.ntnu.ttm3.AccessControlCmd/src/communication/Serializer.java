@@ -1,5 +1,8 @@
 package communication;
 
+import communication.Message.Field;
+import communication.Message.Type;
+
 public class Serializer {
 
 	public static String serialize(Message msg) {
@@ -8,7 +11,7 @@ public class Serializer {
 		s += "to:"+msg.getTo()+";";
 		s += "from:"+msg.getFrom()+";";
 		s += "data;";
-		for (String key : msg.getKeys()) {
+		for (Field key : msg.getKeys()) {
 			s += key+":";
 			s += msg.getData(key)+";";
 		}
@@ -16,8 +19,9 @@ public class Serializer {
 	}
 	
 	public static Message deserialize(String msg) {
-		String type, to, from;
-		type = find("type", msg);
+		Type type;
+		String to, from;
+		type = Type.valueOf(find("type", msg));
 		to = find("to", msg);
 		from = find("from", msg);
 		Message m = new Message(type, to, from);
@@ -25,7 +29,7 @@ public class Serializer {
 		while (index2 < msg.length()-1) {
 			int index1 = msg.indexOf(":", index2);
 			String key = msg.substring(index2, index1);
-			m.addData(key, find(key, msg));
+			m.addData(Field.valueOf(key), find(key, msg));
 			index2 = msg.indexOf(";", index1)+1;
 		}
 		return m;
