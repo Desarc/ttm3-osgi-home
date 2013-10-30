@@ -1,0 +1,4 @@
+Bundle-Version: 1.0.0
+Service-Component: *
+Private-Package: communication,\
+	controller.cmd

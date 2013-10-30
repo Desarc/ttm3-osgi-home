@@ -51,6 +51,13 @@ public class AccessPointCommand extends CommunicationPoint {
 
 	@Override
 	protected void handleMessage(Message msg) {
-		System.out.println(msg);
+		if (msg.getTo().equals(this.id)) {
+			if (msg.getType().equals(Message.OPEN)) {
+				grantAccess();
+			}
+			else if (msg.getType().equals(Message.CLOSE)) {
+				revokeAccess();
+			}
+		}
 	}
 }

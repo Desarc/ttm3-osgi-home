@@ -83,6 +83,15 @@ public class ControllerCommand extends CommunicationPoint {
 
 	@Override
 	protected void handleMessage(Message msg) {
-		System.out.println(msg);
+		if (msg.getTo().equals(this.id)) {
+			if (msg.getType().equals(Message.ACCESSRSP)) {
+				if (msg.getData(Message.ACCESSRES).equals("true")) {
+					grantAccess();
+				}
+				else {
+					revokeAccess();
+				}
+			}
+		}
 	}
 }
