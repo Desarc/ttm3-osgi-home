@@ -32,13 +32,13 @@ import java.util.Set;
  * Type: REGISTER
  * To: MANAGER
  * From: any component
- * Fields: COMPONENT_TYPE, ID, LOCATION, optional: PREFERRED_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE
+ * Fields: COMPONENT_TYPE, COMPONENT_SUBTYPE, COMPONENT_ID, LOCATION, optional: PREFERRED_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE
  * 
  * 
  * Type: ASSOCIATE
  * To: AccessPoint or AccessController
  * From: MANAGER
- * Fields: COMPONENT_TYPE, COMPONENT_ID
+ * Fields: COMPONENT_SUBTYPE, COMPONENT_ID
  * 
  */
 
@@ -56,10 +56,10 @@ public class Message {
 	public enum Type { ACCESS_RSP, ACCESS_REQ, OPEN, CLOSE, REGISTER, ASSOCIATE, };
 	
 	// message data fields
-	public enum Field { ACCESS_RES, TOKEN, ID, PASSCODE, VALUE, LOCATION, AUTH_TYPE, COMPONENT_TYPE, COMPONENT_ID, PREFERRED_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE, };
+	public enum Field { ACCESS_RES, TOKEN, ID, PASSCODE, VALUE, LOCATION, AUTH_TYPE, COMPONENT_TYPE, COMPONENT_SUBTYPE, COMPONENT_ID, PREFERRED_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE, };
 	
 	// component types
-	public enum Component { ACCESSPOINT, CONTROLLER, AUTHENTICATOR, };
+	public enum ComponentType { ACCESSPOINT, CONTROLLER, };
 	
 	public Message(Type type, String to, String from) {
 		this.type = type;

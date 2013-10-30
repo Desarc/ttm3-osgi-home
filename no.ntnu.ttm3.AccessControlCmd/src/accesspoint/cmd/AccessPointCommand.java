@@ -21,6 +21,8 @@ import communication.Message;
 public class AccessPointCommand extends CommunicationPoint {
 
 	private IAccessPoint accessPointSvc;
+	private String accessControllerId;
+	private String accessControllerType;
 	
 	public AccessPointCommand() {
 		this.location = "testlocation";
@@ -51,6 +53,7 @@ public class AccessPointCommand extends CommunicationPoint {
 	
 	public void apInfo() {
 		System.out.println("This is AccessPoint "+this.id+" of type "+this.accessPointSvc.getType()+" at location "+this.location+".");
+		System.out.println("This AccessPoint is controlled by controller "+this.accessControllerId+" of type "+this.accessControllerType);
 	}
 	
 	public String getType() {
@@ -65,6 +68,10 @@ public class AccessPointCommand extends CommunicationPoint {
 			}
 			else if (msg.getType().equals(Message.Type.CLOSE)) {
 				revokeAccess();
+			}
+			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
+				this.accessControllerId = msg.getData(Message.Field.COMPONENT_ID);
+				this.accessControllerType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
 			}
 		}
 	}

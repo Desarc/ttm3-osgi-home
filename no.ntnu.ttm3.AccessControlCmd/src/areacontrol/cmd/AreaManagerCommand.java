@@ -20,17 +20,20 @@ import communication.Serializer;
 	provide = Object.class
 )
 
-/**
- * This class may not be needed, since we will probably bundle this with the AreaManager 
- *
- */
 
+/*
+ * This is just a simple manager with one AccessPoint, one Controller and one AuthorizationComponent for now.
+ * TODO: extend with support for more AccessPoints, Controllers and AuthorizationComponents, and associations between these.
+ */
 public class AreaManagerCommand extends CommunicationPoint {
 
 	private IAuthorization authorizationSvc;
 	private IAccessNotification notificationSvc;
 	private String accessPointId;
+	private String accessPointType;
 	private String accessControllerId;
+	private String accessControllerType;
+	private boolean associated = false;
 
 	@Reference
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
@@ -50,12 +53,13 @@ public class AreaManagerCommand extends CommunicationPoint {
 	public void connect() {
 		this.location = "testlocation";
 		this.type = "test";
-		this.id = "MANAGER";
+		this.id = Message.MANAGER;
 		setUp();
 	}
 	
 	public void managerInfo() {
 		System.out.println("This is the AreaManager for "+this.location);
+		System.out.println("Managing AccessPoint "+this.accessPointId+" controlled by controller "+this.accessControllerId);
 	}
 	
 	public IAuthorization.Type getAuthType() {
@@ -77,12 +81,39 @@ public class AreaManagerCommand extends CommunicationPoint {
 		Message msg = new Message(Message.Type.CLOSE, this.accessPointId, Message.MANAGER);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
+	
+	private void associate() {
+		Message msg1 = new Message(Message.Type.ASSOCIATE, this.accessPointId, Message.MANAGER);
+		msg1.addData(Message.Field.COMPONENT_ID, accessControllerId);
+		msg1.addData(Message.Field.COMPONENT_SUBTYPE, accessControllerType);
+		hydnaSvc.sendMessage(Serializer.serialize(msg1));
+		Message msg2 = new Message(Message.Type.ASSOCIATE, this.accessControllerId, Message.MANAGER);
+		msg2.addData(Message.Field.COMPONENT_ID, accessPointId);
+		msg2.addData(Message.Field.COMPONENT_SUBTYPE, accessPointType);
+		hydnaSvc.sendMessage(Serializer.serialize(msg2));
+		associated = true;
+	}
 
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(Message.MANAGER)) {
-			if (msg.getType().equals(Message.Type.REGISTER)) {
-				
+			if (msg.getType().equals(Message.Type.REGISTER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
+				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT)) {
+					this.accessPointId = msg.getData(Message.Field.COMPONENT_ID);
+					this.accessPointType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
+					if (this.accessControllerId != null && !associated) {
+						associate();
+					}
+				}
+				else if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER)) {
+					this.accessControllerId = msg.getData(Message.Field.COMPONENT_ID);
+					this.accessControllerType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
+					if (this.accessPointId != null && !associated) {
+						associate();
+					}
+				}
+			}
+			else if (msg.getType().equals(Message.Type.ACCESS_REQ)) {
 				
 			}
 		}

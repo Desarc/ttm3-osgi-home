@@ -92,7 +92,7 @@ public class ControllerCommand extends CommunicationPoint {
 			}
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessPointId = msg.getData(Message.Field.COMPONENT_ID);
-				this.accessPointType = msg.getData(Message.Field.COMPONENT_TYPE);
+				this.accessPointType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
 			}
 		}
 	}
