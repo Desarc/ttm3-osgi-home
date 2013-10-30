@@ -18,6 +18,8 @@ import controller.api.IAccessController;
 		CommandProcessor.COMMAND_FUNCTION + ":String=connect",
 		CommandProcessor.COMMAND_FUNCTION + ":String=getId",
 		CommandProcessor.COMMAND_FUNCTION + ":String=getType",
+		CommandProcessor.COMMAND_FUNCTION + ":String=grantAccess",
+		CommandProcessor.COMMAND_FUNCTION + ":String=revokeAccess",
 	},
 	provide = Object.class
 )
@@ -35,6 +37,8 @@ public class ControllerCommand extends CommunicationPoint {
 	
 	public void connect() {
 		super.setUp();
+		this.accessPoint = "test";
+		this.location = "testlocation";
 	}
 	
 	public String requestIdentification() {

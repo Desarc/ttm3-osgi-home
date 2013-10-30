@@ -8,16 +8,8 @@ import areacontrol.api.IAreaManager;
 import areacontrol.impl.AreaManager;
 
 @Component
-public class GUIAreaManager extends AreaManager implements IAreaManager {
+public class GUIAreaManager {
 
-	@Activate
-	public void activate() {
-		super.setUp();
-	}
-	
-	@Reference
-	public void setHydnaApi(HydnaApi hydna) {
-		this.hydnaSvc = hydna;
-	}
+
 	
 }

@@ -1,14 +1,12 @@
 package authorization.impl;
 
-import communication.AuthenticationToken;
-import communication.Message;
-import communication.Serializer;
 import hydna.ntnu.student.api.HydnaApi;
 import hydna.ntnu.student.listener.api.HydnaListener;
 import authorization.api.IAuthorizationServer;
 
 public abstract class AuthorizationServer implements IAuthorizationServer {
 	
+	/*
 	protected HydnaApi hydnaSvc;
 	protected HydnaListener listener;
 	protected String id;
@@ -87,5 +85,5 @@ public abstract class AuthorizationServer implements IAuthorizationServer {
 	@Override
 	public void setLocation(String location) {
 		this.location = location;
-	}
+	} */
 }

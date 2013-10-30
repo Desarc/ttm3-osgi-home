@@ -35,6 +35,8 @@ public class AccessPointCommand extends CommunicationPoint {
 	
 	public void connect() {
 		super.setUp();
+		this.id = "test";
+		this.location = "testlocation";
 	}
 	
 	public void grantAccess() {

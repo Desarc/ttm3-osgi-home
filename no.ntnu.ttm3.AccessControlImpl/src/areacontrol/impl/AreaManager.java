@@ -4,13 +4,11 @@ import java.util.HashMap;
 
 import hydna.ntnu.student.api.HydnaApi;
 import hydna.ntnu.student.listener.api.HydnaListener;
-import communication.Message;
-import communication.Serializer;
 import areacontrol.api.IAreaManager;
 
-public abstract class AreaManager implements IAreaManager {
+public abstract class AreaManager {
 	
-	protected HydnaApi hydnaSvc;
+	/*protected HydnaApi hydnaSvc;
 	protected HydnaListener listener;
 	protected String location;
 	protected HashMap<String, String> accessPoints;
@@ -68,5 +66,5 @@ public abstract class AreaManager implements IAreaManager {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	
+	*/
 }

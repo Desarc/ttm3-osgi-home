@@ -15,11 +15,12 @@ public class NumKeyPadController extends AccessController implements IAccessCont
 	}
 	
 	public String requestIdentification() {
-		Scanner scanIn = new Scanner(System.in);
+		//Scanner scanIn = new Scanner(System.in);
 		System.out.println("Welcome to the locked door. Please input the numeric passcode: ");
-		//String passcode = "1234";
-		String passcode = scanIn.nextLine();
-		scanIn.close();
+		String passcode = "1234";
+		System.out.println(passcode);
+		//String passcode = scanIn.nextLine();
+		//scanIn.close();
 		return passcode;
 	}
 	
