@@ -1,5 +1,6 @@
 package accesspoint.cmd;
 
+import hydna.ntnu.student.api.HydnaApi;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
 import accesspoint.api.IAccessPoint;
@@ -31,6 +32,10 @@ public class AccessPointCommand extends CommunicationPoint {
 	@Reference
 	public void setAccessPoint(IAccessPoint accessPointSvc) {
 		this.accessPointSvc = accessPointSvc;
+	}
+	@Reference
+	public void setHydnaSvc(HydnaApi hydnaSvc) {
+		this.hydnaSvc = hydnaSvc;
 	}
 	
 	public void connect() {

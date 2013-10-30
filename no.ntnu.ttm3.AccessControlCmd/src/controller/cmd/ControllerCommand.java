@@ -1,5 +1,6 @@
 package controller.cmd;
 
+import hydna.ntnu.student.api.HydnaApi;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
 
@@ -33,6 +34,10 @@ public class ControllerCommand extends CommunicationPoint {
 	@Reference
 	public void setAccessController(IAccessController accessControllerSvc) {
 		this.accessControllerSvc = accessControllerSvc;
+	}
+	@Reference
+	public void setHydnaSvc(HydnaApi hydnaSvc) {
+		this.hydnaSvc = hydnaSvc;
 	}
 	
 	public void connect() {
