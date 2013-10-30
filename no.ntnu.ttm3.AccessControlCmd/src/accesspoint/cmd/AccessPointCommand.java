@@ -36,7 +36,7 @@ public class AccessPointCommand extends CommunicationPoint {
 	public void connect() {
 		this.location = "testlocation";
 		this.type = "test";
-		super.setUp();
+		setUp();
 		this.id = "test";
 	}
 	
@@ -55,10 +55,10 @@ public class AccessPointCommand extends CommunicationPoint {
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(this.id)) {
-			if (msg.getType().equals(Message.OPEN)) {
+			if (msg.getType().equals(Message.Type.OPEN)) {
 				grantAccess();
 			}
-			else if (msg.getType().equals(Message.CLOSE)) {
+			else if (msg.getType().equals(Message.Type.CLOSE)) {
 				revokeAccess();
 			}
 		}
