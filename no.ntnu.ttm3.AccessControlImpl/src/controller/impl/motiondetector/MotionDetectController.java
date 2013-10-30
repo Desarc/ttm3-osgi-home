@@ -7,22 +7,12 @@ import controller.impl.AccessController;
 public class MotionDetectController extends AccessController implements IAccessController {
 
 	@Override
-	public void requestIdentification() {
+	public String requestIdentification() {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
-	@Override
-	public void requestAuthorization(String passcode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void handleAuthorizationResponse(String result) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
 }

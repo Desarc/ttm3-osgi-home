@@ -6,14 +6,10 @@ package accesspoint.api;
  */
 public interface IAccessPoint {
 
-	public void activate();
+	public void grantAccess();
 	
-	public String getAccessPointID();
+	public void revokeAccess();
 	
-	public String getAccessPointType();
-	
-	public void setLocation(String location);
-	
-	public void setPreferredControllerType(String type);
+	public String getType();
 	
 }

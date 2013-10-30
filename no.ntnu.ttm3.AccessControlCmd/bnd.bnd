@@ -9,5 +9,6 @@ Service-Component: *
 	no.ntnu.ttm3.AccessControlAPI.AreaControlAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AuthorizationServerAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.NotificationAPI;version=latest,\
-	org.apache.felix.gogo.runtime
+	org.apache.felix.gogo.runtime,\
+	hydna-ntnu-student-bundle;version=latest
 -sub: *.bnd

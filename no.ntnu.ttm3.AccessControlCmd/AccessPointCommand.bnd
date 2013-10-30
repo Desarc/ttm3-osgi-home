@@ -1,3 +1,4 @@
 Service-Component: *
-Private-Package: accesspoint.cmd
+Private-Package: accesspoint.cmd,\
+	communication
 Bundle-Version: 1.0.0

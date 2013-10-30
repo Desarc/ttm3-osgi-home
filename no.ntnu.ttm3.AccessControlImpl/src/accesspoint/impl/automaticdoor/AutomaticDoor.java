@@ -19,10 +19,4 @@ public class AutomaticDoor extends AccessPoint implements IAccessPoint {
 	}
 
 
-	@Override
-	public void activate() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
