@@ -61,4 +61,16 @@ public class ObservableAccessPoint extends Observable implements IAccessPoint {
 		return null;
 	}
 
+	@Override
+	public controller.api.IAccessController.Type getPreferredControllerType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public controller.api.IAccessController.Type getAltControllerType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

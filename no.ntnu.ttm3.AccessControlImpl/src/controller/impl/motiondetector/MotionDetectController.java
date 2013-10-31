@@ -1,10 +1,15 @@
 package controller.impl.motiondetector;
 
+import aQute.bnd.annotation.component.Component;
+import authorization.api.IAuthorization;
 import communication.api.Message;
-
 import controller.api.IAccessController;
 
-/* automatic door opener? */
+/**
+ * This class is the implementation of the enum type MOTION_DETECT in {@link IAccessController}.
+ *
+ */
+@Component
 public class MotionDetectController implements IAccessController {
 
 	/* (non-Javadoc)
@@ -27,6 +32,16 @@ public class MotionDetectController implements IAccessController {
 	@Override
 	public Type getType() {
 		return IAccessController.Type.MOTION_DETECT;
+	}
+
+	@Override
+	public IAuthorization.Type getPreferredAuthorizationType() {
+		return IAuthorization.Type.TIMED;
+	}
+
+	@Override
+	public IAuthorization.Type getAltAuthorizationType() {
+		return IAuthorization.Type.NONE_TRUE;
 	}
 
 	

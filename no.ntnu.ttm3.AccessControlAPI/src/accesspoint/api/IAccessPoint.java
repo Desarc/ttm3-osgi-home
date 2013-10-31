@@ -1,11 +1,16 @@
 package accesspoint.api;
 
+import controller.api.IAccessController;
+
 /**
  * This is the controller of a component that is typically "blocking" unauthorized access, e.g. a door
  * 
  */
 public interface IAccessPoint {
 
+	/*
+	 * Valid AccessPoint types.
+	 */
 	public enum Type {
 		LOCKED_DOOR,
 		AUTOMATIC_DOOR,
@@ -28,6 +33,10 @@ public interface IAccessPoint {
 	 * Return a string (the type) which is unique for this type of accesspoint.
 	 * @return
 	 */
-	Type getType();
+	IAccessPoint.Type getType();
+	
+	IAccessController.Type getPreferredControllerType();
+	
+	IAccessController.Type getAltControllerType();
 	
 }

@@ -60,7 +60,7 @@ public class Message {
 	private HashMap<Field, String> data;
 	
 	// message recipient
-	public final static String MANAGER = "manager";
+	public final static String MANAGER = "MANAGER";
 	
 	// message types
 	public enum Type { ACCESS_RSP, ACCESS_REQ, OPEN, CLOSE, REGISTER, ASSOCIATE, NEW_ID, };

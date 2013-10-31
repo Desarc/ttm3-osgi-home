@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import hydna.ntnu.student.api.HydnaApi;
+import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
 import authorization.api.AuthorizationToken;
@@ -24,9 +25,9 @@ import communication.api.Serializer;
 	provide = Object.class
 )
 
-/*
- * This is just a simple manager with one AccessPoint, one Controller and one AuthorizationComponent for now.
- * TODO: extend with support for more AccessPoints, Controllers and AuthorizationComponents, and associations between these.
+/**
+ * Manager for associations between AccessPoints, Controllers and Authorization services.
+ * 
  */
 public class AreaManagerCommand extends CommunicationPoint {
 
@@ -54,14 +55,16 @@ public class AreaManagerCommand extends CommunicationPoint {
 		this.hydnaSvc = hydnaSvc;
 	}
 	
+	@Activate
 	public void connect() {
 		this.location = "testlocation";
 		this.type = "test";
 		this.id = Message.MANAGER;
 		setUp();
+		printInfo();
 	}
 	
-	public void managerInfo() {
+	public void printInfo() {
 		System.out.println("This is the AreaManager for "+this.location);
 	}
 	

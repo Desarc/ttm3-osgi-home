@@ -48,12 +48,11 @@ public class ControllerCommand extends CommunicationPoint {
 	public void run() {
 		setUp();
 		// continuously request identification from service (service may block while waiting)
-		while (true) {
-			Message msg = accessControllerSvc.requestIdentification();
-			msg.setFrom(this.id);
-			System.out.println("Requesting authorization...");
-			hydnaSvc.sendMessage(Serializer.serialize(msg));
-		}
+		while (!registered) {}
+		Message msg = accessControllerSvc.requestIdentification();
+		msg.setFrom(this.id);
+		System.out.println("Requesting authorization...");
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
 	public void handleAuthorizationResponse(String result) {
@@ -90,6 +89,7 @@ public class ControllerCommand extends CommunicationPoint {
 			}
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
+				this.registered = true;
 			}
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessPointId = msg.getData(Message.Field.COMPONENT_ID);
@@ -106,6 +106,7 @@ public class ControllerCommand extends CommunicationPoint {
 	 * @see communication.CommunicationPoint#registerCommunicationPoint()
 	 */
 	protected void registerCommunicationPoint() {
+		this.id = this.type+System.currentTimeMillis(); //temporary unique ID
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);
 		msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.CONTROLLER.toString());

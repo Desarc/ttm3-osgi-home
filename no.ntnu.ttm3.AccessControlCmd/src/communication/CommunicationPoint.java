@@ -16,6 +16,7 @@ public abstract class CommunicationPoint {
 	protected String id;
 	protected String type;
 	protected String location;
+	protected boolean registered = false;
 
 	
 	/**

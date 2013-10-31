@@ -31,7 +31,6 @@ public class AccessPointCommand extends CommunicationPoint {
 	public AccessPointCommand() {
 		this.location = "testlocation";
 		this.type = "test";
-		this.id = "test";
 	}
 
 	@Reference
@@ -83,6 +82,7 @@ public class AccessPointCommand extends CommunicationPoint {
 			}
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
+				this.registered = true;
 			}
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessControllerId = msg.getData(Message.Field.COMPONENT_ID);
@@ -99,6 +99,7 @@ public class AccessPointCommand extends CommunicationPoint {
 	 * @see communication.CommunicationPoint#registerCommunicationPoint()
 	 */
 	protected void registerCommunicationPoint() {
+		this.id = this.type+System.currentTimeMillis(); //temporary unique ID
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);
 		msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.ACCESSPOINT.toString());

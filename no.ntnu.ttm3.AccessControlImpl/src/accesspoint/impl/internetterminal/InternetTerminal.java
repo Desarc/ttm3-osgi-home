@@ -1,7 +1,14 @@
 package accesspoint.impl.internetterminal;
 
+import controller.api.IAccessController;
+import aQute.bnd.annotation.component.Component;
 import accesspoint.api.IAccessPoint;
 
+/**
+ * This class is the implementation of the enum type INET_TERM in {@link IAccessPoint}.
+ *
+ */
+@Component
 public class InternetTerminal implements IAccessPoint {
 
 	/* (non-Javadoc)
@@ -16,19 +23,26 @@ public class InternetTerminal implements IAccessPoint {
 	
 
 	public void grantAccess() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Welcome to the inernet!");
 	}
 
 	public void revokeAccess() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Disconnected.");
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return IAccessPoint.Type.INET_TERM;
+	}
+
+	@Override
+	public IAccessController.Type getPreferredControllerType() {
+		return IAccessController.Type.USER_PASS_TERM;
+	}
+
+	@Override
+	public IAccessController.Type getAltControllerType() {
+		return IAccessController.Type.ANY;
 	}
 
 

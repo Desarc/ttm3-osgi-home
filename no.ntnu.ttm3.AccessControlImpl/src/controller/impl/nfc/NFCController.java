@@ -1,10 +1,14 @@
 package controller.impl.nfc;
 
 import communication.api.Message;
-
 import aQute.bnd.annotation.component.Component;
+import authorization.api.IAuthorization;
 import controller.api.IAccessController;
 
+/**
+ * This class is the implementation of the enum type NFC in {@link IAccessController}.
+ *
+ */
 @Component
 public class NFCController implements IAccessController {
 
@@ -26,10 +30,17 @@ public class NFCController implements IAccessController {
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
 		return IAccessController.Type.NFC;
 	}
 
+	@Override
+	public IAuthorization.Type getPreferredAuthorizationType() {
+		return IAuthorization.Type.DB_ID;
+	}
 
-
+	@Override
+	public IAuthorization.Type getAltAuthorizationType() {
+		return IAuthorization.Type.NONE_FALSE;
+	
+	}
 }

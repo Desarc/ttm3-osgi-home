@@ -51,8 +51,11 @@ public class AuthorizationToken {
 	}
 	
 	public static AuthorizationToken generateToken(String controller, String type, String id, String passcode) {
-		if (type.equals(IAuthorization.Type.NONE.toString())) {
-			return new AuthorizationToken(controller, IAuthorization.Type.NONE);
+		if (type.equals(IAuthorization.Type.NONE_FALSE.toString())) {
+			return new AuthorizationToken(controller, IAuthorization.Type.NONE_FALSE);
+		}
+		else if (type.equals(IAuthorization.Type.NONE_TRUE.toString())) {
+			return new AuthorizationToken(controller, IAuthorization.Type.NONE_TRUE);
 		}
 		else if (type.equals(IAuthorization.Type.TIMED.toString())) {
 			return new AuthorizationToken(controller, IAuthorization.Type.TIMED);
@@ -68,5 +71,4 @@ public class AuthorizationToken {
 		}
 		return null;
 	}
-	
 }

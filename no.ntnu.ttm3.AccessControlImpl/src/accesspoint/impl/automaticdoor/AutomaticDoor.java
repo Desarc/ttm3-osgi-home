@@ -1,7 +1,14 @@
 package accesspoint.impl.automaticdoor;
 
+import controller.api.IAccessController;
+import aQute.bnd.annotation.component.Component;
 import accesspoint.api.IAccessPoint;
 
+/**
+ * This class is the implementation of the enum type AUTOMATIC_DOOR in {@link IAccessPoint}.
+ *
+ */
+@Component
 public class AutomaticDoor implements IAccessPoint {
 
 	/* (non-Javadoc)
@@ -15,21 +22,37 @@ public class AutomaticDoor implements IAccessPoint {
 	}*/
 
 	public void grantAccess() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Door opened!");
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		revokeAccess();
 	}
 
 	
 	public void revokeAccess() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Door closed.");
 	}
 
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return IAccessPoint.Type.AUTOMATIC_DOOR;
+	}
+
+
+	@Override
+	public IAccessController.Type getPreferredControllerType() {
+		return IAccessController.Type.MOTION_DETECT;
+	}
+
+
+	@Override
+	public IAccessController.Type getAltControllerType() {
+		return IAccessController.Type.NFC;
 	}
 
 

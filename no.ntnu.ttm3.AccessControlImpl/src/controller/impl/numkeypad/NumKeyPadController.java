@@ -2,8 +2,13 @@ package controller.impl.numkeypad;
 
 import communication.api.Message;
 import aQute.bnd.annotation.component.Component;
+import authorization.api.IAuthorization;
 import controller.api.IAccessController;
 
+/**
+ * This class is the implementation of the enum type NUM_KEY_PAD in {@link IAccessController}.
+ *
+ */
 @Component
 public class NumKeyPadController implements IAccessController {
 
@@ -36,6 +41,16 @@ public class NumKeyPadController implements IAccessController {
 		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null);
 		msg.addData(Message.Field.PASSCODE, passcode);
 		return msg;
+	}
+
+	@Override
+	public IAuthorization.Type getPreferredAuthorizationType() {
+		return IAuthorization.Type.DB_PASSCODE;
+	}
+
+	@Override
+	public IAuthorization.Type getAltAuthorizationType() {
+		return IAuthorization.Type.NONE_TRUE;
 	}
 	
 }

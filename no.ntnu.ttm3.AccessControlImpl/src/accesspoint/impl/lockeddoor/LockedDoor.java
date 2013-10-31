@@ -1,8 +1,13 @@
 package accesspoint.impl.lockeddoor;
 
+import controller.api.IAccessController;
 import aQute.bnd.annotation.component.Component;
 import accesspoint.api.IAccessPoint;
 
+/**
+ * This class is the implementation of the enum type LOCKED_DOOR in {@link IAccessPoint}.
+ *
+ */
 @Component
 public class LockedDoor implements IAccessPoint {
 	
@@ -33,5 +38,15 @@ public class LockedDoor implements IAccessPoint {
 	@Override
 	public void revokeAccess() {
 		System.out.println("Door locked!");
+	}
+
+	@Override
+	public IAccessController.Type getPreferredControllerType() {
+		return IAccessController.Type.NFC;
+	}
+
+	@Override
+	public IAccessController.Type getAltControllerType() {
+		return IAccessController.Type.NUM_KEY_PAD;
 	}
 }
