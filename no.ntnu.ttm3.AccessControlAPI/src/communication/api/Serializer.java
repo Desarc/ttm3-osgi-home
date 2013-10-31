@@ -1,7 +1,6 @@
-package communication;
+package communication.api;
 
-import communication.Message.Field;
-import communication.Message.Type;
+import communication.api.Message.*;
 
 public class Serializer {
 

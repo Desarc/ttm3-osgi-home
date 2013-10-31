@@ -13,8 +13,8 @@ import notification.api.IAccessNotification;
 import org.apache.felix.service.command.*;
 
 import communication.CommunicationPoint;
-import communication.Message;
-import communication.Serializer;
+import communication.api.Message;
+import communication.api.Serializer;
 
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */

@@ -8,7 +8,7 @@ import accesspoint.api.IAccessPoint;
 import org.apache.felix.service.command.*;
 
 import communication.CommunicationPoint;
-import communication.Message;
+import communication.api.Message;
 
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */

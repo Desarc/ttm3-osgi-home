@@ -8,8 +8,8 @@ import authorization.api.IAuthorization;
 import org.apache.felix.service.command.*;
 
 import communication.CommunicationPoint;
-import communication.Message;
-import communication.Serializer;
+import communication.api.Message;
+import communication.api.Serializer;
 import controller.api.IAccessController;
 
 @Component(properties =	{

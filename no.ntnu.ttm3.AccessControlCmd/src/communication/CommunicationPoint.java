@@ -1,5 +1,8 @@
 package communication;
 
+import communication.api.Message;
+import communication.api.Serializer;
+
 import hydna.ntnu.student.api.HydnaApi;
 import hydna.ntnu.student.listener.api.HydnaListener;
 
