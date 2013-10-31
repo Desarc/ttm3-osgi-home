@@ -4,12 +4,14 @@ public interface IAuthorization {
 	
 	public enum Type {
 		DB_PASSCODE,
+		DB_ID,
+		DB_USERNAME_PASSWORD,
 		TIMED,
-		ALWAYS_OK,
+		NONE,
 	}
 	
 	Type getType();
 	
-	
+	boolean authorize(AuthorizationToken token);
 	
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import hydna.ntnu.student.api.HydnaApi;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
+import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
 import notification.api.IAccessNotification;
 
@@ -31,11 +32,14 @@ import communication.Serializer;
 public class AreaManagerCommand extends CommunicationPoint {
 
 	private IAuthorization authorizationSvc;
+	private HashMap<IAuthorization.Type, IAuthorization> authorizationSvcs;
 	private IAccessNotification notificationSvc;
 	private HashMap<String, ComponentEntry> accessPoints;
 	private HashMap<String, ComponentEntry> accessControllers;
 	private ArrayList<AccessAssociation> accessAssociations;
 
+	
+	// TODO: handle multiple service references
 	@Reference
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
 		this.authorizationSvc = authorizationSvc;
@@ -119,7 +123,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 	}
 	
 	/*
-	 * Send messages to both parts of the association
+	 * Send ASSOCIATE messages to both parts of the association
 	 */
 	private void associate(ComponentEntry apComponent, ComponentEntry acComponent) {
 		Message msg1 = new Message(Message.Type.ASSOCIATE, acComponent.id, Message.MANAGER);
@@ -156,15 +160,52 @@ public class AreaManagerCommand extends CommunicationPoint {
 		if (apComponent != null) {
 			associate(apComponent, acComponent);
 		}
-		
 	}
 
+	/*
+	 * Check if the requested authorization service is available
+	 */
+	private IAuthorization availableAuthorization(String type) {
+		return authorizationSvcs.get(type);
+	}
+	
+	private String findAssociatedAP(String controllerId) {
+		for (AccessAssociation aa : this.accessAssociations) {
+			if (aa.accessControllerId.equals(controllerId)) {
+				return aa.accessPointId;
+			}
+		}
+		return null;
+	}
+	
+	/*
+	 * Send result back to controller, and to AccessPoint if access is authorized
+	 */
+	private void handleAuthorizationResult(String controllerId, boolean result) {
+		Message msg = new Message(Message.Type.ACCESS_RSP, controllerId, Message.MANAGER);
+		msg.addData(Message.Field.ACCESS_RES, ""+result);
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
+		if (result == true) {
+			String accessPointId = findAssociatedAP(controllerId);
+			if (accessPointId != null) {
+				Message msg2 = new Message(Message.Type.OPEN, accessPointId, Message.MANAGER);
+				hydnaSvc.sendMessage(Serializer.serialize(msg2));
+			}
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see communication.CommunicationPoint#handleMessage(communication.Message)
+	 * Logic for handling of incoming messages.
+	 */
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(Message.MANAGER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
 			if (msg.getType().equals(Message.Type.REGISTER)) {
 				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE), msg.getData(Message.Field.COMPONENT_ID));
-				ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
+				ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
+						msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.toString())) {
 					this.accessPoints.put(newId, component);
 					associateAccessPoint(component);
@@ -175,7 +216,14 @@ public class AreaManagerCommand extends CommunicationPoint {
 				}
 			}
 			else if (msg.getType().equals(Message.Type.ACCESS_REQ)) {
-				
+				IAuthorization service = availableAuthorization(msg.getData(Message.Field.AUTH_TYPE));
+				boolean result = false;
+				if (service != null) {
+					AuthorizationToken token = AuthorizationToken.generateToken(msg.getFrom(),msg.getData(Message.Field.AUTH_TYPE),
+							msg.getData(Message.Field.ID), msg.getData(Message.Field.PASSCODE));
+					result = service.authorize(token);
+				}
+				handleAuthorizationResult(msg.getFrom(), result);
 			}
 		}
 	}
