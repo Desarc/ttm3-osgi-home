@@ -195,4 +195,15 @@ public class AreaManagerCommand extends CommunicationPoint {
 			associated = false;
 		}
 	}
+	
+	class AccessAssociation {
+		
+		String accessPointId;
+		String accessControllerId;
+		
+		AccessAssociation(String apId, String acId) {
+			this.accessPointId = apId;
+			this.accessControllerId = acId;
+		}
+	}
 }
