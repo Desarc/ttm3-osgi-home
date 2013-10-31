@@ -90,6 +90,9 @@ public class ControllerCommand extends CommunicationPoint {
 			if (msg.getType().equals(Message.Type.ACCESS_RSP)) {
 				handleAuthorizationResponse(msg.getData(Message.Field.ACCESS_RES));
 			}
+			else if (msg.getType().equals(Message.Type.NEW_ID)) {
+				this.id = msg.getData(Message.Field.COMPONENT_ID);
+			}
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessPointId = msg.getData(Message.Field.COMPONENT_ID);
 				this.accessPointType = msg.getData(Message.Field.COMPONENT_SUBTYPE);

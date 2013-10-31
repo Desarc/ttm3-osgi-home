@@ -69,6 +69,9 @@ public class AccessPointCommand extends CommunicationPoint {
 			else if (msg.getType().equals(Message.Type.CLOSE)) {
 				revokeAccess();
 			}
+			else if (msg.getType().equals(Message.Type.NEW_ID)) {
+				this.id = msg.getData(Message.Field.COMPONENT_ID);
+			}
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessControllerId = msg.getData(Message.Field.COMPONENT_ID);
 				this.accessControllerType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
