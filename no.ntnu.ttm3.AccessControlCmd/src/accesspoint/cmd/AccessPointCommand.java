@@ -7,6 +7,7 @@ import accesspoint.api.IAccessPoint;
 
 import org.apache.felix.service.command.*;
 
+import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
@@ -15,12 +16,12 @@ import controller.api.IAccessController;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=accessPoint",
-		CommandProcessor.COMMAND_FUNCTION + ":String=connect",
+		CommandProcessor.COMMAND_FUNCTION + ":String=run",
 	},
 	provide = Object.class
 )
 
-public class AccessPointCommand extends CommunicationPoint {
+public class AccessPointCommand extends CommunicationPoint implements CommandModule {
 
 	private IAccessPoint accessPointSvc;
 	private String accessControllerId;
@@ -29,20 +30,23 @@ public class AccessPointCommand extends CommunicationPoint {
 	private IAccessController.Type altControllerType = null;
 	
 	public AccessPointCommand() {
-		this.location = "testlocation";
-		this.type = "test";
+		
 	}
 
 	@Reference
 	public void setAccessPoint(IAccessPoint accessPointSvc) {
 		this.accessPointSvc = accessPointSvc;
+		this.type = accessPointSvc.getType().toString();
+		this.preferredControllerType = accessPointSvc.getPreferredControllerType();
+		this.altControllerType = accessPointSvc.getAltControllerType();
 	}
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	public void connect() {
+	public void run(String location) {
+		this.location = location;
 		setUp();
 	}
 	

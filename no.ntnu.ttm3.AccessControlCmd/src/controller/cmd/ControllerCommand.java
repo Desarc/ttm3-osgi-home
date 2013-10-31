@@ -7,6 +7,7 @@ import authorization.api.IAuthorization;
 
 import org.apache.felix.service.command.*;
 
+import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
@@ -20,7 +21,7 @@ import controller.api.IAccessController;
 	provide = Object.class
 )
 
-public class ControllerCommand extends CommunicationPoint {
+public class ControllerCommand extends CommunicationPoint implements CommandModule {
 
 	private IAccessController accessControllerSvc;
 	private String accessPointId;
@@ -29,23 +30,23 @@ public class ControllerCommand extends CommunicationPoint {
 	private IAuthorization.Type altAuthorizationType = null;
 	
 	public ControllerCommand() {
-		this.accessPointId = "test";
-		this.location = "testlocation";
-		this.preferredAuthorizationType = IAuthorization.Type.DB_PASSCODE;
-		this.altAuthorizationType = IAuthorization.Type.TIMED;
+		
 	}
 
 	@Reference
 	public void setAccessController(IAccessController accessControllerSvc) {
 		this.accessControllerSvc = accessControllerSvc;
 		this.type = accessControllerSvc.getType().toString();
+		this.preferredAuthorizationType = accessControllerSvc.getPreferredAuthorizationType();
+		this.altAuthorizationType = accessControllerSvc.getAltAuthorizationType();
 	}
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	public void run() {
+	public void run(String location) {
+		this.location = location;
 		setUp();
 		// continuously request identification from service (service may block while waiting)
 		while (!registered) {}

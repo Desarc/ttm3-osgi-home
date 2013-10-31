@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import hydna.ntnu.student.api.HydnaApi;
-import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
 import authorization.api.AuthorizationToken;
@@ -13,41 +12,49 @@ import notification.api.IAccessNotification;
 
 import org.apache.felix.service.command.*;
 
+import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
 
+
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=areaManager",
-		CommandProcessor.COMMAND_FUNCTION + ":String=connect",
+		CommandProcessor.COMMAND_FUNCTION + ":String=run",
 	},
 	provide = Object.class
 )
 
-/**
- * Manager for associations between AccessPoints, Controllers and Authorization services.
- * 
- */
-public class AreaManagerCommand extends CommunicationPoint {
+public class AreaManagerCommand extends CommunicationPoint implements CommandModule {
 
-	private IAuthorization authorizationSvc;
+	//private IAuthorization authorizationSvc;
 	private HashMap<IAuthorization.Type, IAuthorization> authorizationSvcs;
-	private IAccessNotification notificationSvc;
+	private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
 	private HashMap<String, ComponentEntry> accessPoints;
 	private HashMap<String, ComponentEntry> accessControllers;
 	private ArrayList<AccessAssociation> accessAssociations;
 
+	public AreaManagerCommand() {
+		authorizationSvcs = new HashMap<IAuthorization.Type, IAuthorization>();
+		notificationSvcs = new HashMap<IAccessNotification.Type, IAccessNotification>();
+		accessPoints = new HashMap<String, ComponentEntry>();
+		accessControllers = new HashMap<String, ComponentEntry>();
+		accessAssociations = new ArrayList<AccessAssociation>();
+	}
 	
 	// TODO: handle multiple service references
 	@Reference
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
-		this.authorizationSvc = authorizationSvc;
+		//this.authorizationSvc = authorizationSvc;
+		this.authorizationSvcs.put(authorizationSvc.getType(), authorizationSvc);
+		displayAvailableAuthorizationTypes();
 	}
 	
 	@Reference
 	public void setNotificationComponent(IAccessNotification notificationSvc) {
-		this.notificationSvc = notificationSvc;
+		//this.notificationSvc = notificationSvc;
+		this.notificationSvcs.put(notificationSvc.getType(), notificationSvc);
 	}
 	
 	@Reference
@@ -55,25 +62,21 @@ public class AreaManagerCommand extends CommunicationPoint {
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	@Activate
-	public void connect() {
-		this.location = "testlocation";
-		this.type = "test";
+	public void run(String location) {
 		this.id = Message.MANAGER;
+		this.type = Message.MANAGER;
+		this.location = location;
 		setUp();
-		printInfo();
+	}
+	
+	private void displayAvailableAuthorizationTypes() {
+		for (IAuthorization.Type type : authorizationSvcs.keySet()) {
+			System.out.println(type.toString());
+		}
 	}
 	
 	public void printInfo() {
 		System.out.println("This is the AreaManager for "+this.location);
-	}
-	
-	public IAuthorization.Type getAuthType() {
-		return this.authorizationSvc.getType();
-	}
-	
-	public IAccessNotification.Type getNotifType() {
-		return this.notificationSvc.getType();
 	}
 	
 	/*
@@ -241,6 +244,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 	
 	protected void registerCommunicationPoint() {
 		//does not need to register
+		printInfo();
 	}
 	
 	

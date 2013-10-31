@@ -11,5 +11,6 @@ Service-Component: *
 	org.apache.felix.gogo.runtime,\
 	hydna-ntnu-student-bundle;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AuthorizationAPI;version=latest,\
-	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest
+	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.CommandAPI;version=latest
 -sub: *.bnd

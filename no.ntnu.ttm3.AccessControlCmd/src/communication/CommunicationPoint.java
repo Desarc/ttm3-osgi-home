@@ -55,10 +55,5 @@ public abstract class CommunicationPoint {
 	public String getId() {
 		return this.id;
 	}
-
-	public void setLocation(String location) {
-		this.location = location;
-		System.out.println("Location set to "+location+".");
-	}
 	
 }
