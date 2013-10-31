@@ -33,7 +33,6 @@ public abstract class CommunicationPoint {
 			
 			@Override
 			public void messageRecieved(String msg) {
-				//System.out.println("Message received in AccessPoint "+getAccessPointID()+"!");
 				System.out.println(msg);
 				Message m = Serializer.deserialize(msg);
 				handleMessage(m);
@@ -47,12 +46,7 @@ public abstract class CommunicationPoint {
 	
 	protected abstract void handleMessage(Message msg);
 	
-	private void registerCommunicationPoint() {
-		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
-		msg.addData(Message.Field.LOCATION, this.location);
-		msg.addData(Message.Field.COMPONENT_TYPE, this.type);
-		hydnaSvc.sendMessage(Serializer.serialize(msg));
-	}
+	protected abstract void registerCommunicationPoint();
 	
 	public String getId() {
 		return this.id;

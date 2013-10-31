@@ -8,6 +8,7 @@ public interface IAuthorization {
 		DB_USERNAME_PASSWORD,
 		TIMED,
 		NONE,
+		ANY,
 	}
 	
 	Type getType();

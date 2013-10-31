@@ -32,7 +32,8 @@ import java.util.Set;
  * Type: REGISTER
  * To: MANAGER
  * From: any component
- * Fields: COMPONENT_TYPE, COMPONENT_SUBTYPE, COMPONENT_ID, LOCATION, optional: PREFERRED_AUTH_TYPE, ALT_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE, ALT_CONTROLLER_TYPE
+ * Fields: COMPONENT_TYPE, COMPONENT_SUBTYPE, COMPONENT_ID, LOCATION, optional: PREFERRED_AUTH_TYPE, 
+ * 			ALT_AUTH_TYPE, PREFERRED_CONTROLLER_TYPE, ALT_CONTROLLER_TYPE
  * 
  * 
  * Type: NEW_ID
@@ -99,5 +100,7 @@ public class Message {
 		return from;
 	}
 	
-	
+	public void setFrom(String from){
+		this.from = from;
+	}
 }

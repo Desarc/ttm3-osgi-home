@@ -1,5 +1,7 @@
 package controller.impl.nfc;
 
+import communication.api.Message;
+
 import aQute.bnd.annotation.component.Component;
 import controller.api.IAccessController;
 
@@ -17,7 +19,7 @@ public class NFCController implements IAccessController {
 	}*/
 
 	@Override
-	public String requestIdentification() {
+	public Message requestIdentification() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -25,7 +27,7 @@ public class NFCController implements IAccessController {
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		return IAccessController.Type.NFC;
 	}
 
 

@@ -1,5 +1,6 @@
 package controller.impl.numkeypad;
 
+import communication.api.Message;
 import aQute.bnd.annotation.component.Component;
 import controller.api.IAccessController;
 
@@ -21,14 +22,20 @@ public class NumKeyPadController implements IAccessController {
 		return IAccessController.Type.NUM_KEY_PAD;
 	}
 	
-	public String requestIdentification() {
+	public Message requestIdentification() {
 		//Scanner scanIn = new Scanner(System.in);
 		System.out.println("Welcome to the locked door. Please input the numeric passcode: ");
 		String passcode = "1234";
 		System.out.println(passcode);
 		//String passcode = scanIn.nextLine();
 		//scanIn.close();
-		return passcode;
+		return createAuthorizationRequest(passcode);
+	}
+	
+	private Message createAuthorizationRequest(String passcode) {
+		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null);
+		msg.addData(Message.Field.PASSCODE, passcode);
+		return msg;
 	}
 	
 }

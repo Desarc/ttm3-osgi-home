@@ -1,5 +1,7 @@
 package controller.impl.motiondetector;
 
+import communication.api.Message;
+
 import controller.api.IAccessController;
 
 /* automatic door opener? */
@@ -17,15 +19,14 @@ public class MotionDetectController implements IAccessController {
 	
 
 	@Override
-	public String requestIdentification() {
+	public Message requestIdentification() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return IAccessController.Type.MOTION_DETECT;
 	}
 
 	

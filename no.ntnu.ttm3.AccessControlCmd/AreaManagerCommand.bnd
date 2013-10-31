@@ -1,0 +1,4 @@
+Service-Component: *
+Private-Package: areacontrol.cmd,\
+	communication
+Bundle-Version: 1.0.0

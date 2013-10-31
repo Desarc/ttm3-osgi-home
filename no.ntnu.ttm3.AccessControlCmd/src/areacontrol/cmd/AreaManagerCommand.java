@@ -228,6 +228,10 @@ public class AreaManagerCommand extends CommunicationPoint {
 		}
 	}
 	
+	protected void registerCommunicationPoint() {
+		//does not need to register
+	}
+	
 	class ComponentEntry {
 		String id;
 		String type;
