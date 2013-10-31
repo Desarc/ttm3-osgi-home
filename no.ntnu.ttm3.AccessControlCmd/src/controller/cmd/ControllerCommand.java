@@ -47,6 +47,7 @@ public class ControllerCommand extends CommunicationPoint {
 	
 	public void run() {
 		setUp();
+		// continuously request identification from service (service may block while waiting)
 		while (true) {
 			Message msg = accessControllerSvc.requestIdentification();
 			msg.setFrom(this.id);
@@ -75,6 +76,12 @@ public class ControllerCommand extends CommunicationPoint {
 		return accessControllerSvc.getType();
 	}
 
+	/* 
+	 * Logic for handling incoming messages
+	 * 
+	 * (non-Javadoc)
+	 * @see communication.CommunicationPoint#handleMessage(communication.api.Message)
+	 */
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(this.id)) {
@@ -92,6 +99,12 @@ public class ControllerCommand extends CommunicationPoint {
 		}
 	}
 	
+	/*
+	 * Register with the manager.
+	 * 
+	 * (non-Javadoc)
+	 * @see communication.CommunicationPoint#registerCommunicationPoint()
+	 */
 	protected void registerCommunicationPoint() {
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);

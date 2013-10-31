@@ -49,7 +49,10 @@ import java.util.Set;
  * 
  */
 
-
+/**
+ * Simple message format with fields for type, to and from, in addition to various type/value data fields.
+ * May be serialized and deserialized with the {@link Serializer} class.
+ */
 public class Message {
 
 	private Type type;

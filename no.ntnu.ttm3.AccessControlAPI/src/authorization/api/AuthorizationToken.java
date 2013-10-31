@@ -1,5 +1,9 @@
 package authorization.api;
 
+/**
+ * Container for data used by an authorization service
+ *
+ */
 public class AuthorizationToken {
 		
 	private String controller;

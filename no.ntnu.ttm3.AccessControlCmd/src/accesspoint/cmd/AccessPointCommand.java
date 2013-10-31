@@ -66,6 +66,12 @@ public class AccessPointCommand extends CommunicationPoint {
 		System.out.println("Controller type: "+this.accessControllerType);
 	}
 
+	/* 
+	 * Logic for handling incoming messages.
+	 * 
+	 * (non-Javadoc)
+	 * @see communication.CommunicationPoint#handleMessage(communication.api.Message)
+	 */
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(this.id)) {
@@ -86,6 +92,12 @@ public class AccessPointCommand extends CommunicationPoint {
 		}
 	}
 	
+	/*
+	 * Register with the manager
+	 * 
+	 * (non-Javadoc)
+	 * @see communication.CommunicationPoint#registerCommunicationPoint()
+	 */
 	protected void registerCommunicationPoint() {
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);

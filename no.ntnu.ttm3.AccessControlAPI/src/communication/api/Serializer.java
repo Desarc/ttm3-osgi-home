@@ -2,6 +2,11 @@ package communication.api;
 
 import communication.api.Message.*;
 
+
+/**
+ * Class with static methods for serializing and deserializing a {@link Message}.
+ * 
+ */
 public class Serializer {
 
 	public static String serialize(Message msg) {

@@ -24,7 +24,6 @@ import communication.api.Serializer;
 	provide = Object.class
 )
 
-
 /*
  * This is just a simple manager with one AccessPoint, one Controller and one AuthorizationComponent for now.
  * TODO: extend with support for more AccessPoints, Controllers and AuthorizationComponents, and associations between these.
@@ -74,6 +73,9 @@ public class AreaManagerCommand extends CommunicationPoint {
 		return this.notificationSvc.getType();
 	}
 	
+	/*
+	 * Assign a simpler ID based on component type and number of components
+	 */
 	private String assignId(String type, String oldId) {
 		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
 		String newId = null;
@@ -155,6 +157,11 @@ public class AreaManagerCommand extends CommunicationPoint {
 		}
 	}
 	
+	/*
+	 * Check if any AccessPoints are waiting to be associated, and associate with this controller if found.
+	 * Assuming any controller of the right type is ok for now...
+	 * If no AccessPoints are waiting, do nothing
+	 */
 	private void associateAccessController(ComponentEntry acComponent) {
 		ComponentEntry apComponent = waitingAccessPoint(acComponent.type); 
 		if (apComponent != null) {
@@ -194,10 +201,11 @@ public class AreaManagerCommand extends CommunicationPoint {
 		}
 	}
 	
-	/*
+	/* 
+	 * Logic for handling of incoming messages.
+	 * 
 	 * (non-Javadoc)
 	 * @see communication.CommunicationPoint#handleMessage(communication.Message)
-	 * Logic for handling of incoming messages.
 	 */
 	@Override
 	protected void handleMessage(Message msg) {
@@ -232,6 +240,10 @@ public class AreaManagerCommand extends CommunicationPoint {
 		//does not need to register
 	}
 	
+	
+	/*
+	 * Some simple data containers...
+	 */
 	class ComponentEntry {
 		String id;
 		String type;

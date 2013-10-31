@@ -6,6 +6,9 @@ import communication.api.Serializer;
 import hydna.ntnu.student.api.HydnaApi;
 import hydna.ntnu.student.listener.api.HydnaListener;
 
+/**
+ * Simple class for communication through the Hydna service API
+ */
 public abstract class CommunicationPoint {
 
 	protected HydnaApi hydnaSvc;
