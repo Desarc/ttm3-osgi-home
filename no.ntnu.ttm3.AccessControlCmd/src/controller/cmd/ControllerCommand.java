@@ -96,6 +96,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 				this.accessPointId = msg.getData(Message.Field.COMPONENT_ID);
 				this.accessPointType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
 				printInfo();
+				//teststuff
 				Message msg1 = accessControllerSvc.requestIdentification();
 				msg1.setFrom(this.id);
 				System.out.println("Requesting authorization...");
