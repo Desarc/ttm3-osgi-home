@@ -37,7 +37,6 @@ public abstract class CommunicationPoint {
 			
 			@Override
 			public void messageRecieved(String msg) {
-				System.out.println(msg);
 				Message m = Serializer.deserialize(msg);
 				handleMessage(m);
 			}

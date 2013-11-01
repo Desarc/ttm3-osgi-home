@@ -22,6 +22,7 @@ import communication.api.Serializer;
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=areaManager",
 		CommandProcessor.COMMAND_FUNCTION + ":String=run",
+		CommandProcessor.COMMAND_FUNCTION + ":String=types",
 	},
 	provide = Object.class
 )
