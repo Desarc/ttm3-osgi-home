@@ -221,7 +221,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(Message.MANAGER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
 			if (msg.getType().equals(Message.Type.REGISTER)) {
-				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE), msg.getData(Message.Field.COMPONENT_ID));
+				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE), msg.getFrom());
 				ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
 						msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.toString())) {
