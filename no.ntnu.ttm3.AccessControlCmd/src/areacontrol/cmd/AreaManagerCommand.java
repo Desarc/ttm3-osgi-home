@@ -30,14 +30,14 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 
 	//private IAuthorization authorizationSvc;
 	private HashMap<IAuthorization.Type, IAuthorization> authorizationSvcs;
-	private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
+	//private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
 	private HashMap<String, ComponentEntry> accessPoints;
 	private HashMap<String, ComponentEntry> accessControllers;
 	private ArrayList<AccessAssociation> accessAssociations;
 
 	public AreaManagerCommand() {
 		authorizationSvcs = new HashMap<IAuthorization.Type, IAuthorization>();
-		notificationSvcs = new HashMap<IAccessNotification.Type, IAccessNotification>();
+		//notificationSvcs = new HashMap<IAccessNotification.Type, IAccessNotification>();
 		accessPoints = new HashMap<String, ComponentEntry>();
 		accessControllers = new HashMap<String, ComponentEntry>();
 		accessAssociations = new ArrayList<AccessAssociation>();
@@ -51,11 +51,15 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		displayAvailableAuthorizationTypes();
 	}
 	
-	@Reference
+	/*
+	 * note: if this code is enabled, an IAccessNotification service must be available for this component to work.
+	 * this is probably true for any such service references...
+	 */
+	/*@Reference
 	public void setNotificationComponent(IAccessNotification notificationSvc) {
 		//this.notificationSvc = notificationSvc;
 		this.notificationSvcs.put(notificationSvc.getType(), notificationSvc);
-	}
+	}*/
 	
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {

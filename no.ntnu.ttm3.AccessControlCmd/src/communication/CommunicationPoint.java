@@ -48,6 +48,10 @@ public abstract class CommunicationPoint {
 		registerCommunicationPoint();
 	}
 	
+	public abstract void setHydnaSvc(HydnaApi hydnaSvc);
+	
+	public abstract void run(String location);
+	
 	protected abstract void handleMessage(Message msg);
 	
 	protected abstract void registerCommunicationPoint();
