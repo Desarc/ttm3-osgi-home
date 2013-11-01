@@ -16,7 +16,7 @@ import controller.api.IAccessController;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=accessController",
-		CommandProcessor.COMMAND_FUNCTION + ":String=run",
+		CommandProcessor.COMMAND_FUNCTION + ":String=runAC",
 	},
 	provide = Object.class
 )
@@ -43,6 +43,10 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
 		this.hydnaSvc = hydnaSvc;
+	}
+	
+	public void runAC(String location) {
+		run(location);
 	}
 	
 	public void run(String location) {

@@ -16,7 +16,7 @@ import controller.api.IAccessController;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=accessPoint",
-		CommandProcessor.COMMAND_FUNCTION + ":String=run",
+		CommandProcessor.COMMAND_FUNCTION + ":String=runAP",
 	},
 	provide = Object.class
 )
@@ -43,6 +43,10 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
 		this.hydnaSvc = hydnaSvc;
+	}
+	
+	public void runAP(String location) {
+		run(location);
 	}
 	
 	public void run(String location) {
@@ -85,8 +89,10 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 				revokeAccess();
 			}
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
+				System.out.println("Registration confirmation from "+Message.MANAGER+"!");
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
 				this.registered = true;
+				System.out.println("New ID: "+this.id);
 			}
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessControllerId = msg.getData(Message.Field.COMPONENT_ID);

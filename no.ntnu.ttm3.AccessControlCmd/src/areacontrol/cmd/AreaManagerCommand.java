@@ -22,6 +22,7 @@ import communication.api.Serializer;
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=areaManager",
 		CommandProcessor.COMMAND_FUNCTION + ":String=run",
+		CommandProcessor.COMMAND_FUNCTION + ":String=types",
 	},
 	provide = Object.class
 )
@@ -74,6 +75,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	}
 	
 	private void displayAvailableAuthorizationTypes() {
+		System.out.println("Available authorization types:");
 		for (IAuthorization.Type type : authorizationSvcs.keySet()) {
 			System.out.println(type.toString());
 		}
@@ -240,6 +242,9 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 					AuthorizationToken token = AuthorizationToken.generateToken(msg.getFrom(),msg.getData(Message.Field.AUTH_TYPE),
 							msg.getData(Message.Field.ID), msg.getData(Message.Field.PASSCODE));
 					result = service.authorize(token);
+				}
+				else {
+					System.out.println("Requested authorization service not available.");
 				}
 				handleAuthorizationResult(msg.getFrom(), result);
 			}

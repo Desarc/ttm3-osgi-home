@@ -6,12 +6,15 @@
 
 -runbundles: hydna-bundle;version=latest,\
 	hydna-ntnu-student-bundle;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.AccessControllerAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.AccessPointAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AuthorizationAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.CommandAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest,\
-	no.ntnu.ttm3.AccessControlCmd.AreaManagerCommand;version=latest,\
-	no.ntnu.ttm3.AccessControlImpl.DBPasscodeAuthorization;version=latest,\
-	no.ntnu.ttm3.AccessControlImpl.TimedAuthorization;version=latest,\
+	no.ntnu.ttm3.AccessControlCmd.AccessPointCommand;version=latest,\
+	no.ntnu.ttm3.AccessControlCmd.ControllerCommand;version=latest,\
+	no.ntnu.ttm3.AccessControlImpl.LockedDoor;version=latest,\
+	no.ntnu.ttm3.AccessControlImpl.NumKeyPad;version=latest,\
 	org.apache.felix.configadmin;version='[1.6.0,1.6.1)',\
 	org.apache.felix.gogo.command;version='[0.12.0,0.12.1)',\
 	org.apache.felix.gogo.runtime;version='[0.10.0,0.10.1)',\
@@ -22,7 +25,8 @@
 
 -runrequires: osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
-	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlCmd.AreaManagerCommand)',\
-	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.DBPasscodeAuthorization)',\
-	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.TimedAuthorization)'
+	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlCmd.AccessPointCommand)',\
+	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlCmd.ControllerCommand)',\
+	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.LockedDoor)',\
+	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.NumKeyPad)'
 -resolve: auto
