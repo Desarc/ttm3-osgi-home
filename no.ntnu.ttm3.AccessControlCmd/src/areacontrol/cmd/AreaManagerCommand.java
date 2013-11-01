@@ -82,7 +82,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	}
 	
 	public void printInfo() {
-		System.out.println("This is the AreaManager for "+this.location);
+		System.out.println("This is the AreaManager for location "+this.location+".");
 	}
 	
 	/*
@@ -221,16 +221,20 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 */
 	@Override
 	protected void handleMessage(Message msg) {
-		if (msg.getTo().equals(Message.MANAGER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
-			if (msg.getType().equals(Message.Type.REGISTER)) {
+		if (msg.getTo().equals(Message.MANAGER)) {
+			if (msg.getType().equals(Message.Type.REGISTER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
 				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE), msg.getFrom());
-				ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
-						msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
+				System.out.println("New component registered: "+msg.getData(Message.Field.COMPONENT_TYPE)+" of type "+
+						msg.getData(Message.Field.COMPONENT_SUBTYPE)+", assigned ID: "+newId);
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.toString())) {
+					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
+							msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
 					this.accessPoints.put(newId, component);
 					associateAccessPoint(component);
 				}
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER.toString())) {
+					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
+							msg.getData(Message.Field.PREFERRED_AUTH_TYPE), msg.getData(Message.Field.ALT_AUTH_TYPE));
 					this.accessControllers.put(newId, component);
 					associateAccessController(component);
 				}
@@ -244,7 +248,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 					result = service.authorize(token);
 				}
 				else {
-					System.out.println("Requested authorization service not available.");
+					System.out.println("Requested authorization service not available: "+msg.getData(Message.Field.AUTH_TYPE));
 				}
 				handleAuthorizationResult(msg.getFrom(), result);
 			}
