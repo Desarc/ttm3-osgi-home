@@ -1,28 +1,33 @@
-package authorization.impl.dbpasscode;
+package authorization.impl.timedauth;
+
+import java.util.Calendar;
 
 import aQute.bnd.annotation.component.Component;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
 
+
 /**
- * This class is the implementation of the enum type DB_PASSCODE in {@link IAuthorization}.
+ * This class is the implementation of the enum type TIMED in {@link IAuthorization}.
  *
  */
 @Component
-public class DBPasscodeAuthorization implements IAuthorization {
-
-	private String passcode = "1234";
+public class TimedAuthorization implements IAuthorization {
 	
+	private int minHour = 8;
+	private int maxHour = 16;
+
 	@Override
 	public Type getType() {
-		return IAuthorization.Type.DB_PASSCODE;
+		return IAuthorization.Type.TIMED;
 	}
 
 	@Override
 	public boolean authorize(AuthorizationToken token) {
 		if (token.getType().equals(getType().toString())) {
-			if (token.getPasscode().equals(this.passcode)) {
-				return true;			
+			Calendar cal = Calendar.getInstance();
+			if (cal.get(Calendar.HOUR_OF_DAY) > minHour && cal.get(Calendar.HOUR_OF_DAY) < maxHour) {
+				return true;
 			}
 			System.out.println("Access denied.");
 		}
@@ -31,4 +36,5 @@ public class DBPasscodeAuthorization implements IAuthorization {
 		}
 		return false;
 	}
+
 }
