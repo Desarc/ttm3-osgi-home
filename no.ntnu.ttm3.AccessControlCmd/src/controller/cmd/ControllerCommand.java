@@ -52,12 +52,6 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	public void run(String location) {
 		this.location = location;
 		setUp();
-		// continuously request identification from service (service may block while waiting)
-		while (!registered) {}
-		Message msg = accessControllerSvc.requestIdentification();
-		msg.setFrom(this.id);
-		System.out.println("Requesting authorization...");
-		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 	
 	public void handleAuthorizationResponse(String result) {
@@ -93,13 +87,19 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 				handleAuthorizationResponse(msg.getData(Message.Field.ACCESS_RES));
 			}
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
+				System.out.println("Registration confirmation from "+Message.MANAGER+"!");
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
 				this.registered = true;
+				System.out.println("New ID: "+this.id);
 			}
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessPointId = msg.getData(Message.Field.COMPONENT_ID);
 				this.accessPointType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
 				printInfo();
+				Message msg1 = accessControllerSvc.requestIdentification();
+				msg1.setFrom(this.id);
+				System.out.println("Requesting authorization...");
+				hydnaSvc.sendMessage(Serializer.serialize(msg1));
 			}
 		}
 	}
