@@ -42,7 +42,7 @@ public class Serializer {
 	private static String find(String key, int start, String msg) {
 		int index1 = -1;
 		String value = null;
-		if ((index1 = msg.indexOf(key)) >= 0) {
+		if ((index1 = msg.indexOf(key, start)) >= 0) {
 			int index2 = msg.indexOf(";", index1+1);
 			value = msg.substring(index1+key.length()+1, index2);
 		}
