@@ -101,6 +101,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 */
 	private String assignId(String type, String oldId) {
 		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
+		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
 		String newId = null;
 		if (type.equals(Message.ComponentType.ACCESSPOINT.toString())) {
 			newId = Message.ComponentType.ACCESSPOINT.toString()+this.accessPoints.size();
