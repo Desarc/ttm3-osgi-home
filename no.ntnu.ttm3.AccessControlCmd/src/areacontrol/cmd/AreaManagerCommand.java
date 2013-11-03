@@ -261,6 +261,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 			}
 			else if (msg.getType().equals(Message.Type.KEEP_ALIVE)) {
 				System.out.println("KEEP_ALIVE from "+msg.getFrom());
+				System.out.println(msg.getType());
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
 					this.accessPoints.get(msg.getFrom()).timestamp = System.currentTimeMillis();
 				}

@@ -59,6 +59,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 			}
 			Message msg = new Message(Message.Type.KEEP_ALIVE, Message.MANAGER, this.id);
 			msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.CONTROLLER.name());
+			System.out.println("Sending KEEP_ALIVE...");
 			hydnaSvc.sendMessage(Serializer.serialize(msg));
 		}
 	}
