@@ -35,6 +35,8 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	private HashMap<String, ComponentEntry> accessPoints;
 	private HashMap<String, ComponentEntry> accessControllers;
 	private ArrayList<AccessAssociation> accessAssociations;
+	
+	private long timeout = 10000;
 
 	public AreaManagerCommand() {
 		authorizationSvcs = new HashMap<IAuthorization.Type, IAuthorization>();
@@ -72,6 +74,15 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		this.type = Message.MANAGER;
 		this.location = location;
 		setUp();
+		while (true) {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				System.out.println("Sleep interrupted...");
+				e.printStackTrace();
+			}
+			checkAlive();
+		}
 	}
 	
 	private void displayAvailableAuthorizationTypes() {
@@ -159,14 +170,16 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 * Assuming any controller of the right type is ok for now...
 	 * If no controller is available, do nothing
 	 */
-	private void associateAccessPoint(ComponentEntry apComponent) {
+	private boolean associateAccessPoint(ComponentEntry apComponent) {
 		ComponentEntry acComponent = availableController(apComponent.preferred); 
 		if (acComponent == null) {
 			acComponent = availableController(apComponent.alt);
 		}
 		if (acComponent != null) {
 			associate(apComponent, acComponent);
+			return true;
 		}
+		return false;
 	}
 	
 	/*
@@ -174,11 +187,13 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 * Assuming any controller of the right type is ok for now...
 	 * If no AccessPoints are waiting, do nothing
 	 */
-	private void associateAccessController(ComponentEntry acComponent) {
+	private boolean associateAccessController(ComponentEntry acComponent) {
 		ComponentEntry apComponent = waitingAccessPoint(acComponent.type); 
 		if (apComponent != null) {
 			associate(apComponent, acComponent);
+			return true;
 		}
+		return false;
 	}
 
 	/*
@@ -186,15 +201,6 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 */
 	private IAuthorization availableAuthorization(String type) {
 		return authorizationSvcs.get(IAuthorization.Type.valueOf(type));
-	}
-	
-	private String findAssociatedAP(String controllerId) {
-		for (AccessAssociation aa : this.accessAssociations) {
-			if (aa.accessControllerId.equals(controllerId)) {
-				return aa.accessPointId;
-			}
-		}
-		return null;
 	}
 	
 	/*
@@ -205,9 +211,9 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		msg.addData(Message.Field.ACCESS_RES, ""+result);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 		if (result == true) {
-			String accessPointId = findAssociatedAP(controllerId);
-			if (accessPointId != null) {
-				Message msg2 = new Message(Message.Type.OPEN, accessPointId, Message.MANAGER);
+			AccessAssociation aa = findAssociation(controllerId);
+			if (aa != null) {
+				Message msg2 = new Message(Message.Type.OPEN, aa.accessPointId, Message.MANAGER);
 				hydnaSvc.sendMessage(Serializer.serialize(msg2));
 			}
 		}
@@ -252,12 +258,80 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 				}
 				handleAuthorizationResult(msg.getFrom(), result);
 			}
+			else if (msg.getType().equals(Message.Type.KEEP_ALIVE)) {
+				System.out.println("KEEP_ALIVE from "+msg.getFrom());
+				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT)) {
+					this.accessPoints.get(msg.getFrom()).timestamp = System.currentTimeMillis();
+				}
+				else if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER)) {
+					this.accessControllers.get(msg.getFrom()).timestamp = System.currentTimeMillis();
+				}
+			}
 		}
 	}
 	
 	protected void registerCommunicationPoint() {
 		//does not need to register
 		printInfo();
+	}
+	
+	private AccessAssociation findAssociation(String id) {
+		for (AccessAssociation aa : this.accessAssociations) {
+			if (aa.accessControllerId.equals(id) || aa.accessPointId.equals(id)) {
+				return aa;
+			}
+		}
+		//the component is not associated
+		return null;
+	}
+	
+	private void disassociateAP(ComponentEntry ap) {
+		System.out.println("No KEEP_ALIVE received from "+ap.id+", assuming dead...");
+		this.accessPoints.remove(ap.id);
+		AccessAssociation aa = findAssociation(ap.id);
+		if (aa != null) {
+			if (!associateAccessPoint(ap)) {
+				Message msg = new Message(Message.Type.DISASSOCIATE, ap.id, Message.MANAGER);
+				hydnaSvc.sendMessage(Serializer.serialize(msg));
+			}
+			this.accessAssociations.remove(aa);
+		}
+	}
+	
+	private void disassociateAC(ComponentEntry ac) {
+		System.out.println("No KEEP_ALIVE received from "+ac.id+", assuming dead...");
+		this.accessControllers.remove(ac.id);
+		AccessAssociation aa = findAssociation(ac.id);
+		if (aa != null) {
+			if (!associateAccessController(ac)) {
+				Message msg = new Message(Message.Type.DISASSOCIATE, ac.id, Message.MANAGER);
+				hydnaSvc.sendMessage(Serializer.serialize(msg));
+			}
+			this.accessAssociations.remove(aa);
+		}
+	}
+	
+	private void checkAlive() {
+		System.out.println("Checking timestamps...");
+		ArrayList<ComponentEntry> removeList = new ArrayList<ComponentEntry>();
+		long now = System.currentTimeMillis();
+		for (ComponentEntry ap : this.accessPoints.values()) {
+			if (ap.timestamp+timeout < now) {
+				removeList.add(ap);
+			}
+		}
+		for (ComponentEntry ap : removeList) {
+			disassociateAP(ap);
+		}
+		removeList = new ArrayList<ComponentEntry>();
+		for (ComponentEntry ac : this.accessControllers.values()) {
+			if (ac.timestamp+timeout < now) {
+				removeList.add(ac);
+			}
+		}
+		for (ComponentEntry ac : removeList) {
+			disassociateAC(ac);
+		}
 	}
 	
 	
@@ -269,6 +343,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		String type;
 		String preferred;
 		String alt;
+		long timestamp;
 		boolean associated;
 		
 		public ComponentEntry(String id, String type, String preferred, String alt) {
@@ -276,7 +351,8 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 			this.type = type;
 			this.preferred = preferred;
 			this.alt = alt;
-			associated = false;
+			this.timestamp = System.currentTimeMillis();
+			this.associated = false;
 		}
 	}
 	

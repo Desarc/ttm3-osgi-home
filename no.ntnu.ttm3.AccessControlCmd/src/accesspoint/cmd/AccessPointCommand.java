@@ -16,7 +16,7 @@ import controller.api.IAccessController;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=accessPoint",
-		CommandProcessor.COMMAND_FUNCTION + ":String=runAP",
+		CommandProcessor.COMMAND_FUNCTION + ":String=run",
 	},
 	provide = Object.class
 )
@@ -28,6 +28,8 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 	private String accessControllerType;
 	private IAccessController.Type preferredControllerType = null;
 	private IAccessController.Type altControllerType = null;
+	
+	private long keepalive_delay = 1000;
 	
 	public AccessPointCommand() {
 		
@@ -45,13 +47,19 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	public void runAP(String location) {
-		run(location);
-	}
-	
 	public void run(String location) {
 		this.location = location;
 		setUp();
+		while (true) {
+			try {
+				Thread.sleep(keepalive_delay);
+			} catch (InterruptedException e) {
+				System.out.println("Sleep interrupted...");
+				e.printStackTrace();
+			}
+			Message msg = new Message(Message.Type.KEEP_ALIVE, Message.MANAGER, this.id);
+			hydnaSvc.sendMessage(Serializer.serialize(msg));
+		}
 	}
 	
 	public void grantAccess() {
@@ -91,6 +99,7 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
 				System.out.println("Registration confirmation from "+Message.MANAGER+"!");
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
+				this.keepalive_delay = Long.valueOf(msg.getData(Message.Field.TIMEOUT))*3/4;
 				this.registered = true;
 				System.out.println("New ID: "+this.id);
 			}
