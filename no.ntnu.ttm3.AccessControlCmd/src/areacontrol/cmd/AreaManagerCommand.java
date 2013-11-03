@@ -185,7 +185,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 * Check if the requested authorization service is available
 	 */
 	private IAuthorization availableAuthorization(String type) {
-		return authorizationSvcs.get(type);
+		return authorizationSvcs.get(IAuthorization.Type.valueOf(type));
 	}
 	
 	private String findAssociatedAP(String controllerId) {
