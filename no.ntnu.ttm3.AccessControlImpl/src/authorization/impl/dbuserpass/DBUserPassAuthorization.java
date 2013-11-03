@@ -29,7 +29,7 @@ public class DBUserPassAuthorization implements IAuthorization {
 
 	@Override
 	public boolean authorize(AuthorizationToken token) {
-		if (token.getType().equals(getType().toString())) {
+		if (token.getType().equals(getType())) {
 			if (userExists(token.getId()) && users.get(token.getId()).equals(token.getPasscode())) {
 				return true;			
 			}

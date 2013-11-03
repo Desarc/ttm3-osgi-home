@@ -29,7 +29,7 @@ public class DBIdAuthorization implements IAuthorization {
 
 	@Override
 	public boolean authorize(AuthorizationToken token) {
-		if (token.getType().equals(getType().toString())) {
+		if (token.getType().equals(getType())) {
 			if (userExists(token.getId()) && userAccess.get(token.getId())) {
 				return true;			
 			}

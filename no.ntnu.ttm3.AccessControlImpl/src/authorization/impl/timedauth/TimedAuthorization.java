@@ -24,7 +24,7 @@ public class TimedAuthorization implements IAuthorization {
 
 	@Override
 	public boolean authorize(AuthorizationToken token) {
-		if (token.getType().equals(getType().toString())) {
+		if (token.getType().equals(getType())) {
 			Calendar cal = Calendar.getInstance();
 			if (cal.get(Calendar.HOUR_OF_DAY) > minHour && cal.get(Calendar.HOUR_OF_DAY) < maxHour) {
 				return true;

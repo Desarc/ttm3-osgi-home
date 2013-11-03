@@ -20,7 +20,7 @@ public class DBPasscodeAuthorization implements IAuthorization {
 
 	@Override
 	public boolean authorize(AuthorizationToken token) {
-		if (token.getType().equals(getType().toString())) {
+		if (token.getType().equals(getType())) {
 			if (token.getPasscode().equals(this.passcode)) {
 				return true;			
 			}
