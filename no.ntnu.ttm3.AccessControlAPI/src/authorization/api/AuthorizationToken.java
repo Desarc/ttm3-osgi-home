@@ -51,22 +51,22 @@ public class AuthorizationToken {
 	}
 	
 	public static AuthorizationToken generateToken(String controller, String type, String id, String passcode) {
-		if (type.equals(IAuthorization.Type.NONE_FALSE.toString())) {
+		if (type.equals(IAuthorization.Type.NONE_FALSE.name())) {
 			return new AuthorizationToken(controller, IAuthorization.Type.NONE_FALSE);
 		}
-		else if (type.equals(IAuthorization.Type.NONE_TRUE.toString())) {
+		else if (type.equals(IAuthorization.Type.NONE_TRUE.name())) {
 			return new AuthorizationToken(controller, IAuthorization.Type.NONE_TRUE);
 		}
-		else if (type.equals(IAuthorization.Type.TIMED.toString())) {
+		else if (type.equals(IAuthorization.Type.TIMED.name())) {
 			return new AuthorizationToken(controller, IAuthorization.Type.TIMED);
 		}
-		else if (type.equals(IAuthorization.Type.DB_PASSCODE.toString())) {
+		else if (type.equals(IAuthorization.Type.DB_PASSCODE.name())) {
 			return new AuthorizationToken(controller, IAuthorization.Type.DB_PASSCODE, passcode);
 		}
-		else if (type.equals(IAuthorization.Type.DB_ID.toString())) {
+		else if (type.equals(IAuthorization.Type.DB_ID.name())) {
 			return new AuthorizationToken(controller, IAuthorization.Type.DB_ID, id);
 		}
-		else if (type.equals(IAuthorization.Type.DB_USERNAME_PASSWORD.toString())) {
+		else if (type.equals(IAuthorization.Type.DB_USERNAME_PASSWORD.name())) {
 			return new AuthorizationToken(controller, IAuthorization.Type.DB_USERNAME_PASSWORD, id, passcode);
 		}
 		return null;

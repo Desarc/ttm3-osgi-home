@@ -88,7 +88,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	private void displayAvailableAuthorizationTypes() {
 		System.out.println("Available authorization types:");
 		for (IAuthorization.Type type : authorizationSvcs.keySet()) {
-			System.out.println(type.toString());
+			System.out.println(type.name());
 		}
 	}
 	
@@ -103,11 +103,11 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
 		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
 		String newId = null;
-		if (type.equals(Message.ComponentType.ACCESSPOINT.toString())) {
-			newId = Message.ComponentType.ACCESSPOINT.toString()+this.accessPoints.size();
+		if (type.equals(Message.ComponentType.ACCESSPOINT.name())) {
+			newId = Message.ComponentType.ACCESSPOINT.name()+this.accessPoints.size();
 		}
-		else if (type.equals(Message.ComponentType.CONTROLLER.toString())) {
-			newId = Message.ComponentType.CONTROLLER.toString()+this.accessControllers.size();
+		else if (type.equals(Message.ComponentType.CONTROLLER.name())) {
+			newId = Message.ComponentType.CONTROLLER.name()+this.accessControllers.size();
 		}
 		if (newId != null) {
 			msg.addData(Message.Field.COMPONENT_ID, newId);
@@ -233,13 +233,13 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE), msg.getFrom());
 				System.out.println("New component registered: "+msg.getData(Message.Field.COMPONENT_TYPE)+" of type "+
 						msg.getData(Message.Field.COMPONENT_SUBTYPE)+", assigned ID: "+newId);
-				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.toString())) {
+				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
 					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
 							msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
 					this.accessPoints.put(newId, component);
 					associateAccessPoint(component);
 				}
-				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER.toString())) {
+				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER.name())) {
 					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
 							msg.getData(Message.Field.PREFERRED_AUTH_TYPE), msg.getData(Message.Field.ALT_AUTH_TYPE));
 					this.accessControllers.put(newId, component);

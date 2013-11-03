@@ -38,7 +38,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	@Reference
 	public void setAccessController(IAccessController accessControllerSvc) {
 		this.accessControllerSvc = accessControllerSvc;
-		this.type = accessControllerSvc.getType().toString();
+		this.type = accessControllerSvc.getType().name();
 		this.preferredAuthorizationType = accessControllerSvc.getPreferredAuthorizationType();
 		this.altAuthorizationType = accessControllerSvc.getAltAuthorizationType();
 	}
@@ -58,6 +58,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 				e.printStackTrace();
 			}
 			Message msg = new Message(Message.Type.KEEP_ALIVE, Message.MANAGER, this.id);
+			msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.CONTROLLER.name());
 			hydnaSvc.sendMessage(Serializer.serialize(msg));
 		}
 	}
@@ -124,13 +125,13 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 		this.id = this.type+System.currentTimeMillis(); //temporary unique ID
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);
-		msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.CONTROLLER.toString());
+		msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.CONTROLLER.name());
 		msg.addData(Message.Field.COMPONENT_SUBTYPE, this.type);
 		if (this.preferredAuthorizationType != null) {
-			msg.addData(Message.Field.PREFERRED_AUTH_TYPE, this.preferredAuthorizationType.toString());
+			msg.addData(Message.Field.PREFERRED_AUTH_TYPE, this.preferredAuthorizationType.name());
 		}
 		if (this.altAuthorizationType != null) {
-			msg.addData(Message.Field.ALT_AUTH_TYPE, this.altAuthorizationType.toString());			
+			msg.addData(Message.Field.ALT_AUTH_TYPE, this.altAuthorizationType.name());			
 		}
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
