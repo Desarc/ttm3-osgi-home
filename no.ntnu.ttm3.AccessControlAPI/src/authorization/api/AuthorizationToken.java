@@ -71,4 +71,12 @@ public class AuthorizationToken {
 		}
 		return null;
 	}
+	
+	public void show() {
+		System.out.println("AuthorizationToken:");
+		System.out.println(this.type);
+		System.out.println(this.controller);
+		System.out.println(this.id);
+		System.out.println(this.passcode);
+	}
 }

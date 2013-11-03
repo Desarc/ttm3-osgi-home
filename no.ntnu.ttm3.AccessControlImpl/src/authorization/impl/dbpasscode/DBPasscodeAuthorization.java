@@ -21,7 +21,7 @@ public class DBPasscodeAuthorization implements IAuthorization {
 	@Override
 	public boolean authorize(AuthorizationToken token) {
 		if (token.getType().equals(getType())) {
-			if (token.getPasscode().equals(this.passcode)) {
+			if (token.getValue().equals(this.passcode)) {
 				return true;			
 			}
 			System.out.println("Access denied.");
