@@ -1,5 +1,6 @@
 package areacontrol.cmd;
 
+import java.awt.color.CMMException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -215,6 +216,38 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		}
 	}
 	
+	private void handleNewAccessPoint(String oldId, String type, String subtype, String preferred, String alt) {
+		String newId = assignId(type);
+		Message msg2 = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
+		msg2.addData(Message.Field.TIMEOUT, ""+this.timeout);
+		msg2.addData(Message.Field.COMPONENT_ID, newId);
+		System.out.println("New component registered: "+type+" of type "+subtype+", assigned ID: "+newId);
+		ComponentEntry component = new ComponentEntry(newId, subtype, preferred, alt);
+		this.accessPoints.put(newId, component);
+		hydnaSvc.sendMessage(Serializer.serialize(msg2));
+		associateAccessPoint(component);
+	}
+	
+	private void handleNewController(String oldId, String type, String subtype, String preferred, String alt) {
+		String newId = assignId(type);
+		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
+		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
+		msg.addData(Message.Field.COMPONENT_ID, newId);
+		System.out.println("New component registered: "+type+" of type "+subtype+", assigned ID: "+newId);
+		ComponentEntry component = new ComponentEntry(newId, subtype, preferred, alt);
+		if (availableAuthorization(preferred) != null) {
+			msg.addData(Message.Field.AUTH_TYPE, preferred);
+			component.activeType = preferred;
+		}
+		else if (availableAuthorization(alt) != null) {
+			msg.addData(Message.Field.AUTH_TYPE, alt);
+			component.activeType = alt;
+		}
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
+		this.accessControllers.put(newId, component);
+		associateAccessController(component);
+	}
+	
 	/* 
 	 * Logic for handling of incoming messages.
 	 * 
@@ -225,34 +258,13 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(Message.MANAGER)) {
 			if (msg.getType().equals(Message.Type.REGISTER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
-				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE));
-				Message msg2 = new Message(Message.Type.NEW_ID, msg.getFrom(), Message.MANAGER);
-				msg2.addData(Message.Field.TIMEOUT, ""+this.timeout);
-				msg2.addData(Message.Field.COMPONENT_ID, newId);
-				System.out.println("New component registered: "+msg.getData(Message.Field.COMPONENT_TYPE)+" of type "+
-						msg.getData(Message.Field.COMPONENT_SUBTYPE)+", assigned ID: "+newId);
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
-					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
+					handleNewAccessPoint(msg.getFrom(), msg.getData(Message.Field.COMPONENT_TYPE), msg.getData(Message.Field.COMPONENT_SUBTYPE),
 							msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
-					this.accessPoints.put(newId, component);
-					hydnaSvc.sendMessage(Serializer.serialize(msg2));
-					associateAccessPoint(component);
 				}
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER.name())) {
-					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
+					handleNewController(msg.getFrom(), msg.getData(Message.Field.COMPONENT_TYPE), msg.getData(Message.Field.COMPONENT_SUBTYPE),
 							msg.getData(Message.Field.PREFERRED_AUTH_TYPE), msg.getData(Message.Field.ALT_AUTH_TYPE));
-					if (availableAuthorization(msg.getData(Message.Field.PREFERRED_AUTH_TYPE)) != null) {
-						msg2.addData(Message.Field.AUTH_TYPE, msg.getData(Message.Field.PREFERRED_AUTH_TYPE));
-					}
-					else if (availableAuthorization(msg.getData(Message.Field.ALT_AUTH_TYPE)) != null) {
-						msg2.addData(Message.Field.AUTH_TYPE, msg.getData(Message.Field.ALT_AUTH_TYPE));
-					}
-					else {
-						msg2.addData(Message.Field.AUTH_TYPE, "null");
-					}
-					hydnaSvc.sendMessage(Serializer.serialize(msg2));
-					this.accessControllers.put(newId, component);
-					associateAccessController(component);
 				}
 				
 			}
@@ -302,7 +314,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		AccessAssociation aa = findAssociation(ap.id);
 		if (aa != null) {
 			if (!associateAccessPoint(ap)) {
-				System.out.println("Dissassociating "+ap.id);
+				System.out.println("Disassociating "+ap.id);
 				Message msg = new Message(Message.Type.DISASSOCIATE, ap.id, Message.MANAGER);
 				hydnaSvc.sendMessage(Serializer.serialize(msg));
 			}
