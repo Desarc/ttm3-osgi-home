@@ -99,19 +99,13 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	/*
 	 * Assign a simpler ID based on component type and number of components
 	 */
-	private String assignId(String type, String oldId) {
-		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
-		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
+	private String assignId(String type) {
 		String newId = null;
 		if (type.equals(Message.ComponentType.ACCESSPOINT.name())) {
 			newId = Message.ComponentType.ACCESSPOINT.name()+this.accessPoints.size();
 		}
 		else if (type.equals(Message.ComponentType.CONTROLLER.name())) {
 			newId = Message.ComponentType.CONTROLLER.name()+this.accessControllers.size();
-		}
-		if (newId != null) {
-			msg.addData(Message.Field.COMPONENT_ID, newId);
-			hydnaSvc.sendMessage(Serializer.serialize(msg));
 		}
 		return newId;
 	}
@@ -230,21 +224,36 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(Message.MANAGER)) {
 			if (msg.getType().equals(Message.Type.REGISTER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
-				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE), msg.getFrom());
+				String newId = assignId(msg.getData(Message.Field.COMPONENT_TYPE));
+				Message msg2 = new Message(Message.Type.NEW_ID, msg.getFrom(), Message.MANAGER);
+				msg2.addData(Message.Field.TIMEOUT, ""+this.timeout);
+				msg2.addData(Message.Field.COMPONENT_ID, newId);
 				System.out.println("New component registered: "+msg.getData(Message.Field.COMPONENT_TYPE)+" of type "+
 						msg.getData(Message.Field.COMPONENT_SUBTYPE)+", assigned ID: "+newId);
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
 					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
 							msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
 					this.accessPoints.put(newId, component);
+					hydnaSvc.sendMessage(Serializer.serialize(msg2));
 					associateAccessPoint(component);
 				}
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER.name())) {
 					ComponentEntry component = new ComponentEntry(newId, msg.getData(Message.Field.COMPONENT_SUBTYPE), 
 							msg.getData(Message.Field.PREFERRED_AUTH_TYPE), msg.getData(Message.Field.ALT_AUTH_TYPE));
+					if (availableAuthorization(msg.getData(Message.Field.PREFERRED_AUTH_TYPE)) != null) {
+						msg2.addData(Message.Field.AUTH_TYPE, msg.getData(Message.Field.PREFERRED_AUTH_TYPE));
+					}
+					else if (availableAuthorization(msg.getData(Message.Field.ALT_AUTH_TYPE)) != null) {
+						msg2.addData(Message.Field.AUTH_TYPE, msg.getData(Message.Field.ALT_AUTH_TYPE));
+					}
+					else {
+						msg2.addData(Message.Field.AUTH_TYPE, "null");
+					}
+					hydnaSvc.sendMessage(Serializer.serialize(msg2));
 					this.accessControllers.put(newId, component);
 					associateAccessController(component);
 				}
+				
 			}
 			else if (msg.getType().equals(Message.Type.ACCESS_REQ)) {
 				IAuthorization service = availableAuthorization(msg.getData(Message.Field.AUTH_TYPE));
@@ -293,6 +302,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		AccessAssociation aa = findAssociation(ap.id);
 		if (aa != null) {
 			if (!associateAccessPoint(ap)) {
+				System.out.println("Dissassociating "+ap.id);
 				Message msg = new Message(Message.Type.DISASSOCIATE, ap.id, Message.MANAGER);
 				hydnaSvc.sendMessage(Serializer.serialize(msg));
 			}
@@ -306,6 +316,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		AccessAssociation aa = findAssociation(ac.id);
 		if (aa != null) {
 			if (!associateAccessController(ac)) {
+				System.out.println("Dissassociating "+ac.id);
 				Message msg = new Message(Message.Type.DISASSOCIATE, ac.id, Message.MANAGER);
 				hydnaSvc.sendMessage(Serializer.serialize(msg));
 			}

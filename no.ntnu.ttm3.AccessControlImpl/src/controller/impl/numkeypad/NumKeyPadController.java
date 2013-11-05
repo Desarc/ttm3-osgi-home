@@ -39,7 +39,6 @@ public class NumKeyPadController implements IAccessController {
 	
 	private Message createAuthorizationRequest(String passcode) {
 		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null);
-		msg.addData(Message.Field.AUTH_TYPE, getPreferredAuthorizationType().name());
 		msg.addData(Message.Field.PASSCODE, passcode);
 		return msg;
 	}

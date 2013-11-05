@@ -26,8 +26,9 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	private IAccessController accessControllerSvc;
 	private String accessPointId;
 	private String accessPointType;
-	private IAuthorization.Type preferredAuthorizationType = null;
-	private IAuthorization.Type altAuthorizationType = null;
+	private String activeAuthorizationType;
+	//private IAuthorization.Type preferredAuthorizationType = null;
+	//private IAuthorization.Type altAuthorizationType = null;
 	
 	private long keepalive_delay = 1000; //default value
 	
@@ -39,8 +40,8 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	public void setAccessController(IAccessController accessControllerSvc) {
 		this.accessControllerSvc = accessControllerSvc;
 		this.type = accessControllerSvc.getType().name();
-		this.preferredAuthorizationType = accessControllerSvc.getPreferredAuthorizationType();
-		this.altAuthorizationType = accessControllerSvc.getAltAuthorizationType();
+		//this.preferredAuthorizationType = accessControllerSvc.getPreferredAuthorizationType();
+		//this.altAuthorizationType = accessControllerSvc.getAltAuthorizationType();
 	}
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
@@ -99,6 +100,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
 				System.out.println("Registration confirmation from "+Message.MANAGER+"!");
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
+				this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
 				this.keepalive_delay = Long.valueOf(msg.getData(Message.Field.TIMEOUT))*3/4;
 				this.registered = true;
 				System.out.println("New ID: "+this.id);
@@ -110,6 +112,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 				//teststuff
 				Message msg1 = accessControllerSvc.requestIdentification();
 				msg1.setFrom(this.id);
+				msg.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
 				System.out.println("Requesting authorization...");
 				hydnaSvc.sendMessage(Serializer.serialize(msg1));
 			}
@@ -128,12 +131,8 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 		msg.addData(Message.Field.LOCATION, this.location);
 		msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.CONTROLLER.name());
 		msg.addData(Message.Field.COMPONENT_SUBTYPE, this.type);
-		if (this.preferredAuthorizationType != null) {
-			msg.addData(Message.Field.PREFERRED_AUTH_TYPE, this.preferredAuthorizationType.name());
-		}
-		if (this.altAuthorizationType != null) {
-			msg.addData(Message.Field.ALT_AUTH_TYPE, this.altAuthorizationType.name());			
-		}
+		msg.addData(Message.Field.PREFERRED_AUTH_TYPE, this.accessControllerSvc.getPreferredAuthorizationType().name());
+		msg.addData(Message.Field.ALT_AUTH_TYPE, this.accessControllerSvc.getAltAuthorizationType().name());
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 	}
 }
