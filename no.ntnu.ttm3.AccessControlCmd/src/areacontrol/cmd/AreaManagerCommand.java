@@ -29,7 +29,6 @@ import componenttypes.api.ComponentTypes;
 
 public class AreaManagerCommand extends CommunicationPoint implements CommandModule {
 
-	//private IAuthorization authorizationSvc;
 	private HashMap<ComponentTypes.Authorization, IAuthorization> authorizationSvcs;
 	//private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
 	private HashMap<String, ComponentEntry> accessPoints;
@@ -47,11 +46,10 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	}
 	
 	// TODO: handle multiple service references
-	@Reference
+	@Reference (multiple = true)
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
-		//this.authorizationSvc = authorizationSvc;
 		this.authorizationSvcs.put(authorizationSvc.getType(), authorizationSvc);
-		displayAvailableAuthorizationTypes();
+		notifyAvailableAuthService(authorizationSvc.getType().name());
 	}
 	
 	/*
@@ -94,6 +92,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	
 	public void printInfo() {
 		System.out.println("This is the AreaManager for location "+this.location+".");
+		displayAvailableAuthorizationTypes();
 	}
 	
 	/*
@@ -146,7 +145,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	/*
 	 * If a new authorization service becomes available, notify all controllers that reqire this service.
 	 */
-	private void notifyAvailableAuthorization(String type) {
+	private void notifyAvailableAuthService(String type) {
 		for (ComponentEntry ac : this.accessControllers.values()) {
 			if (ac.activeType == null && (ac.preferredType.equals(type) || ac.altType.equals(type))) {
 				ac.activeType = type;
@@ -160,7 +159,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	/*
 	 * If an authorization service becomes unavailable, assign new services to controllers.
 	 */
-	private void missingAuthService(String type) {
+	private void notifyMissingAuthService(String type) {
 		for (ComponentEntry ac : this.accessControllers.values()) {
 			if (ac.activeType.equals(type)) {
 				IAuthorization available = availableAuthorization(ac.preferredType);
