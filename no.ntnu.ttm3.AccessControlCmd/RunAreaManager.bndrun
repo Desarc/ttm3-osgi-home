@@ -9,6 +9,7 @@
 	no.ntnu.ttm3.AccessControlAPI.AuthorizationAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.CommandAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.ComponentTypes;version=latest,\
 	no.ntnu.ttm3.AccessControlCmd.AreaManagerCommand;version=latest,\
 	no.ntnu.ttm3.AccessControlImpl.DBPasscodeAuthorization;version=latest,\
 	no.ntnu.ttm3.AccessControlImpl.TimedAuthorization;version=latest,\

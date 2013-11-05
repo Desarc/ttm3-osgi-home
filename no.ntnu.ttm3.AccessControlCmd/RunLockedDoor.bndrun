@@ -6,11 +6,10 @@
 
 -runbundles: hydna-bundle;version=latest,\
 	hydna-ntnu-student-bundle;version=latest,\
-	no.ntnu.ttm3.AccessControlAPI.AccessControllerAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AccessPointAPI;version=latest,\
-	no.ntnu.ttm3.AccessControlAPI.AuthorizationAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.CommandAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.ComponentTypes;version=latest,\
 	no.ntnu.ttm3.AccessControlCmd.AccessPointCommand;version=latest,\
 	no.ntnu.ttm3.AccessControlImpl.LockedDoor;version=latest,\
 	org.apache.felix.configadmin;version='[1.6.0,1.6.1)',\
