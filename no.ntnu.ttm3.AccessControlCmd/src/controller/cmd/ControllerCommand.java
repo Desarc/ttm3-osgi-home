@@ -27,6 +27,8 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	private String accessPointId;
 	private String accessPointType;
 	private String activeAuthorizationType;
+	private boolean authorizable = false;
+	private boolean associated = false;
 	
 	private long keepalive_delay = 1000; //default value
 	
@@ -81,6 +83,10 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 		return accessControllerSvc.getType();
 	}
 
+	private boolean isActive() {
+		return this.registered && this.associated && this.authorizable;
+	}
+	
 	/* 
 	 * Logic for handling incoming messages
 	 * 
@@ -96,7 +102,10 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
 				System.out.println("Registration confirmation from "+Message.MANAGER+"!");
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
-				this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
+				if (!msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.AuthorizationType.NOT_AVAILABLE)) {
+					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
+					this.authorizable = true;
+				}
 				this.keepalive_delay = Long.valueOf(msg.getData(Message.Field.TIMEOUT))*3/4;
 				this.registered = true;
 				System.out.println("New ID: "+this.id);
@@ -104,13 +113,31 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessPointId = msg.getData(Message.Field.COMPONENT_ID);
 				this.accessPointType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
+				associated = true;
 				printInfo();
 				//teststuff
-				Message msg1 = accessControllerSvc.requestIdentification();
-				msg1.setFrom(this.id);
-				msg.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
-				System.out.println("Requesting authorization...");
-				hydnaSvc.sendMessage(Serializer.serialize(msg1));
+				if (isActive()) {
+					Message msg1 = accessControllerSvc.requestIdentification();
+					msg1.setFrom(this.id);
+					msg.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
+					System.out.println("Requesting authorization...");
+					hydnaSvc.sendMessage(Serializer.serialize(msg1));
+				}
+			}
+			else if (msg.getType().equals(Message.Type.DISASSOCIATE)) {
+				this.accessPointId = null;
+				this.accessPointType = null;
+				associated = false	;
+				System.out.println("Disassociated, waiting for new association...");
+			}
+			else if (msg.getType().equals(Message.Type.CHANGE_AUTH)) {
+				if (msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.AuthorizationType.NOT_AVAILABLE)) {
+					this.activeAuthorizationType = null;
+					this.authorizable = false;
+				}
+				else {
+					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE); 
+				}
 			}
 		}
 	}

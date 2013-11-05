@@ -26,6 +26,7 @@ public interface ComponentTypes {
 		NONE_TRUE,
 		NONE_FALSE,
 		ANY,
+		NOT_AVAILABLE,
 	}
 
 	/*

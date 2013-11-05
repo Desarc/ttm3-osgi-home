@@ -1,6 +1,5 @@
 package areacontrol.cmd;
 
-import java.awt.color.CMMException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +8,6 @@ import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
-import notification.api.IAccessNotification;
 
 import org.apache.felix.service.command.*;
 

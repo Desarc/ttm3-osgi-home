@@ -39,7 +39,7 @@ import java.util.Set;
  * Type: NEW_ID
  * To: sender of REGISTER
  * From: MANAGER
- * Fields: COMPONENT_ID, TIMEOUT
+ * Fields: COMPONENT_ID, TIMEOUT, AUTH_TYPE
  * 
  * 
  * Type: ASSOCIATE
@@ -59,6 +59,12 @@ import java.util.Set;
  * From: AccessPoint or AccessController
  * Fields: COMPONENT_TYPE
  * 
+ * 
+ * Type: CHANGE_AUTH
+ * To: AccessController
+ * From: MANAGER
+ * Fields: AUTH_TYPE
+ * 
  */
 
 /**
@@ -75,7 +81,7 @@ public class Message {
 	public final static String MANAGER = "MANAGER";
 	
 	// message types
-	public enum Type { ACCESS_RSP, ACCESS_REQ, OPEN, CLOSE, REGISTER, ASSOCIATE, NEW_ID, DISASSOCIATE, KEEP_ALIVE, };
+	public enum Type { ACCESS_RSP, ACCESS_REQ, OPEN, CLOSE, REGISTER, ASSOCIATE, NEW_ID, DISASSOCIATE, KEEP_ALIVE, CHANGE_AUTH };
 	
 	// message data fields
 	public enum Field { ACCESS_RES, TOKEN, ID, PASSCODE, VALUE, LOCATION, ERROR, AUTH_TYPE, COMPONENT_TYPE, COMPONENT_SUBTYPE, 
