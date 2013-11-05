@@ -141,6 +141,45 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		}
 		return null;
 	}
+
+	
+	/*
+	 * If a new authorization service becomes available, notify all controllers that reqire this service.
+	 */
+	private void notifyAvailableAuthorization(String type) {
+		for (ComponentEntry ac : this.accessControllers.values()) {
+			if (ac.activeType == null && (ac.preferredType.equals(type) || ac.altType.equals(type))) {
+				ac.activeType = type;
+				Message msg = new Message(Message.Type.CHANGE_AUTH, ac.id, Message.MANAGER);
+				msg.addData(Message.Field.AUTH_TYPE, type);
+				hydnaSvc.sendMessage(Serializer.serialize(msg));
+			}
+		}
+	}
+	
+	/*
+	 * If an authorization service becomes unavailable, assign new services to controllers.
+	 */
+	private void missingAuthService(String type) {
+		for (ComponentEntry ac : this.accessControllers.values()) {
+			if (ac.activeType.equals(type)) {
+				IAuthorization available = availableAuthorization(ac.preferredType);
+				if (available == null) {
+					available = availableAuthorization(ac.altType);
+				}
+				Message msg = new Message(Message.Type.CHANGE_AUTH, ac.id, Message.MANAGER);
+				if (available != null) {
+					ac.activeType = available.getType().name();
+					msg.addData(Message.Field.AUTH_TYPE, available.getType().name());
+				}
+				else {
+					ac.activeType = null;
+					msg.addData(Message.Field.AUTH_TYPE, ComponentTypes.Authorization.NOT_AVAILABLE.name());
+				}
+				hydnaSvc.sendMessage(Serializer.serialize(msg));
+			}
+		}
+	}
 	
 	/*
 	 * Send ASSOCIATE messages to both parts of the association
