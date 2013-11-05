@@ -79,7 +79,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 		System.out.println("AccessPoint type: "+this.accessPointType);
 	}
 	
-	public ComponentTypes.AccessControllerType getType() {
+	public ComponentTypes.AccessController getType() {
 		return accessControllerSvc.getType();
 	}
 
@@ -102,7 +102,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
 				System.out.println("Registration confirmation from "+Message.MANAGER+"!");
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
-				if (!msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.AuthorizationType.NOT_AVAILABLE)) {
+				if (!msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.Authorization.NOT_AVAILABLE.name())) {
 					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
 					this.authorizable = true;
 				}
@@ -131,7 +131,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 				System.out.println("Disassociated, waiting for new association...");
 			}
 			else if (msg.getType().equals(Message.Type.CHANGE_AUTH)) {
-				if (msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.AuthorizationType.NOT_AVAILABLE)) {
+				if (msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.Authorization.NOT_AVAILABLE)) {
 					this.activeAuthorizationType = null;
 					this.authorizable = false;
 				}

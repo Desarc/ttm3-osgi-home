@@ -25,8 +25,8 @@ public class DBIdAuthorization implements IAuthorization {
 	}
 	
 	@Override
-	public ComponentTypes.AuthorizationType getType() {
-		return ComponentTypes.AuthorizationType.DB_ID;
+	public ComponentTypes.Authorization getType() {
+		return ComponentTypes.Authorization.DB_ID;
 	}
 
 	@Override

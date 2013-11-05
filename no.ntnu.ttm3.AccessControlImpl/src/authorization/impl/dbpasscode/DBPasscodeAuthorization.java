@@ -16,8 +16,8 @@ public class DBPasscodeAuthorization implements IAuthorization {
 	private String passcode = "1234";
 	
 	@Override
-	public ComponentTypes.AuthorizationType getType() {
-		return ComponentTypes.AuthorizationType.DB_PASSCODE;
+	public ComponentTypes.Authorization getType() {
+		return ComponentTypes.Authorization.DB_PASSCODE;
 	}
 
 	@Override

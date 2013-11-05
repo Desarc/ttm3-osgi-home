@@ -25,8 +25,8 @@ public class DBUserPassAuthorization implements IAuthorization {
 	}
 	
 	@Override
-	public ComponentTypes.AuthorizationType getType() {
-		return ComponentTypes.AuthorizationType.DB_USERNAME_PASSWORD;
+	public ComponentTypes.Authorization getType() {
+		return ComponentTypes.Authorization.DB_USERNAME_PASSWORD;
 	}
 
 	@Override

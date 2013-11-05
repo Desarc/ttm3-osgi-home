@@ -30,7 +30,7 @@ import componenttypes.api.ComponentTypes;
 public class AreaManagerCommand extends CommunicationPoint implements CommandModule {
 
 	//private IAuthorization authorizationSvc;
-	private HashMap<ComponentTypes.AuthorizationType, IAuthorization> authorizationSvcs;
+	private HashMap<ComponentTypes.Authorization, IAuthorization> authorizationSvcs;
 	//private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
 	private HashMap<String, ComponentEntry> accessPoints;
 	private HashMap<String, ComponentEntry> accessControllers;
@@ -39,7 +39,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	private long timeout = 10000;
 
 	public AreaManagerCommand() {
-		authorizationSvcs = new HashMap<ComponentTypes.AuthorizationType, IAuthorization>();
+		authorizationSvcs = new HashMap<ComponentTypes.Authorization, IAuthorization>();
 		//notificationSvcs = new HashMap<IAccessNotification.Type, IAccessNotification>();
 		accessPoints = new HashMap<String, ComponentEntry>();
 		accessControllers = new HashMap<String, ComponentEntry>();
@@ -87,7 +87,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	
 	private void displayAvailableAuthorizationTypes() {
 		System.out.println("Available authorization types:");
-		for (ComponentTypes.AuthorizationType type : authorizationSvcs.keySet()) {
+		for (ComponentTypes.Authorization type : authorizationSvcs.keySet()) {
 			System.out.println(type.name());
 		}
 	}
@@ -195,7 +195,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 * Check if the requested authorization service is available
 	 */
 	private IAuthorization availableAuthorization(String type) {
-		return authorizationSvcs.get(ComponentTypes.AuthorizationType.valueOf(type));
+		return authorizationSvcs.get(ComponentTypes.Authorization.valueOf(type));
 	}
 	
 	/*
@@ -239,6 +239,10 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		}
 		else if (availableAuthorization(alt) != null) {
 			msg.addData(Message.Field.AUTH_TYPE, alt);
+			component.activeType = alt;
+		}
+		else {
+			msg.addData(Message.Field.AUTH_TYPE, ComponentTypes.Authorization.NOT_AVAILABLE.name());
 			component.activeType = alt;
 		}
 		hydnaSvc.sendMessage(Serializer.serialize(msg));

@@ -4,7 +4,7 @@ import componenttypes.api.ComponentTypes;
 
 public interface IAuthorization {
 	
-	ComponentTypes.AuthorizationType getType();
+	ComponentTypes.Authorization getType();
 	
 	boolean authorize(AuthorizationToken token);
 	

@@ -30,18 +30,18 @@ public class MotionDetectController implements IAccessController {
 	}
 
 	@Override
-	public ComponentTypes.AccessControllerType getType() {
-		return ComponentTypes.AccessControllerType.MOTION_DETECT;
+	public ComponentTypes.AccessController getType() {
+		return ComponentTypes.AccessController.MOTION_DETECT;
 	}
 
 	@Override
-	public ComponentTypes.AuthorizationType getPreferredAuthorizationType() {
-		return ComponentTypes.AuthorizationType.TIMED;
+	public ComponentTypes.Authorization getPreferredAuthorizationType() {
+		return ComponentTypes.Authorization.TIMED;
 	}
 
 	@Override
-	public ComponentTypes.AuthorizationType getAltAuthorizationType() {
-		return ComponentTypes.AuthorizationType.NONE_TRUE;
+	public ComponentTypes.Authorization getAltAuthorizationType() {
+		return ComponentTypes.Authorization.NONE_TRUE;
 	}
 
 	

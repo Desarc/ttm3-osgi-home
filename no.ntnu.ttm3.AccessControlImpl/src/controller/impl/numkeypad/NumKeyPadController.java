@@ -23,8 +23,8 @@ public class NumKeyPadController implements IAccessController {
 		return getClass().getName();
 	}*/
 	
-	public ComponentTypes.AccessControllerType getType() {
-		return ComponentTypes.AccessControllerType.NUM_KEY_PAD;
+	public ComponentTypes.AccessController getType() {
+		return ComponentTypes.AccessController.NUM_KEY_PAD;
 	}
 	
 	public Message requestIdentification() {
@@ -44,13 +44,13 @@ public class NumKeyPadController implements IAccessController {
 	}
 
 	@Override
-	public ComponentTypes.AuthorizationType getPreferredAuthorizationType() {
-		return ComponentTypes.AuthorizationType.DB_PASSCODE;
+	public ComponentTypes.Authorization getPreferredAuthorizationType() {
+		return ComponentTypes.Authorization.DB_PASSCODE;
 	}
 
 	@Override
-	public ComponentTypes.AuthorizationType getAltAuthorizationType() {
-		return ComponentTypes.AuthorizationType.NONE_TRUE;
+	public ComponentTypes.Authorization getAltAuthorizationType() {
+		return ComponentTypes.Authorization.NONE_TRUE;
 	}
 	
 }

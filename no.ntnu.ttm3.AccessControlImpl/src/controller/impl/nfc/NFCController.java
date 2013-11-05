@@ -29,18 +29,18 @@ public class NFCController implements IAccessController {
 	}
 
 	@Override
-	public ComponentTypes.AccessControllerType getType() {
-		return ComponentTypes.AccessControllerType.NFC;
+	public ComponentTypes.AccessController getType() {
+		return ComponentTypes.AccessController.NFC;
 	}
 
 	@Override
-	public ComponentTypes.AuthorizationType getPreferredAuthorizationType() {
-		return ComponentTypes.AuthorizationType.DB_ID;
+	public ComponentTypes.Authorization getPreferredAuthorizationType() {
+		return ComponentTypes.Authorization.DB_ID;
 	}
 
 	@Override
-	public ComponentTypes.AuthorizationType getAltAuthorizationType() {
-		return ComponentTypes.AuthorizationType.NONE_FALSE;
+	public ComponentTypes.Authorization getAltAuthorizationType() {
+		return ComponentTypes.Authorization.NONE_FALSE;
 	
 	}
 }

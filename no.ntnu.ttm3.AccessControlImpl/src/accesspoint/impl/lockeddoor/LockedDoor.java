@@ -26,8 +26,8 @@ public class LockedDoor implements IAccessPoint {
 		return getClass().getName();
 	}*/
 	
-	public ComponentTypes.AccessPointType getType() {
-		return ComponentTypes.AccessPointType.LOCKED_DOOR;
+	public ComponentTypes.AccessPoint getType() {
+		return ComponentTypes.AccessPoint.LOCKED_DOOR;
 	}
 
 	@Override
@@ -41,12 +41,12 @@ public class LockedDoor implements IAccessPoint {
 	}
 
 	@Override
-	public ComponentTypes.AccessControllerType getPreferredControllerType() {
-		return ComponentTypes.AccessControllerType.NFC;
+	public ComponentTypes.AccessController getPreferredControllerType() {
+		return ComponentTypes.AccessController.NFC;
 	}
 
 	@Override
-	public ComponentTypes.AccessControllerType getAltControllerType() {
-		return ComponentTypes.AccessControllerType.NUM_KEY_PAD;
+	public ComponentTypes.AccessController getAltControllerType() {
+		return ComponentTypes.AccessController.NUM_KEY_PAD;
 	}
 }

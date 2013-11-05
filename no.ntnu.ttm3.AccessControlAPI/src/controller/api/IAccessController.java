@@ -9,12 +9,12 @@ import componenttypes.api.ComponentTypes;
  */
 public interface IAccessController {
 	
-	ComponentTypes.AccessControllerType getType();
+	ComponentTypes.AccessController getType();
 	
 	Message requestIdentification();
 	
-	ComponentTypes.AuthorizationType getPreferredAuthorizationType();
+	ComponentTypes.Authorization getPreferredAuthorizationType();
 	
-	ComponentTypes.AuthorizationType getAltAuthorizationType();
+	ComponentTypes.Authorization getAltAuthorizationType();
 	
 }

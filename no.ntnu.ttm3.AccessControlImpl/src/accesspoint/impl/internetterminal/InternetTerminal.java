@@ -31,18 +31,18 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	@Override
-	public ComponentTypes.AccessPointType getType() {
-		return ComponentTypes.AccessPointType.INET_TERM;
+	public ComponentTypes.AccessPoint getType() {
+		return ComponentTypes.AccessPoint.INET_TERM;
 	}
 
 	@Override
-	public ComponentTypes.AccessControllerType getPreferredControllerType() {
-		return ComponentTypes.AccessControllerType.USER_PASS_TERM;
+	public ComponentTypes.AccessController getPreferredControllerType() {
+		return ComponentTypes.AccessController.USER_PASS_TERM;
 	}
 
 	@Override
-	public ComponentTypes.AccessControllerType getAltControllerType() {
-		return ComponentTypes.AccessControllerType.ANY;
+	public ComponentTypes.AccessController getAltControllerType() {
+		return ComponentTypes.AccessController.ANY;
 	}
 
 

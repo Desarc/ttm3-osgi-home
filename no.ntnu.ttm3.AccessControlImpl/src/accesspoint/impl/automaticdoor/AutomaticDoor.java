@@ -39,20 +39,20 @@ public class AutomaticDoor implements IAccessPoint {
 
 
 	@Override
-	public ComponentTypes.AccessPointType getType() {
-		return ComponentTypes.AccessPointType.AUTOMATIC_DOOR;
+	public ComponentTypes.AccessPoint getType() {
+		return ComponentTypes.AccessPoint.AUTOMATIC_DOOR;
 	}
 
 
 	@Override
-	public ComponentTypes.AccessControllerType getPreferredControllerType() {
-		return ComponentTypes.AccessControllerType.MOTION_DETECT;
+	public ComponentTypes.AccessController getPreferredControllerType() {
+		return ComponentTypes.AccessController.MOTION_DETECT;
 	}
 
 
 	@Override
-	public ComponentTypes.AccessControllerType getAltControllerType() {
-		return ComponentTypes.AccessControllerType.NFC;
+	public ComponentTypes.AccessController getAltControllerType() {
+		return ComponentTypes.AccessController.NFC;
 	}
 
 

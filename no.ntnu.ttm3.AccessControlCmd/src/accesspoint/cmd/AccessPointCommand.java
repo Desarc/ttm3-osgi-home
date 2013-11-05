@@ -26,8 +26,8 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 	private IAccessPoint accessPointSvc;
 	private String accessControllerId;
 	private String accessControllerType;
-	private ComponentTypes.AccessControllerType preferredControllerType = null;
-	private ComponentTypes.AccessControllerType altControllerType = null;
+	private ComponentTypes.AccessController preferredControllerType = null;
+	private ComponentTypes.AccessController altControllerType = null;
 	
 	private long keepalive_delay = 1000;
 	

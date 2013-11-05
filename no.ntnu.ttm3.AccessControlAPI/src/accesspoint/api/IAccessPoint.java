@@ -24,10 +24,10 @@ public interface IAccessPoint {
 	 * Return a string (the type) which is unique for this type of accesspoint.
 	 * @return
 	 */
-	ComponentTypes.AccessPointType getType();
+	ComponentTypes.AccessPoint getType();
 	
-	ComponentTypes.AccessControllerType getPreferredControllerType();
+	ComponentTypes.AccessController getPreferredControllerType();
 	
-	ComponentTypes.AccessControllerType getAltControllerType();
+	ComponentTypes.AccessController getAltControllerType();
 	
 }

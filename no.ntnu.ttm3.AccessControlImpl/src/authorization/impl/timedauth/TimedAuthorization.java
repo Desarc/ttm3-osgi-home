@@ -20,8 +20,8 @@ public class TimedAuthorization implements IAuthorization {
 	private int maxHour = 16;
 
 	@Override
-	public ComponentTypes.AuthorizationType getType() {
-		return ComponentTypes.AuthorizationType.TIMED;
+	public ComponentTypes.Authorization getType() {
+		return ComponentTypes.Authorization.TIMED;
 	}
 
 	@Override

@@ -5,7 +5,7 @@ public interface ComponentTypes {
 	/*
 	 * Valid AccessPoint types.
 	 */
-	enum AccessPointType {
+	enum AccessPoint {
 		LOCKED_DOOR,
 		AUTOMATIC_DOOR,
 		INET_TERM,
@@ -18,7 +18,7 @@ public interface ComponentTypes {
 	 * access should never be granted. Use examples could be to ensure denial of access if the preferred authorization service
 	 * fails (NONE_FALSE), or the opposite.
 	 */
-	public enum AuthorizationType {
+	public enum Authorization {
 		DB_PASSCODE,
 		DB_ID,
 		DB_USERNAME_PASSWORD,
@@ -34,7 +34,7 @@ public interface ComponentTypes {
 	 * ANY and NONE represent the choices of any or none preferred/alternate controllers for an AccessPoint,
 	 * and do not describe real implementations.
 	 */
-	public enum AccessControllerType {
+	public enum AccessController {
 		NUM_KEY_PAD,
 		NFC,
 		MOTION_DETECT,
