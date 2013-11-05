@@ -3,7 +3,6 @@ package controller.cmd;
 import hydna.ntnu.student.api.HydnaApi;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
-import authorization.api.IAuthorization;
 
 import org.apache.felix.service.command.*;
 
@@ -27,8 +26,6 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	private String accessPointId;
 	private String accessPointType;
 	private String activeAuthorizationType;
-	//private IAuthorization.Type preferredAuthorizationType = null;
-	//private IAuthorization.Type altAuthorizationType = null;
 	
 	private long keepalive_delay = 1000; //default value
 	
@@ -40,8 +37,6 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	public void setAccessController(IAccessController accessControllerSvc) {
 		this.accessControllerSvc = accessControllerSvc;
 		this.type = accessControllerSvc.getType().name();
-		//this.preferredAuthorizationType = accessControllerSvc.getPreferredAuthorizationType();
-		//this.altAuthorizationType = accessControllerSvc.getAltAuthorizationType();
 	}
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
