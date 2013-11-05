@@ -1,8 +1,8 @@
 package controller.impl.motiondetector;
 
 import aQute.bnd.annotation.component.Component;
-import authorization.api.IAuthorization;
 import communication.api.Message;
+import componenttypes.api.ComponentTypes;
 import controller.api.IAccessController;
 
 /**
@@ -30,18 +30,18 @@ public class MotionDetectController implements IAccessController {
 	}
 
 	@Override
-	public Type getType() {
-		return IAccessController.Type.MOTION_DETECT;
+	public ComponentTypes.AccessControllerType getType() {
+		return ComponentTypes.AccessControllerType.MOTION_DETECT;
 	}
 
 	@Override
-	public IAuthorization.Type getPreferredAuthorizationType() {
-		return IAuthorization.Type.TIMED;
+	public ComponentTypes.AuthorizationType getPreferredAuthorizationType() {
+		return ComponentTypes.AuthorizationType.TIMED;
 	}
 
 	@Override
-	public IAuthorization.Type getAltAuthorizationType() {
-		return IAuthorization.Type.NONE_TRUE;
+	public ComponentTypes.AuthorizationType getAltAuthorizationType() {
+		return ComponentTypes.AuthorizationType.NONE_TRUE;
 	}
 
 	

@@ -16,6 +16,7 @@ import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
+import componenttypes.api.ComponentTypes;
 
 
 @Component(properties =	{
@@ -30,7 +31,7 @@ import communication.api.Serializer;
 public class AreaManagerCommand extends CommunicationPoint implements CommandModule {
 
 	//private IAuthorization authorizationSvc;
-	private HashMap<IAuthorization.Type, IAuthorization> authorizationSvcs;
+	private HashMap<ComponentTypes.AuthorizationType, IAuthorization> authorizationSvcs;
 	//private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
 	private HashMap<String, ComponentEntry> accessPoints;
 	private HashMap<String, ComponentEntry> accessControllers;
@@ -39,7 +40,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	private long timeout = 10000;
 
 	public AreaManagerCommand() {
-		authorizationSvcs = new HashMap<IAuthorization.Type, IAuthorization>();
+		authorizationSvcs = new HashMap<ComponentTypes.AuthorizationType, IAuthorization>();
 		//notificationSvcs = new HashMap<IAccessNotification.Type, IAccessNotification>();
 		accessPoints = new HashMap<String, ComponentEntry>();
 		accessControllers = new HashMap<String, ComponentEntry>();
@@ -87,7 +88,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	
 	private void displayAvailableAuthorizationTypes() {
 		System.out.println("Available authorization types:");
-		for (IAuthorization.Type type : authorizationSvcs.keySet()) {
+		for (ComponentTypes.AuthorizationType type : authorizationSvcs.keySet()) {
 			System.out.println(type.name());
 		}
 	}
@@ -117,12 +118,12 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	private ComponentEntry waitingAccessPoint(String type) {
 		// check preferred first, then alt
 		for (String key : this.accessPoints.keySet()) {
-			if (this.accessPoints.get(key).preferred.equals(type) && !this.accessPoints.get(key).associated) {
+			if (this.accessPoints.get(key).preferredType.equals(type) && !this.accessPoints.get(key).associated) {
 				return this.accessPoints.get(key);
 			}
 		}
 		for (String key : this.accessPoints.keySet()) {
-			if (this.accessPoints.get(key).alt.equals(type) && !this.accessPoints.get(key).associated) {
+			if (this.accessPoints.get(key).altType.equals(type) && !this.accessPoints.get(key).associated) {
 				return this.accessPoints.get(key);
 			}
 		}
@@ -166,9 +167,9 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 * If no controller is available, do nothing
 	 */
 	private boolean associateAccessPoint(ComponentEntry apComponent) {
-		ComponentEntry acComponent = availableController(apComponent.preferred); 
+		ComponentEntry acComponent = availableController(apComponent.preferredType); 
 		if (acComponent == null) {
-			acComponent = availableController(apComponent.alt);
+			acComponent = availableController(apComponent.altType);
 		}
 		if (acComponent != null) {
 			associate(apComponent, acComponent);
@@ -195,7 +196,7 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	 * Check if the requested authorization service is available
 	 */
 	private IAuthorization availableAuthorization(String type) {
-		return authorizationSvcs.get(IAuthorization.Type.valueOf(type));
+		return authorizationSvcs.get(ComponentTypes.AuthorizationType.valueOf(type));
 	}
 	
 	/*
@@ -352,16 +353,17 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 	class ComponentEntry {
 		String id;
 		String type;
-		String preferred;
-		String alt;
+		String preferredType;
+		String altType;
+		String activeType;
 		long timestamp;
 		boolean associated;
 		
 		public ComponentEntry(String id, String type, String preferred, String alt) {
 			this.id = id;
 			this.type = type;
-			this.preferred = preferred;
-			this.alt = alt;
+			this.preferredType = preferred;
+			this.altType = alt;
 			this.timestamp = System.currentTimeMillis();
 			this.associated = false;
 		}

@@ -10,6 +10,7 @@ import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
+import componenttypes.api.ComponentTypes;
 import controller.api.IAccessController;
 
 @Component(properties =	{
@@ -76,7 +77,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 		System.out.println("AccessPoint type: "+this.accessPointType);
 	}
 	
-	public IAccessController.Type getType() {
+	public ComponentTypes.AccessControllerType getType() {
 		return accessControllerSvc.getType();
 	}
 

@@ -1,6 +1,6 @@
 package accesspoint.impl.lockeddoor;
 
-import controller.api.IAccessController;
+import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import accesspoint.api.IAccessPoint;
 
@@ -26,8 +26,8 @@ public class LockedDoor implements IAccessPoint {
 		return getClass().getName();
 	}*/
 	
-	public Type getType() {
-		return IAccessPoint.Type.LOCKED_DOOR;
+	public ComponentTypes.AccessPointType getType() {
+		return ComponentTypes.AccessPointType.LOCKED_DOOR;
 	}
 
 	@Override
@@ -41,12 +41,12 @@ public class LockedDoor implements IAccessPoint {
 	}
 
 	@Override
-	public IAccessController.Type getPreferredControllerType() {
-		return IAccessController.Type.NFC;
+	public ComponentTypes.AccessControllerType getPreferredControllerType() {
+		return ComponentTypes.AccessControllerType.NFC;
 	}
 
 	@Override
-	public IAccessController.Type getAltControllerType() {
-		return IAccessController.Type.NUM_KEY_PAD;
+	public ComponentTypes.AccessControllerType getAltControllerType() {
+		return ComponentTypes.AccessControllerType.NUM_KEY_PAD;
 	}
 }

@@ -1,7 +1,7 @@
 package controller.api;
 
-import authorization.api.IAuthorization;
 import communication.api.Message;
+import componenttypes.api.ComponentTypes;
 
 /**
  * This is an access controller for an access point. It requests identification from a user (by code, voice, NFC etc...),
@@ -9,26 +9,12 @@ import communication.api.Message;
  */
 public interface IAccessController {
 	
-	/*
-	 * Valid Controller types.
-	 * ANY and NONE represent the choices of any or none preferred/alternate controllers for an AccessPoint,
-	 * and do not describe real implementations.
-	 */
-	public enum Type {
-		NUM_KEY_PAD,
-		NFC,
-		MOTION_DETECT,
-		USER_PASS_TERM,
-		NONE,
-		ANY,
-	}
-		
-	Type getType();
+	ComponentTypes.AccessControllerType getType();
 	
 	Message requestIdentification();
 	
-	IAuthorization.Type getPreferredAuthorizationType();
+	ComponentTypes.AuthorizationType getPreferredAuthorizationType();
 	
-	IAuthorization.Type getAltAuthorizationType();
+	ComponentTypes.AuthorizationType getAltAuthorizationType();
 	
 }

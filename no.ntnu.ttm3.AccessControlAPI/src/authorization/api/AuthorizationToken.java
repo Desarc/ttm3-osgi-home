@@ -1,5 +1,7 @@
 package authorization.api;
 
+import componenttypes.api.ComponentTypes;
+
 /**
  * Container for data used by an authorization service
  *
@@ -7,23 +9,23 @@ package authorization.api;
 public class AuthorizationToken {
 		
 	private String controller;
-	private IAuthorization.Type type;
+	private ComponentTypes.AuthorizationType type;
 	private String id;
 	private String passcode;
 	private String value;
 
-	public AuthorizationToken(String controller, IAuthorization.Type type) {
+	public AuthorizationToken(String controller, ComponentTypes.AuthorizationType type) {
 		this.controller = controller;
 		this.type = type;
 	}
 	
-	public AuthorizationToken(String controller, IAuthorization.Type type, String value) {
+	public AuthorizationToken(String controller, ComponentTypes.AuthorizationType type, String value) {
 		this.controller = controller;
 		this.type = type;
 		this.value = value;
 	}
 	
-	public AuthorizationToken(String controller, IAuthorization.Type type, String id, String passcode) {
+	public AuthorizationToken(String controller, ComponentTypes.AuthorizationType type, String id, String passcode) {
 		this.controller = controller;
 		this.type = type;
 		this.id = id;
@@ -34,7 +36,7 @@ public class AuthorizationToken {
 		return this.controller;
 	}
 	
-	public IAuthorization.Type getType() {
+	public ComponentTypes.AuthorizationType getType() {
 		return this.type;
 	}
 	
@@ -51,23 +53,23 @@ public class AuthorizationToken {
 	}
 	
 	public static AuthorizationToken generateToken(String controller, String type, String id, String passcode) {
-		if (type.equals(IAuthorization.Type.NONE_FALSE.name())) {
-			return new AuthorizationToken(controller, IAuthorization.Type.NONE_FALSE);
+		if (type.equals(ComponentTypes.AuthorizationType.NONE_FALSE.name())) {
+			return new AuthorizationToken(controller, ComponentTypes.AuthorizationType.NONE_FALSE);
 		}
-		else if (type.equals(IAuthorization.Type.NONE_TRUE.name())) {
-			return new AuthorizationToken(controller, IAuthorization.Type.NONE_TRUE);
+		else if (type.equals(ComponentTypes.AuthorizationType.NONE_TRUE.name())) {
+			return new AuthorizationToken(controller, ComponentTypes.AuthorizationType.NONE_TRUE);
 		}
-		else if (type.equals(IAuthorization.Type.TIMED.name())) {
-			return new AuthorizationToken(controller, IAuthorization.Type.TIMED);
+		else if (type.equals(ComponentTypes.AuthorizationType.TIMED.name())) {
+			return new AuthorizationToken(controller, ComponentTypes.AuthorizationType.TIMED);
 		}
-		else if (type.equals(IAuthorization.Type.DB_PASSCODE.name())) {
-			return new AuthorizationToken(controller, IAuthorization.Type.DB_PASSCODE, passcode);
+		else if (type.equals(ComponentTypes.AuthorizationType.DB_PASSCODE.name())) {
+			return new AuthorizationToken(controller, ComponentTypes.AuthorizationType.DB_PASSCODE, passcode);
 		}
-		else if (type.equals(IAuthorization.Type.DB_ID.name())) {
-			return new AuthorizationToken(controller, IAuthorization.Type.DB_ID, id);
+		else if (type.equals(ComponentTypes.AuthorizationType.DB_ID.name())) {
+			return new AuthorizationToken(controller, ComponentTypes.AuthorizationType.DB_ID, id);
 		}
-		else if (type.equals(IAuthorization.Type.DB_USERNAME_PASSWORD.name())) {
-			return new AuthorizationToken(controller, IAuthorization.Type.DB_USERNAME_PASSWORD, id, passcode);
+		else if (type.equals(ComponentTypes.AuthorizationType.DB_USERNAME_PASSWORD.name())) {
+			return new AuthorizationToken(controller, ComponentTypes.AuthorizationType.DB_USERNAME_PASSWORD, id, passcode);
 		}
 		return null;
 	}

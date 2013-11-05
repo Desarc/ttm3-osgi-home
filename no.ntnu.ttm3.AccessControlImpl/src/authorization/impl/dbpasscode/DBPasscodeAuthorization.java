@@ -1,5 +1,7 @@
 package authorization.impl.dbpasscode;
 
+import componenttypes.api.ComponentTypes;
+
 import aQute.bnd.annotation.component.Component;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
@@ -14,8 +16,8 @@ public class DBPasscodeAuthorization implements IAuthorization {
 	private String passcode = "1234";
 	
 	@Override
-	public Type getType() {
-		return IAuthorization.Type.DB_PASSCODE;
+	public ComponentTypes.AuthorizationType getType() {
+		return ComponentTypes.AuthorizationType.DB_PASSCODE;
 	}
 
 	@Override

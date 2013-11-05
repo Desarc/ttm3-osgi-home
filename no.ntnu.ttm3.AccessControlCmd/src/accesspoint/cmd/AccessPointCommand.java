@@ -11,7 +11,7 @@ import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
-import controller.api.IAccessController;
+import componenttypes.api.ComponentTypes;
 
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
@@ -26,8 +26,8 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 	private IAccessPoint accessPointSvc;
 	private String accessControllerId;
 	private String accessControllerType;
-	private IAccessController.Type preferredControllerType = null;
-	private IAccessController.Type altControllerType = null;
+	private ComponentTypes.AccessControllerType preferredControllerType = null;
+	private ComponentTypes.AccessControllerType altControllerType = null;
 	
 	private long keepalive_delay = 1000;
 	

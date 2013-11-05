@@ -10,5 +10,6 @@ Service-Component: *
 	no.ntnu.ttm3.AccessControlAPI.NotificationAPI;version=latest,\
 	hydna-ntnu-student-bundle;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AuthorizationAPI;version=latest,\
-	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest
+	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest,\
+	no.ntnu.ttm3.AccessControlAPI.ComponentTypes;version=latest
 -sub: *.bnd

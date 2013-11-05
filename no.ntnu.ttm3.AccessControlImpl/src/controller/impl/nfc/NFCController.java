@@ -1,8 +1,8 @@
 package controller.impl.nfc;
 
 import communication.api.Message;
+import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
-import authorization.api.IAuthorization;
 import controller.api.IAccessController;
 
 /**
@@ -29,18 +29,18 @@ public class NFCController implements IAccessController {
 	}
 
 	@Override
-	public Type getType() {
-		return IAccessController.Type.NFC;
+	public ComponentTypes.AccessControllerType getType() {
+		return ComponentTypes.AccessControllerType.NFC;
 	}
 
 	@Override
-	public IAuthorization.Type getPreferredAuthorizationType() {
-		return IAuthorization.Type.DB_ID;
+	public ComponentTypes.AuthorizationType getPreferredAuthorizationType() {
+		return ComponentTypes.AuthorizationType.DB_ID;
 	}
 
 	@Override
-	public IAuthorization.Type getAltAuthorizationType() {
-		return IAuthorization.Type.NONE_FALSE;
+	public ComponentTypes.AuthorizationType getAltAuthorizationType() {
+		return ComponentTypes.AuthorizationType.NONE_FALSE;
 	
 	}
 }

@@ -2,6 +2,8 @@ package authorization.impl.dbuserpass;
 
 import java.util.HashMap;
 
+import componenttypes.api.ComponentTypes;
+
 import aQute.bnd.annotation.component.Component;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
@@ -23,8 +25,8 @@ public class DBUserPassAuthorization implements IAuthorization {
 	}
 	
 	@Override
-	public Type getType() {
-		return IAuthorization.Type.DB_USERNAME_PASSWORD;
+	public ComponentTypes.AuthorizationType getType() {
+		return ComponentTypes.AuthorizationType.DB_USERNAME_PASSWORD;
 	}
 
 	@Override

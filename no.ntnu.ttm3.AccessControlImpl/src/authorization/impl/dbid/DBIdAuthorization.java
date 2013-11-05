@@ -2,6 +2,8 @@ package authorization.impl.dbid;
 
 import java.util.HashMap;
 
+import componenttypes.api.ComponentTypes;
+
 import aQute.bnd.annotation.component.Component;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
@@ -23,8 +25,8 @@ public class DBIdAuthorization implements IAuthorization {
 	}
 	
 	@Override
-	public Type getType() {
-		return IAuthorization.Type.DB_ID;
+	public ComponentTypes.AuthorizationType getType() {
+		return ComponentTypes.AuthorizationType.DB_ID;
 	}
 
 	@Override

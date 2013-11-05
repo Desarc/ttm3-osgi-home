@@ -1,8 +1,8 @@
 package controller.impl.numkeypad;
 
 import communication.api.Message;
+import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
-import authorization.api.IAuthorization;
 import controller.api.IAccessController;
 
 /**
@@ -23,8 +23,8 @@ public class NumKeyPadController implements IAccessController {
 		return getClass().getName();
 	}*/
 	
-	public Type getType() {
-		return IAccessController.Type.NUM_KEY_PAD;
+	public ComponentTypes.AccessControllerType getType() {
+		return ComponentTypes.AccessControllerType.NUM_KEY_PAD;
 	}
 	
 	public Message requestIdentification() {
@@ -44,13 +44,13 @@ public class NumKeyPadController implements IAccessController {
 	}
 
 	@Override
-	public IAuthorization.Type getPreferredAuthorizationType() {
-		return IAuthorization.Type.DB_PASSCODE;
+	public ComponentTypes.AuthorizationType getPreferredAuthorizationType() {
+		return ComponentTypes.AuthorizationType.DB_PASSCODE;
 	}
 
 	@Override
-	public IAuthorization.Type getAltAuthorizationType() {
-		return IAuthorization.Type.NONE_TRUE;
+	public ComponentTypes.AuthorizationType getAltAuthorizationType() {
+		return ComponentTypes.AuthorizationType.NONE_TRUE;
 	}
 	
 }

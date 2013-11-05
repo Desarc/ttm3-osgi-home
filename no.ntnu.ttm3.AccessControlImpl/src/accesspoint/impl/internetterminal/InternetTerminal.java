@@ -1,6 +1,6 @@
 package accesspoint.impl.internetterminal;
 
-import controller.api.IAccessController;
+import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import accesspoint.api.IAccessPoint;
 
@@ -31,18 +31,18 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	@Override
-	public Type getType() {
-		return IAccessPoint.Type.INET_TERM;
+	public ComponentTypes.AccessPointType getType() {
+		return ComponentTypes.AccessPointType.INET_TERM;
 	}
 
 	@Override
-	public IAccessController.Type getPreferredControllerType() {
-		return IAccessController.Type.USER_PASS_TERM;
+	public ComponentTypes.AccessControllerType getPreferredControllerType() {
+		return ComponentTypes.AccessControllerType.USER_PASS_TERM;
 	}
 
 	@Override
-	public IAccessController.Type getAltControllerType() {
-		return IAccessController.Type.ANY;
+	public ComponentTypes.AccessControllerType getAltControllerType() {
+		return ComponentTypes.AccessControllerType.ANY;
 	}
 
 

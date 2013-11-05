@@ -2,6 +2,8 @@ package accesspoint.impl.observable;
 
 import java.util.Observable;
 
+import componenttypes.api.ComponentTypes;
+
 import accesspoint.api.IAccessPoint;
 
 /**
@@ -56,19 +58,19 @@ public class ObservableAccessPoint extends Observable implements IAccessPoint {
 	}
 
 	@Override
-	public Type getType() {
+	public ComponentTypes.AccessPointType getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public controller.api.IAccessController.Type getPreferredControllerType() {
+	public componenttypes.api.ComponentTypes.AccessControllerType getPreferredControllerType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public controller.api.IAccessController.Type getAltControllerType() {
+	public componenttypes.api.ComponentTypes.AccessControllerType getAltControllerType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,6 @@
 package accesspoint.impl.automaticdoor;
 
-import controller.api.IAccessController;
+import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import accesspoint.api.IAccessPoint;
 
@@ -39,20 +39,20 @@ public class AutomaticDoor implements IAccessPoint {
 
 
 	@Override
-	public Type getType() {
-		return IAccessPoint.Type.AUTOMATIC_DOOR;
+	public ComponentTypes.AccessPointType getType() {
+		return ComponentTypes.AccessPointType.AUTOMATIC_DOOR;
 	}
 
 
 	@Override
-	public IAccessController.Type getPreferredControllerType() {
-		return IAccessController.Type.MOTION_DETECT;
+	public ComponentTypes.AccessControllerType getPreferredControllerType() {
+		return ComponentTypes.AccessControllerType.MOTION_DETECT;
 	}
 
 
 	@Override
-	public IAccessController.Type getAltControllerType() {
-		return IAccessController.Type.NFC;
+	public ComponentTypes.AccessControllerType getAltControllerType() {
+		return ComponentTypes.AccessControllerType.NFC;
 	}
 
 

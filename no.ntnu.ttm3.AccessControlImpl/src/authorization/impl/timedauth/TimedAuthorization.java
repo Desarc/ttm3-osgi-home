@@ -2,6 +2,8 @@ package authorization.impl.timedauth;
 
 import java.util.Calendar;
 
+import componenttypes.api.ComponentTypes;
+
 import aQute.bnd.annotation.component.Component;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
@@ -18,8 +20,8 @@ public class TimedAuthorization implements IAuthorization {
 	private int maxHour = 16;
 
 	@Override
-	public Type getType() {
-		return IAuthorization.Type.TIMED;
+	public ComponentTypes.AuthorizationType getType() {
+		return ComponentTypes.AuthorizationType.TIMED;
 	}
 
 	@Override
