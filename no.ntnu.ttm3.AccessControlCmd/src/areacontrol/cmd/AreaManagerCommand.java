@@ -45,21 +45,29 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		accessAssociations = new ArrayList<AccessAssociation>();
 	}
 	
-	// TODO: handle multiple service references
-	@Reference (multiple = true)
+	@Reference (multiple = true, unbind = "removeAuthorizationComponent")
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
 		this.authorizationSvcs.put(authorizationSvc.getType(), authorizationSvc);
 		notifyAvailableAuthService(authorizationSvc.getType().name());
+	}
+	
+	public void removeAuthorizationComponent(IAuthorization authorizationSvc) {
+		this.authorizationSvcs.remove(authorizationSvc.getType());
+		notifyMissingAuthService(authorizationSvc.getType().name());
 	}
 	
 	/*
 	 * note: if this code is enabled, an IAccessNotification service must be available for this component to work.
 	 * this is probably true for any such service references...
 	 */
-	/*@Reference
+	/*@Reference (multiple = true, unbind = "removeNotificationComponent")
 	public void setNotificationComponent(IAccessNotification notificationSvc) {
-		//this.notificationSvc = notificationSvc;
 		this.notificationSvcs.put(notificationSvc.getType(), notificationSvc);
+	}*/
+	
+	/*
+	public void removeNotificationComponent(IAccessNotification notificationSvc) {
+		this.notificationSvcs.remove(notificationSvc.getType());
 	}*/
 	
 	@Reference
@@ -397,7 +405,6 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 			disassociateAC(ac);
 		}
 	}
-	
 	
 	/*
 	 * Some simple data containers...
