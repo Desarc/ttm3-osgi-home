@@ -100,6 +100,8 @@ public class NumKeyPadGUI extends JFrame {
 			}
 		});
 		
+		getRootPane().setDefaultButton(buttons[11]);
+		
 		reset();
 		add(display, BorderLayout.NORTH);
 		add(buttonPanel, BorderLayout.CENTER);
