@@ -1,5 +1,7 @@
 package controller.impl.numkeypad;
 
+import javax.swing.SwingUtilities;
+
 import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
@@ -13,6 +15,19 @@ import controller.api.IdentificationCallback;
 @Component
 public class NumKeyPadController implements IAccessController {
 
+	protected NumKeyPadGUI gui;
+	private IdentificationCallback callback;
+
+	public NumKeyPadController() {
+		gui = new NumKeyPadGUI(this);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				gui.setVisible(true);
+			}
+		});
+	}
+	
 	/* (non-Javadoc)
 	 * Standard method for getting a String that is guaranteed unique for each type,
 	 * but guaranteed the same for different versions of the same type.
@@ -28,19 +43,15 @@ public class NumKeyPadController implements IAccessController {
 		return ComponentTypes.AccessController.NUM_KEY_PAD;
 	}
 	
-		//Scanner scanIn = new Scanner(System.in);
-		System.out.println("Welcome to the locked door. Please input the numeric passcode: ");
-		String passcode = "1234";
-		System.out.println(passcode);
-		//String passcode = scanIn.nextLine();
-		//scanIn.close();
-		callback.callback(createAuthorizationRequest(passcode));
+	public void requestIdentification(IdentificationCallback callback) {
+		this.callback = callback;
+		gui.activate();
 	}
 	
-	Message createAuthorizationRequest(String passcode) {
+	void createAuthorizationRequest(String passcode) {
 		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null);
 		msg.addData(Message.Field.PASSCODE, passcode);
-		return msg;
+		callback.callback(msg);
 	}
 
 	@Override
@@ -51,6 +62,10 @@ public class NumKeyPadController implements IAccessController {
 	@Override
 	public ComponentTypes.Authorization getAltAuthorizationType() {
 		return ComponentTypes.Authorization.NONE_TRUE;
+	}
+
+	public void dispose() {
+		// TODO Indicate that the GUI is closed
 	}
 	
 }
