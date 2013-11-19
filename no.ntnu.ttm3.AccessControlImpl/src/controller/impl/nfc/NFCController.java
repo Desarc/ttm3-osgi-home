@@ -4,6 +4,7 @@ import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import controller.api.IAccessController;
+import controller.api.IdentificationCallback;
 
 /**
  * This class is the implementation of the enum type NFC in {@link IAccessController}.
@@ -23,9 +24,8 @@ public class NFCController implements IAccessController {
 	}*/
 
 	@Override
-	public Message requestIdentification() {
+	public void requestIdentification(IdentificationCallback callback) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

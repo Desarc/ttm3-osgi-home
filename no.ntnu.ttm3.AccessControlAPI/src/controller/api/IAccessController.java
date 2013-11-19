@@ -1,6 +1,5 @@
 package controller.api;
 
-import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 
 /**
@@ -11,7 +10,7 @@ public interface IAccessController {
 	
 	ComponentTypes.AccessController getType();
 	
-	Message requestIdentification();
+	void requestIdentification(IdentificationCallback callback);
 	
 	ComponentTypes.Authorization getPreferredAuthorizationType();
 	

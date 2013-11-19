@@ -12,6 +12,7 @@ import communication.api.Message;
 import communication.api.Serializer;
 import componenttypes.api.ComponentTypes;
 import controller.api.IAccessController;
+import controller.api.IdentificationCallback;
 
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
@@ -94,7 +95,7 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 	 * @see communication.CommunicationPoint#handleMessage(communication.api.Message)
 	 */
 	@Override
-	protected void handleMessage(Message msg) {
+	protected void handleMessage(final Message msg) {
 		if (msg.getTo().equals(this.id)) {
 			if (msg.getType().equals(Message.Type.ACCESS_RSP)) {
 				handleAuthorizationResponse(msg.getData(Message.Field.ACCESS_RES));
@@ -117,11 +118,15 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 				printInfo();
 				//teststuff
 				if (isActive()) {
-					Message msg1 = accessControllerSvc.requestIdentification();
-					msg1.setFrom(this.id);
-					msg.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
-					System.out.println("Requesting authorization...");
-					hydnaSvc.sendMessage(Serializer.serialize(msg1));
+					accessControllerSvc.requestIdentification(new IdentificationCallback() {
+						@Override
+						public void callback(Message message) {
+							message.setFrom(id);
+							msg.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
+							System.out.println("Requesting authorization...");
+							hydnaSvc.sendMessage(Serializer.serialize(message));
+						}
+					});
 				}
 			}
 			else if (msg.getType().equals(Message.Type.DISASSOCIATE)) {

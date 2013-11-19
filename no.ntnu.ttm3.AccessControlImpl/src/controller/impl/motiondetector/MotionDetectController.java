@@ -4,6 +4,7 @@ import aQute.bnd.annotation.component.Component;
 import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import controller.api.IAccessController;
+import controller.api.IdentificationCallback;
 
 /**
  * This class is the implementation of the enum type MOTION_DETECT in {@link IAccessController}.
@@ -24,9 +25,8 @@ public class MotionDetectController implements IAccessController {
 	
 
 	@Override
-	public Message requestIdentification() {
+	public void requestIdentification(IdentificationCallback callback) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

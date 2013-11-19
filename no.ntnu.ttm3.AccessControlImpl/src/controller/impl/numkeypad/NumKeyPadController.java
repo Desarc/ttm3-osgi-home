@@ -4,6 +4,7 @@ import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import controller.api.IAccessController;
+import controller.api.IdentificationCallback;
 
 /**
  * This class is the implementation of the enum type NUM_KEY_PAD in {@link IAccessController}.
@@ -27,17 +28,16 @@ public class NumKeyPadController implements IAccessController {
 		return ComponentTypes.AccessController.NUM_KEY_PAD;
 	}
 	
-	public Message requestIdentification() {
 		//Scanner scanIn = new Scanner(System.in);
 		System.out.println("Welcome to the locked door. Please input the numeric passcode: ");
 		String passcode = "1234";
 		System.out.println(passcode);
 		//String passcode = scanIn.nextLine();
 		//scanIn.close();
-		return createAuthorizationRequest(passcode);
+		callback.callback(createAuthorizationRequest(passcode));
 	}
 	
-	private Message createAuthorizationRequest(String passcode) {
+	Message createAuthorizationRequest(String passcode) {
 		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null);
 		msg.addData(Message.Field.PASSCODE, passcode);
 		return msg;
