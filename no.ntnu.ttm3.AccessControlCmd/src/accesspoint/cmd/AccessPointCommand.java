@@ -43,6 +43,7 @@ public class AccessPointCommand extends CommunicationPoint {
 		this.type = accessPointSvc.getType().name();
 		this.preferredControllerType = accessPointSvc.getPreferredControllerType();
 		this.altControllerType = accessPointSvc.getAltControllerType();
+		this.revokeDelay = accessPointSvc.getRevokeDelay();
 	}
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
