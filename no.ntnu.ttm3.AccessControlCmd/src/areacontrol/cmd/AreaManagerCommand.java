@@ -333,10 +333,14 @@ public class AreaManagerCommand extends CommunicationPoint {
 			else if (msg.getType().equals(Message.Type.KEEP_ALIVE)) {
 				System.out.println("KEEP_ALIVE from "+msg.getFrom());
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
-					this.accessPoints.get(msg.getFrom()).timestamp = System.currentTimeMillis();
+					if (this.accessPoints.get(msg.getFrom()) != null){
+						this.accessPoints.get(msg.getFrom()).timestamp = System.currentTimeMillis();
+					}
 				}
 				else if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER.name())) {
-					this.accessControllers.get(msg.getFrom()).timestamp = System.currentTimeMillis();
+					if (this.accessControllers.get(msg.getFrom()) != null) {
+						this.accessControllers.get(msg.getFrom()).timestamp = System.currentTimeMillis();
+					}
 				}
 			}
 		}
