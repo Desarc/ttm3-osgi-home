@@ -12,6 +12,8 @@ public interface IAccessController {
 	
 	void requestIdentification(IdentificationCallback callback);
 	
+	void deactivate();
+	
 	ComponentTypes.Authorization getPreferredAuthorizationType();
 	
 	ComponentTypes.Authorization getAltAuthorizationType();

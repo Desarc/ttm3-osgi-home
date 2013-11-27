@@ -44,6 +44,12 @@ public class MotionDetectController implements IAccessController {
 		return ComponentTypes.Authorization.NONE_TRUE;
 	}
 
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 

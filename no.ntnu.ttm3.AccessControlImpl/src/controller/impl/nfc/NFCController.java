@@ -43,4 +43,10 @@ public class NFCController implements IAccessController {
 		return ComponentTypes.Authorization.NONE_FALSE;
 	
 	}
+
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

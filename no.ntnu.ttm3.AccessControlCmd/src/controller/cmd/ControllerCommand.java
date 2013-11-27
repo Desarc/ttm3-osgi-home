@@ -88,6 +88,18 @@ public class ControllerCommand extends CommunicationPoint  {
 		return this.registered && this.associated && this.authorizable;
 	}
 	
+	private void requestIdentification() {
+		accessControllerSvc.requestIdentification(new IdentificationCallback() {
+			@Override
+			public void callback(Message message) {
+				message.setFrom(id);
+				message.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
+				System.out.println("Requesting authorization of type "+activeAuthorizationType);
+				hydnaSvc.sendMessage(Serializer.serialize(message));
+			}
+		});
+	}
+	
 	/* 
 	 * Logic for handling incoming messages
 	 * 
@@ -118,30 +130,28 @@ public class ControllerCommand extends CommunicationPoint  {
 				associated = true;
 				printInfo();
 				if (isActive()) {
-					accessControllerSvc.requestIdentification(new IdentificationCallback() {
-						@Override
-						public void callback(Message message) {
-							message.setFrom(id);
-							message.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
-							System.out.println("Requesting authorization of type "+activeAuthorizationType);
-							hydnaSvc.sendMessage(Serializer.serialize(message));
-						}
-					});
+					requestIdentification();
 				}
 			}
 			else if (msg.getType().equals(Message.Type.DISASSOCIATE)) {
 				this.accessPointId = null;
 				this.accessPointType = null;
-				associated = false	;
+				associated = false;
+				accessControllerSvc.deactivate();
 				System.out.println("Disassociated, waiting for new association...");
 			}
 			else if (msg.getType().equals(Message.Type.CHANGE_AUTH)) {
 				if (msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.Authorization.NOT_AVAILABLE)) {
 					this.activeAuthorizationType = null;
 					this.authorizable = false;
+					accessControllerSvc.deactivate();
 				}
 				else {
-					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE); 
+					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
+					if (!this.authorizable && this.associated && this.registered) {
+						requestIdentification();
+					}
+					this.authorizable = true;
 				}
 			}
 		}
