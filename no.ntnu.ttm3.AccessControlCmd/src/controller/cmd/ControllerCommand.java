@@ -120,6 +120,11 @@ public class ControllerCommand extends CommunicationPoint  {
 					this.authorizable = true;
 					System.out.println("Authorization type available: "+activeAuthorizationType);
 				}
+				else {
+					this.activeAuthorizationType = ComponentTypes.Authorization.NOT_AVAILABLE.name();
+					this.authorizable = false;
+					System.out.println("Requested authorization types not available.");
+				}
 				this.keepalive_delay = Long.valueOf(msg.getData(Message.Field.TIMEOUT))*3/4;
 				this.registered = true;
 				System.out.println("New ID: "+this.id);
@@ -141,8 +146,8 @@ public class ControllerCommand extends CommunicationPoint  {
 				System.out.println("Disassociated, waiting for new association...");
 			}
 			else if (msg.getType().equals(Message.Type.CHANGE_AUTH)) {
-				if (msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.Authorization.NOT_AVAILABLE)) {
-					this.activeAuthorizationType = null;
+				if (msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.Authorization.NOT_AVAILABLE.name())) {
+					this.activeAuthorizationType = ComponentTypes.Authorization.NOT_AVAILABLE.name();
 					this.authorizable = false;
 					accessControllerSvc.deactivate();
 				}
