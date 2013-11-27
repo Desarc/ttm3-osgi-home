@@ -24,6 +24,7 @@ public abstract class CommunicationPoint {
 	 * Set id, location and type before calling this
 	 */
 	protected void setUp() {
+		System.out.println("Setting up...");
 		this.listener = new HydnaListener() {
 			
 			@Override

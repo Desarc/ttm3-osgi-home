@@ -118,18 +118,15 @@ public class AreaManagerCommand extends CommunicationPoint {
 	}
 	
 	/*
-	 * Retrieve a waiting AccessPoint of the given type.
+	 * Retrieve a waiting AccessPoint of the given associationKey.
 	 * Assuming only one association is allowed per controller and AccessPoint for now...
 	 */
-	private ComponentEntry waitingAccessPoint(String type) {
+	private ComponentEntry availableAccessPoint(String associationKey) {
 		// check preferred first, then alt
 		for (String key : this.accessPoints.keySet()) {
-			if (this.accessPoints.get(key).preferredType.equals(type) && !this.accessPoints.get(key).associated) {
-				return this.accessPoints.get(key);
-			}
-		}
-		for (String key : this.accessPoints.keySet()) {
-			if (this.accessPoints.get(key).altType.equals(type) && !this.accessPoints.get(key).associated) {
+			//if (this.accessPoints.get(key).associationKey.equals(associationKey) && !this.accessPoints.get(key).associated) {
+			// assuming we can have 1..n association between AP and AC
+			if (this.accessPoints.get(key).associationKey.equals(associationKey)) {
 				return this.accessPoints.get(key);
 			}
 		}
@@ -137,12 +134,12 @@ public class AreaManagerCommand extends CommunicationPoint {
 	}
 	
 	/*
-	 * Retrieve an available controller of the given type.
+	 * Retrieve an available controller with the given associationKey.
 	 * Assuming only one association is allowed per controller and AccessPoint for now...
 	 */
-	private ComponentEntry availableController(String type) {
+	private ComponentEntry availableController(String associationKey) {
 		for (String key : this.accessControllers.keySet()) {
-			if (this.accessControllers.get(key).selfType.equals(type) && !this.accessControllers.get(key).associated) {
+			if (this.accessControllers.get(key).associationKey.equals(associationKey) && !this.accessControllers.get(key).associated) {
 				return this.accessControllers.get(key);
 			}
 		}
@@ -208,14 +205,11 @@ public class AreaManagerCommand extends CommunicationPoint {
 	
 	/*
 	 * Find a suitable controller, and associate it with AccessPoint.
-	 * Assuming any controller of the right type is ok for now...
+	 * Association is done by associationKey
 	 * If no controller is available, do nothing
 	 */
 	private boolean associateAccessPoint(ComponentEntry apComponent) {
-		ComponentEntry acComponent = availableController(apComponent.preferredType); 
-		if (acComponent == null) {
-			acComponent = availableController(apComponent.altType);
-		}
+		ComponentEntry acComponent = availableController(apComponent.associationKey); 
 		if (acComponent != null) {
 			associate(apComponent, acComponent);
 			return true;
@@ -225,11 +219,11 @@ public class AreaManagerCommand extends CommunicationPoint {
 	
 	/*
 	 * Check if any AccessPoints are waiting to be associated, and associate with this controller if found.
-	 * Assuming any controller of the right type is ok for now...
+	 * Association is done by associationKey
 	 * If no AccessPoints are waiting, do nothing
 	 */
 	private boolean associateAccessController(ComponentEntry acComponent) {
-		ComponentEntry apComponent = waitingAccessPoint(acComponent.selfType); 
+		ComponentEntry apComponent = availableAccessPoint(acComponent.associationKey); 
 		if (apComponent != null) {
 			associate(apComponent, acComponent);
 			return true;
@@ -262,13 +256,13 @@ public class AreaManagerCommand extends CommunicationPoint {
 	
 	private void handleNewAccessPoint(String oldId, String type, String associationKey, String subtype, String preferred, String alt) {
 		String newId = assignId(type);
-		Message msg2 = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
-		msg2.addData(Message.Field.TIMEOUT, ""+this.timeout);
-		msg2.addData(Message.Field.COMPONENT_ID, newId);
+		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
+		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
+		msg.addData(Message.Field.COMPONENT_ID, newId);
 		System.out.println("New component registered: "+type+" of type "+subtype+", assigned ID: "+newId);
 		ComponentEntry component = new ComponentEntry(newId, subtype, associationKey, preferred, alt);
 		this.accessPoints.put(newId, component);
-		hydnaSvc.sendMessage(Serializer.serialize(msg2));
+		hydnaSvc.sendMessage(Serializer.serialize(msg));
 		associateAccessPoint(component);
 	}
 	
