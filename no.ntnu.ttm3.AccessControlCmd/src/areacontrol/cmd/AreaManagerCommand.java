@@ -297,7 +297,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 		}
 		else {
 			msg.addData(Message.Field.AUTH_TYPE, ComponentTypes.Authorization.NOT_AVAILABLE.name());
-			component.activeType = null;
+			component.activeType = ComponentTypes.Authorization.NOT_AVAILABLE.name();
 		}
 		System.out.println("Assigned authorization type "+component.activeType+" to "+newId);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));

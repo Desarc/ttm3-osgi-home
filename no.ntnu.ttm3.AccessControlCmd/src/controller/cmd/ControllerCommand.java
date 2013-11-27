@@ -122,7 +122,7 @@ public class ControllerCommand extends CommunicationPoint  {
 						@Override
 						public void callback(Message message) {
 							message.setFrom(id);
-							msg.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
+							message.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
 							System.out.println("Requesting authorization of type "+activeAuthorizationType);
 							hydnaSvc.sendMessage(Serializer.serialize(message));
 						}
