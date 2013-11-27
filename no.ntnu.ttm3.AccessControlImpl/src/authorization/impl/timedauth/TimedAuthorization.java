@@ -39,4 +39,16 @@ public class TimedAuthorization implements IAuthorization {
 		return false;
 	}
 
+	@Override
+	public void addAuthorizedValue(AuthorizationToken token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAuthorizedValue(AuthorizationToken token) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

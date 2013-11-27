@@ -13,7 +13,6 @@ import org.apache.felix.service.command.*;
 
 import communication.CommunicationPoint;
 import communication.api.Message;
-import communication.api.Message.ComponentType;
 import communication.api.Serializer;
 import componenttypes.api.ComponentTypes;
 

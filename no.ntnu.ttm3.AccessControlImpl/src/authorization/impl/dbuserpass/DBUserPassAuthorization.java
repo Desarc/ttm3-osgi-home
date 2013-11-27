@@ -50,4 +50,16 @@ public class DBUserPassAuthorization implements IAuthorization {
 		System.out.println("User "+id+" does not exist.");
 		return false;
 	}
+
+	@Override
+	public void addAuthorizedValue(AuthorizationToken token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAuthorizedValue(AuthorizationToken token) {
+		// TODO Auto-generated method stub
+		
+	}
 }
