@@ -13,6 +13,7 @@ import org.apache.felix.service.command.*;
 
 import communication.CommunicationPoint;
 import communication.api.Message;
+import communication.api.Message.ComponentType;
 import communication.api.Serializer;
 import componenttypes.api.ComponentTypes;
 
@@ -290,6 +291,8 @@ public class AreaManagerCommand extends CommunicationPoint {
 		if (availableAuthorization(preferred) != null) {
 			msg.addData(Message.Field.AUTH_TYPE, preferred);
 			component.activeType = preferred;
+			// teststuff
+			this.authorizationSvcs.get(preferred).addAuthorizedValue(new AuthorizationToken(newId, ComponentTypes.Authorization.valueOf(preferred), "1234"));
 		}
 		else if (availableAuthorization(alt) != null) {
 			msg.addData(Message.Field.AUTH_TYPE, alt);
@@ -333,7 +336,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 			else if (msg.getType().equals(Message.Type.KEEP_ALIVE)) {
 				System.out.println("KEEP_ALIVE from "+msg.getFrom());
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
-					if (this.accessPoints.get(msg.getFrom()) != null){
+					if (this.accessPoints.get(msg.getFrom()) != null) {
 						this.accessPoints.get(msg.getFrom()).timestamp = System.currentTimeMillis();
 					}
 				}

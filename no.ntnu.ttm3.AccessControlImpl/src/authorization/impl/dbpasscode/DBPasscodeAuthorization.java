@@ -1,7 +1,8 @@
 package authorization.impl.dbpasscode;
 
-import componenttypes.api.ComponentTypes;
+import java.util.HashMap;
 
+import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
@@ -13,7 +14,7 @@ import authorization.api.IAuthorization;
 @Component
 public class DBPasscodeAuthorization implements IAuthorization {
 
-	private String passcode = "1234";
+	private HashMap<String, String> passcodeAssociations; // controller, passcode
 	
 	@Override
 	public ComponentTypes.Authorization getType() {
@@ -23,7 +24,7 @@ public class DBPasscodeAuthorization implements IAuthorization {
 	@Override
 	public boolean authorize(AuthorizationToken token) {
 		if (token.getType().equals(getType())) {
-			if (token.getValue().equals(this.passcode)) {
+			if (token.getValue().equals(passcodeAssociations.get(token.getController()))) {
 				return true;			
 			}
 			System.out.println("Access denied.");
@@ -32,5 +33,16 @@ public class DBPasscodeAuthorization implements IAuthorization {
 			System.out.println("Invalid AuthorizationToken.");
 		}
 		return false;
+	}
+
+	@Override
+	public void addAuthorizedValue(AuthorizationToken token) {
+		passcodeAssociations.put(token.getController(), token.getValue());
+		
+	}
+
+	@Override
+	public void removeAuthorizedValue(AuthorizationToken token) {
+		passcodeAssociations.remove(token.getController());
 	}
 }

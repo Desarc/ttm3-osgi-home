@@ -8,4 +8,8 @@ public interface IAuthorization {
 	
 	boolean authorize(AuthorizationToken token);
 	
+	void addAuthorizedValue(AuthorizationToken token);
+	
+	void removeAuthorizedValue(AuthorizationToken token);
+	
 }
