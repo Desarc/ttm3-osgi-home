@@ -189,6 +189,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 	 * Send ASSOCIATE messages to both parts of the association
 	 */
 	private void associate(ComponentEntry apComponent, ComponentEntry acComponent) {
+		System.out.println("Associating "+apComponent.id+" with "+acComponent.id+"...");
 		Message msg1 = new Message(Message.Type.ASSOCIATE, acComponent.id, Message.MANAGER);
 		msg1.addData(Message.Field.COMPONENT_ID, apComponent.id);
 		msg1.addData(Message.Field.COMPONENT_SUBTYPE, apComponent.selfType);
@@ -254,24 +255,24 @@ public class AreaManagerCommand extends CommunicationPoint {
 		}
 	}
 	
-	private void handleNewAccessPoint(String oldId, String type, String associationKey, String subtype, String preferred, String alt) {
+	private void handleNewAccessPoint(String oldId, String type, String subtype, String associationKey, String preferred, String alt) {
 		String newId = assignId(type);
 		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
 		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
 		msg.addData(Message.Field.COMPONENT_ID, newId);
-		System.out.println("New component registered: "+type+" of type "+subtype+", assigned ID: "+newId);
+		System.out.println("New component registered: "+type+" of type "+subtype+", associationKey: "+associationKey+", assigned ID: "+newId);
 		ComponentEntry component = new ComponentEntry(newId, subtype, associationKey, preferred, alt);
 		this.accessPoints.put(newId, component);
 		hydnaSvc.sendMessage(Serializer.serialize(msg));
 		associateAccessPoint(component);
 	}
 	
-	private void handleNewController(String oldId, String type, String associationKey, String subtype, String preferred, String alt) {
+	private void handleNewController(String oldId, String type, String subtype, String associationKey, String preferred, String alt) {
 		String newId = assignId(type);
 		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
 		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
 		msg.addData(Message.Field.COMPONENT_ID, newId);
-		System.out.println("New component registered: "+type+" of type "+subtype+", assigned ID: "+newId);
+		System.out.println("New component registered: "+type+" of type "+subtype+", associationKey: "+associationKey+", assigned ID: "+newId);
 		ComponentEntry component = new ComponentEntry(newId, subtype, associationKey, preferred, alt);
 		if (availableAuthorization(preferred) != null) {
 			msg.addData(Message.Field.AUTH_TYPE, preferred);
