@@ -106,6 +106,7 @@ public class ControllerCommand extends CommunicationPoint  {
 				if (!msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.Authorization.NOT_AVAILABLE.name())) {
 					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
 					this.authorizable = true;
+					System.out.println("Authorization type available: "+activeAuthorizationType);
 				}
 				this.keepalive_delay = Long.valueOf(msg.getData(Message.Field.TIMEOUT))*3/4;
 				this.registered = true;
@@ -122,7 +123,7 @@ public class ControllerCommand extends CommunicationPoint  {
 						public void callback(Message message) {
 							message.setFrom(id);
 							msg.addData(Message.Field.AUTH_TYPE, activeAuthorizationType);
-							System.out.println("Requesting authorization...");
+							System.out.println("Requesting authorization of type "+activeAuthorizationType);
 							hydnaSvc.sendMessage(Serializer.serialize(message));
 						}
 					});
