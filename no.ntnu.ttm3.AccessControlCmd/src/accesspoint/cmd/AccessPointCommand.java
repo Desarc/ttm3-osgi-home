@@ -7,7 +7,6 @@ import accesspoint.api.IAccessPoint;
 
 import org.apache.felix.service.command.*;
 
-import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
@@ -21,7 +20,7 @@ import componenttypes.api.ComponentTypes;
 	provide = Object.class
 )
 
-public class AccessPointCommand extends CommunicationPoint implements CommandModule {
+public class AccessPointCommand extends CommunicationPoint {
 
 	private IAccessPoint accessPointSvc;
 	private String accessControllerId;
@@ -47,7 +46,7 @@ public class AccessPointCommand extends CommunicationPoint implements CommandMod
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	public void run(String location) {
+	public void run(String location, String associationKeyword) {
 		this.location = location;
 		setUp();
 		while (true) {

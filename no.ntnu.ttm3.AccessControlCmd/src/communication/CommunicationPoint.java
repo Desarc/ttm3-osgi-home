@@ -16,6 +16,7 @@ public abstract class CommunicationPoint {
 	protected String id;
 	protected String type;
 	protected String location;
+	protected String associationKeyword;
 	protected boolean registered = false;
 
 	
@@ -49,7 +50,7 @@ public abstract class CommunicationPoint {
 	
 	public abstract void setHydnaSvc(HydnaApi hydnaSvc);
 	
-	public abstract void run(String location);
+	public abstract void run(String location, String associationKeyword);
 	
 	protected abstract void handleMessage(Message msg);
 	

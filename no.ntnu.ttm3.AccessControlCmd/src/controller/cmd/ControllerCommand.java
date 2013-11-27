@@ -6,7 +6,6 @@ import aQute.bnd.annotation.component.Reference;
 
 import org.apache.felix.service.command.*;
 
-import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
@@ -22,7 +21,7 @@ import controller.api.IdentificationCallback;
 	provide = Object.class
 )
 
-public class ControllerCommand extends CommunicationPoint implements CommandModule {
+public class ControllerCommand extends CommunicationPoint  {
 
 	private IAccessController accessControllerSvc;
 	private String accessPointId;
@@ -47,8 +46,9 @@ public class ControllerCommand extends CommunicationPoint implements CommandModu
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	public void run(String location) {
+	public void run(String location, String associationKeyword) {
 		this.location = location;
+		this.associationKeyword = associationKeyword;
 		setUp();
 		while (true) {
 			try {

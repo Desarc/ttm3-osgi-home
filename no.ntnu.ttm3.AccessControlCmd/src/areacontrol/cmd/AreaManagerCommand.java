@@ -11,7 +11,6 @@ import authorization.api.IAuthorization;
 
 import org.apache.felix.service.command.*;
 
-import command.api.CommandModule;
 import communication.CommunicationPoint;
 import communication.api.Message;
 import communication.api.Serializer;
@@ -27,7 +26,7 @@ import componenttypes.api.ComponentTypes;
 	provide = Object.class
 )
 
-public class AreaManagerCommand extends CommunicationPoint implements CommandModule {
+public class AreaManagerCommand extends CommunicationPoint {
 
 	private HashMap<ComponentTypes.Authorization, IAuthorization> authorizationSvcs;
 	//private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
@@ -75,10 +74,11 @@ public class AreaManagerCommand extends CommunicationPoint implements CommandMod
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	public void run(String location) {
+	public void run(String location, String associationKeyword) {
 		this.id = Message.MANAGER;
 		this.type = Message.MANAGER;
 		this.location = location;
+		this.associationKeyword = associationKeyword;
 		setUp();
 		while (true) {
 			try {
