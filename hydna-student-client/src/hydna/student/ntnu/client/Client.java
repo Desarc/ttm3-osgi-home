@@ -34,14 +34,14 @@ public class Client {
 			}
 		};
 		hydnaSvc.registerListener(this.listener);
-		hydnaSvc.connectChannel("ttm3-access-control.hydna.net/room", "rwe");
+		hydnaSvc.connectChannel("students.hydna.net/room", "rwe");
 		hydnaSvc.emitSignal("SINGALS CLIENT");
 		hydnaSvc.sendMessage("MESSAGE CLIENT");
 	}
 	
 	@Reference
 	public void setHydnaApi(HydnaApi hydna) {
-		System.out.println("SETTING SERVICES");
+		System.out.println("SETTIsNG SERVICSE");
 		this.hydnaSvc = hydna;
 	}
 	
