@@ -133,7 +133,7 @@ public class NumKeyPadGUI extends JFrame {
 	protected void submit() {
 		try {
 			controller.createAuthorizationRequest(new String(display.getPassword()));
-			reset();
+			activate();
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

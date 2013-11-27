@@ -49,7 +49,7 @@ public class NumKeyPadController implements IAccessController {
 	}
 	
 	void createAuthorizationRequest(String passcode) {
-		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null);
+		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null); // id is stored in ControllerCommand
 		msg.addData(Message.Field.PASSCODE, passcode);
 		callback.callback(msg);
 	}
