@@ -25,6 +25,7 @@ public class AccessPointCommand extends CommunicationPoint {
 	private IAccessPoint accessPointSvc;
 	private String accessControllerId;
 	private String accessControllerType;
+	private boolean associated = false;
 	private ComponentTypes.AccessController preferredControllerType = null;
 	private ComponentTypes.AccessController altControllerType = null;
 	
@@ -92,10 +93,10 @@ public class AccessPointCommand extends CommunicationPoint {
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(this.id)) {
-			if (msg.getType().equals(Message.Type.OPEN)) {
+			if (msg.getType().equals(Message.Type.OPEN) && associated) {
 				grantAccess();
 			}
-			else if (msg.getType().equals(Message.Type.CLOSE)) {
+			else if (msg.getType().equals(Message.Type.CLOSE) && associated) {
 				revokeAccess();
 			}
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
@@ -108,7 +109,14 @@ public class AccessPointCommand extends CommunicationPoint {
 			else if (msg.getType().equals(Message.Type.ASSOCIATE)) {
 				this.accessControllerId = msg.getData(Message.Field.COMPONENT_ID);
 				this.accessControllerType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
+				associated = true;
 				printInfo();
+			}
+			else if (msg.getType().equals(Message.Type.DISASSOCIATE)) {
+				this.accessControllerId = null;
+				this.accessControllerType = null;
+				associated = false;
+				System.out.println("Disassociated, waiting for new association...");
 			}
 		}
 	}
