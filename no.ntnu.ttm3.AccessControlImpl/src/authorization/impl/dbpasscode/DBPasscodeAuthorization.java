@@ -16,6 +16,10 @@ public class DBPasscodeAuthorization implements IAuthorization {
 
 	private HashMap<String, String> passcodeAssociations; // controller, passcode
 	
+	public DBPasscodeAuthorization() {
+		this.passcodeAssociations = new HashMap<String, String>();
+	}
+	
 	@Override
 	public ComponentTypes.Authorization getType() {
 		return ComponentTypes.Authorization.DB_PASSCODE;

@@ -291,7 +291,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 			msg.addData(Message.Field.AUTH_TYPE, preferred);
 			component.activeType = preferred;
 			// teststuff
-			this.authorizationSvcs.get(preferred).addAuthorizedValue(new AuthorizationToken(newId, ComponentTypes.Authorization.valueOf(preferred), "1234"));
+			this.authorizationSvcs.get(ComponentTypes.Authorization.valueOf(preferred)).addAuthorizedValue(new AuthorizationToken(newId, ComponentTypes.Authorization.valueOf(preferred), "1234"));
 		}
 		else if (availableAuthorization(alt) != null) {
 			msg.addData(Message.Field.AUTH_TYPE, alt);
