@@ -39,6 +39,11 @@ public class LockedDoor implements IAccessPoint {
 	public void revokeAccess() {
 		System.out.println("Door locked!");
 	}
+	
+	//@Override
+	public long getRevokeDelay() {
+		return 5000;
+	}
 
 	@Override
 	public ComponentTypes.AccessController getPreferredControllerType() {
@@ -48,5 +53,11 @@ public class LockedDoor implements IAccessPoint {
 	@Override
 	public ComponentTypes.AccessController getAltControllerType() {
 		return ComponentTypes.AccessController.NUM_KEY_PAD;
+	}
+
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		
 	}
 }

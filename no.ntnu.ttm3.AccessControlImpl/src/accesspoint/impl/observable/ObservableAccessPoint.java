@@ -75,4 +75,16 @@ public class ObservableAccessPoint extends Observable implements IAccessPoint {
 		return null;
 	}
 
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getRevokeDelay() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

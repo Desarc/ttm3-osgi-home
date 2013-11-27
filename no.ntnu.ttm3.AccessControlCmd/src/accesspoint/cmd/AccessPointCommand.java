@@ -26,10 +26,12 @@ public class AccessPointCommand extends CommunicationPoint {
 	private String accessControllerId;
 	private String accessControllerType;
 	private boolean associated = false;
+	private boolean open = false;
 	private ComponentTypes.AccessController preferredControllerType = null;
 	private ComponentTypes.AccessController altControllerType = null;
 	
-	private long keepalive_delay = 1000;
+	private long keepaliveDelay = 1000;
+	private long revokeDelay = 0;
 	
 	public AccessPointCommand() {
 		
@@ -53,7 +55,7 @@ public class AccessPointCommand extends CommunicationPoint {
 		setUp();
 		while (true) {
 			try {
-				Thread.sleep(keepalive_delay);
+				Thread.sleep(keepaliveDelay);
 			} catch (InterruptedException e) {
 				System.out.println("Sleep interrupted...");
 				e.printStackTrace();
@@ -93,16 +95,30 @@ public class AccessPointCommand extends CommunicationPoint {
 	@Override
 	protected void handleMessage(Message msg) {
 		if (msg.getTo().equals(this.id)) {
-			if (msg.getType().equals(Message.Type.OPEN) && associated) {
+			if (msg.getType().equals(Message.Type.OPEN) && associated && !open) {
 				grantAccess();
+				open = true;
+				if (revokeDelay > 0) {
+					try {
+						Thread.sleep(revokeDelay);
+					} catch (InterruptedException e) {
+						System.out.println("Sleep interrupted...");
+						e.printStackTrace();
+					}
+					if (!open) {
+						revokeAccess();
+						open = false;
+					}
+				}
 			}
 			else if (msg.getType().equals(Message.Type.CLOSE) && associated) {
 				revokeAccess();
+				open = false;
 			}
 			else if (msg.getType().equals(Message.Type.NEW_ID)) {
 				System.out.println("Registration confirmation from "+Message.MANAGER+"!");
 				this.id = msg.getData(Message.Field.COMPONENT_ID);
-				this.keepalive_delay = Long.valueOf(msg.getData(Message.Field.TIMEOUT))*3/4;
+				this.keepaliveDelay = Long.valueOf(msg.getData(Message.Field.TIMEOUT))*3/4;
 				this.registered = true;
 				System.out.println("New ID: "+this.id);
 			}

@@ -45,5 +45,17 @@ public class InternetTerminal implements IAccessPoint {
 		return ComponentTypes.AccessController.ANY;
 	}
 
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getRevokeDelay() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }

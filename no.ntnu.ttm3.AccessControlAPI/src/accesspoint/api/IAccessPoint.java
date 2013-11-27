@@ -20,6 +20,14 @@ public interface IAccessPoint {
 	 */
 	void revokeAccess();
 	
+	void deactivate();
+	
+	/**
+	 * Time to wait until automatically revoking access. Set to 0 if this should not be done automatically.
+	 * @return
+	 */
+	long getRevokeDelay();
+	
 	/**
 	 * Return a string (the type) which is unique for this type of accesspoint.
 	 * @return

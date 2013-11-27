@@ -56,4 +56,18 @@ public class AutomaticDoor implements IAccessPoint {
 	}
 
 
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public long getRevokeDelay() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 }
