@@ -116,7 +116,6 @@ public class ControllerCommand extends CommunicationPoint  {
 				this.accessPointType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
 				associated = true;
 				printInfo();
-				//teststuff
 				if (isActive()) {
 					accessControllerSvc.requestIdentification(new IdentificationCallback() {
 						@Override

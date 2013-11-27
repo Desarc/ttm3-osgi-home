@@ -239,6 +239,19 @@ public class AreaManagerCommand extends CommunicationPoint {
 		return authorizationSvcs.get(ComponentTypes.Authorization.valueOf(type));
 	}
 	
+	private boolean handleAccessRequest(String authType, String controller, String id, String passcode) {
+		System.out.println("New access request from "+controller+": "+authType+", "+id+" - "+passcode);
+		IAuthorization service = availableAuthorization(authType);
+		boolean result = false;
+		if (service != null) {
+			AuthorizationToken token = AuthorizationToken.generateToken(controller, authType, id, passcode);
+			result = service.authorize(token);
+		}
+		else {
+			System.out.println("Requested authorization service not available: "+authType);
+		}
+		return result;
+	}
 	/*
 	 * Send result back to controller, and to AccessPoint if access is authorized
 	 */
@@ -312,16 +325,8 @@ public class AreaManagerCommand extends CommunicationPoint {
 				
 			}
 			else if (msg.getType().equals(Message.Type.ACCESS_REQ)) {
-				IAuthorization service = availableAuthorization(msg.getData(Message.Field.AUTH_TYPE));
-				boolean result = false;
-				if (service != null) {
-					AuthorizationToken token = AuthorizationToken.generateToken(msg.getFrom(),msg.getData(Message.Field.AUTH_TYPE),
-							msg.getData(Message.Field.ID), msg.getData(Message.Field.PASSCODE));
-					result = service.authorize(token);
-				}
-				else {
-					System.out.println("Requested authorization service not available: "+msg.getData(Message.Field.AUTH_TYPE));
-				}
+				boolean result = handleAccessRequest(msg.getData(Message.Field.AUTH_TYPE), msg.getFrom(),
+						msg.getData(Message.Field.ID), msg.getData(Message.Field.PASSCODE));
 				handleAuthorizationResult(msg.getFrom(), result);
 			}
 			else if (msg.getType().equals(Message.Type.KEEP_ALIVE)) {
