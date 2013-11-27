@@ -364,6 +364,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 		if (aa != null) {
 			if (!associateAccessPoint(aa.accessController)) {
 				System.out.println("Disassociating "+aa.accessController.id);
+				aa.accessController.associated = false;
 				Message msg = new Message(Message.Type.DISASSOCIATE, aa.accessController.id, Message.MANAGER);
 				hydnaSvc.sendMessage(Serializer.serialize(msg));
 			}
@@ -376,12 +377,16 @@ public class AreaManagerCommand extends CommunicationPoint {
 		this.accessControllers.remove(ac.id);
 		AccessAssociation aa = findAssociation(ac.id);
 		if (aa != null) {
+			this.accessAssociations.remove(aa);
 			if (!associateAccessPoint(aa.accessPoint)) {
 				System.out.println("Dissassociating "+aa.accessPoint.id);
+				if (findAssociation(aa.accessPoint.id) == null) {
+					aa.accessPoint.associated = false;
+				}
 				Message msg = new Message(Message.Type.DISASSOCIATE, aa.accessPoint.id, Message.MANAGER);
 				hydnaSvc.sendMessage(Serializer.serialize(msg));
 			}
-			this.accessAssociations.remove(aa);
+			
 		}
 	}
 	
