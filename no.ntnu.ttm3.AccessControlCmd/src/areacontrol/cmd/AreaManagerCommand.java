@@ -142,7 +142,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 	 */
 	private ComponentEntry availableController(String type) {
 		for (String key : this.accessControllers.keySet()) {
-			if (this.accessControllers.get(key).type.equals(type) && !this.accessControllers.get(key).associated) {
+			if (this.accessControllers.get(key).selfType.equals(type) && !this.accessControllers.get(key).associated) {
 				return this.accessControllers.get(key);
 			}
 		}
@@ -194,11 +194,11 @@ public class AreaManagerCommand extends CommunicationPoint {
 	private void associate(ComponentEntry apComponent, ComponentEntry acComponent) {
 		Message msg1 = new Message(Message.Type.ASSOCIATE, acComponent.id, Message.MANAGER);
 		msg1.addData(Message.Field.COMPONENT_ID, apComponent.id);
-		msg1.addData(Message.Field.COMPONENT_SUBTYPE, apComponent.type);
+		msg1.addData(Message.Field.COMPONENT_SUBTYPE, apComponent.selfType);
 		hydnaSvc.sendMessage(Serializer.serialize(msg1));
 		Message msg2 = new Message(Message.Type.ASSOCIATE, apComponent.id, Message.MANAGER);
 		msg2.addData(Message.Field.COMPONENT_ID, acComponent.id);
-		msg2.addData(Message.Field.COMPONENT_SUBTYPE, acComponent.type);
+		msg2.addData(Message.Field.COMPONENT_SUBTYPE, acComponent.selfType);
 		hydnaSvc.sendMessage(Serializer.serialize(msg2));
 		acComponent.associated = true;
 		apComponent.associated = true;
@@ -229,7 +229,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 	 * If no AccessPoints are waiting, do nothing
 	 */
 	private boolean associateAccessController(ComponentEntry acComponent) {
-		ComponentEntry apComponent = waitingAccessPoint(acComponent.type); 
+		ComponentEntry apComponent = waitingAccessPoint(acComponent.selfType); 
 		if (apComponent != null) {
 			associate(apComponent, acComponent);
 			return true;
@@ -260,25 +260,25 @@ public class AreaManagerCommand extends CommunicationPoint {
 		}
 	}
 	
-	private void handleNewAccessPoint(String oldId, String type, String subtype, String preferred, String alt) {
+	private void handleNewAccessPoint(String oldId, String type, String associationKey, String subtype, String preferred, String alt) {
 		String newId = assignId(type);
 		Message msg2 = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
 		msg2.addData(Message.Field.TIMEOUT, ""+this.timeout);
 		msg2.addData(Message.Field.COMPONENT_ID, newId);
 		System.out.println("New component registered: "+type+" of type "+subtype+", assigned ID: "+newId);
-		ComponentEntry component = new ComponentEntry(newId, subtype, preferred, alt);
+		ComponentEntry component = new ComponentEntry(newId, subtype, associationKey, preferred, alt);
 		this.accessPoints.put(newId, component);
 		hydnaSvc.sendMessage(Serializer.serialize(msg2));
 		associateAccessPoint(component);
 	}
 	
-	private void handleNewController(String oldId, String type, String subtype, String preferred, String alt) {
+	private void handleNewController(String oldId, String type, String associationKey, String subtype, String preferred, String alt) {
 		String newId = assignId(type);
 		Message msg = new Message(Message.Type.NEW_ID, oldId, Message.MANAGER);
 		msg.addData(Message.Field.TIMEOUT, ""+this.timeout);
 		msg.addData(Message.Field.COMPONENT_ID, newId);
 		System.out.println("New component registered: "+type+" of type "+subtype+", assigned ID: "+newId);
-		ComponentEntry component = new ComponentEntry(newId, subtype, preferred, alt);
+		ComponentEntry component = new ComponentEntry(newId, subtype, associationKey, preferred, alt);
 		if (availableAuthorization(preferred) != null) {
 			msg.addData(Message.Field.AUTH_TYPE, preferred);
 			component.activeType = preferred;
@@ -308,11 +308,11 @@ public class AreaManagerCommand extends CommunicationPoint {
 			if (msg.getType().equals(Message.Type.REGISTER) && msg.getData(Message.Field.LOCATION).equals(this.location)) {
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
 					handleNewAccessPoint(msg.getFrom(), msg.getData(Message.Field.COMPONENT_TYPE), msg.getData(Message.Field.COMPONENT_SUBTYPE),
-							msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
+							msg.getData(Message.Field.ASSOCIATION_KEY), msg.getData(Message.Field.PREFERRED_CONTROLLER_TYPE), msg.getData(Message.Field.ALT_CONTROLLER_TYPE));
 				}
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.CONTROLLER.name())) {
 					handleNewController(msg.getFrom(), msg.getData(Message.Field.COMPONENT_TYPE), msg.getData(Message.Field.COMPONENT_SUBTYPE),
-							msg.getData(Message.Field.PREFERRED_AUTH_TYPE), msg.getData(Message.Field.ALT_AUTH_TYPE));
+							msg.getData(Message.Field.ASSOCIATION_KEY), msg.getData(Message.Field.PREFERRED_AUTH_TYPE), msg.getData(Message.Field.ALT_AUTH_TYPE));
 				}
 				
 			}
@@ -411,16 +411,18 @@ public class AreaManagerCommand extends CommunicationPoint {
 	 */
 	class ComponentEntry {
 		String id;
-		String type;
+		String selfType;
+		String associationKey;
 		String preferredType;
 		String altType;
 		String activeType;
 		long timestamp;
 		boolean associated;
 		
-		public ComponentEntry(String id, String type, String preferred, String alt) {
+		public ComponentEntry(String id, String type, String associationKey, String preferred, String alt) {
 			this.id = id;
-			this.type = type;
+			this.selfType = type;
+			this.associationKey = associationKey;
 			this.preferredType = preferred;
 			this.altType = alt;
 			this.timestamp = System.currentTimeMillis();

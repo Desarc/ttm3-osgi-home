@@ -157,6 +157,7 @@ public class ControllerCommand extends CommunicationPoint  {
 		this.id = this.type+System.currentTimeMillis(); //temporary unique ID
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);
+		msg.addData(Message.Field.ASSOCIATION_KEY, this.associationKeyword);
 		msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.CONTROLLER.name());
 		msg.addData(Message.Field.COMPONENT_SUBTYPE, this.type);
 		msg.addData(Message.Field.PREFERRED_AUTH_TYPE, this.accessControllerSvc.getPreferredAuthorizationType().name());

@@ -48,6 +48,7 @@ public class AccessPointCommand extends CommunicationPoint {
 	
 	public void run(String location, String associationKeyword) {
 		this.location = location;
+		this.associationKeyword = associationKeyword;
 		setUp();
 		while (true) {
 			try {
@@ -122,6 +123,7 @@ public class AccessPointCommand extends CommunicationPoint {
 		this.id = this.type+System.currentTimeMillis(); //temporary unique ID
 		Message msg = new Message(Message.Type.REGISTER, Message.MANAGER, this.id);
 		msg.addData(Message.Field.LOCATION, this.location);
+		msg.addData(Message.Field.ASSOCIATION_KEY, this.associationKeyword);
 		msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.ACCESSPOINT.name());
 		msg.addData(Message.Field.COMPONENT_SUBTYPE, this.type);
 		if (this.preferredControllerType != null) {
