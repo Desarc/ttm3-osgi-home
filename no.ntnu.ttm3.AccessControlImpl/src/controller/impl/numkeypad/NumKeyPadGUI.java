@@ -119,7 +119,7 @@ public class NumKeyPadGUI extends JFrame {
 			buttons[i].setEnabled(true);
 	}
 	
-	protected void reset() {
+	public void reset() {
 		if (failed)
 			throw new IllegalStateException("GUI is failed.");
 		display.setText("inaktiv");
