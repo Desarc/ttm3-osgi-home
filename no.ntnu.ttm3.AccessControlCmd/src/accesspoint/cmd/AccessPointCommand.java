@@ -105,7 +105,7 @@ public class AccessPointCommand extends CommunicationPoint {
 						System.out.println("Sleep interrupted...");
 						e.printStackTrace();
 					}
-					if (!open) {
+					if (open) {
 						revokeAccess();
 						open = false;
 					}
