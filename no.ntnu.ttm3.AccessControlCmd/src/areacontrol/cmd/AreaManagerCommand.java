@@ -8,6 +8,7 @@ import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
+import notification.api.IAccessNotification;
 
 import org.apache.felix.service.command.*;
 
@@ -29,7 +30,7 @@ import componenttypes.api.ComponentTypes;
 public class AreaManagerCommand extends CommunicationPoint {
 
 	private HashMap<ComponentTypes.Authorization, IAuthorization> authorizationSvcs;
-	//private HashMap<IAccessNotification.Type, IAccessNotification> notificationSvcs;
+	private HashMap<ComponentTypes.AccessNotification, IAccessNotification> notificationSvcs;
 	private HashMap<String, ComponentEntry> accessPoints;
 	private HashMap<String, ComponentEntry> accessControllers;
 	private ArrayList<AccessAssociation> accessAssociations;
@@ -38,13 +39,13 @@ public class AreaManagerCommand extends CommunicationPoint {
 
 	public AreaManagerCommand() {
 		authorizationSvcs = new HashMap<ComponentTypes.Authorization, IAuthorization>();
-		//notificationSvcs = new HashMap<IAccessNotification.Type, IAccessNotification>();
+		notificationSvcs = new HashMap<ComponentTypes.AccessNotification, IAccessNotification>();
 		accessPoints = new HashMap<String, ComponentEntry>();
 		accessControllers = new HashMap<String, ComponentEntry>();
 		accessAssociations = new ArrayList<AccessAssociation>();
 	}
 	
-	@Reference (multiple = true, unbind = "removeAuthorizationComponent")
+	@Reference (type = '?', multiple = true, unbind = "removeAuthorizationComponent")
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
 		this.authorizationSvcs.put(authorizationSvc.getType(), authorizationSvc);
 		notifyAvailableAuthService(authorizationSvc.getType().name());
@@ -53,21 +54,23 @@ public class AreaManagerCommand extends CommunicationPoint {
 	public void removeAuthorizationComponent(IAuthorization authorizationSvc) {
 		this.authorizationSvcs.remove(authorizationSvc.getType());
 		notifyMissingAuthService(authorizationSvc.getType().name());
+		displayAvailableAuthorizationTypes();
 	}
 	
 	/*
 	 * note: if this code is enabled, an IAccessNotification service must be available for this component to work.
 	 * this is probably true for any such service references...
 	 */
-	/*@Reference (multiple = true, unbind = "removeNotificationComponent")
+	@Reference (type = '?', multiple = true, unbind = "removeNotificationComponent")
 	public void setNotificationComponent(IAccessNotification notificationSvc) {
 		this.notificationSvcs.put(notificationSvc.getType(), notificationSvc);
-	}*/
+	}
 	
-	/*
+	
 	public void removeNotificationComponent(IAccessNotification notificationSvc) {
 		this.notificationSvcs.remove(notificationSvc.getType());
-	}*/
+		displayAvailableNotificationTypes();
+	}
 	
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
@@ -98,9 +101,17 @@ public class AreaManagerCommand extends CommunicationPoint {
 		}
 	}
 	
+	private void displayAvailableNotificationTypes() {
+		System.out.println("Available notification types:");
+		for (ComponentTypes.AccessNotification type : notificationSvcs.keySet()) {
+			System.out.println(type.name());
+		}
+	}
+	
 	public void printInfo() {
 		System.out.println("This is the AreaManager for location "+this.location+".");
 		displayAvailableAuthorizationTypes();
+		displayAvailableNotificationTypes();
 	}
 	
 	/*

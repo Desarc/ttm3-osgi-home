@@ -1,14 +1,15 @@
 package notification.impl.accesslog;
 
+import componenttypes.api.ComponentTypes;
 import notification.api.IAccessNotification;
 
 // notify every time area is accessed
 public class AccessLogger implements IAccessNotification {
 
 	@Override
-	public Type getType() {
+	public ComponentTypes.AccessNotification getType() {
 		// TODO Auto-generated method stub
-		return IAccessNotification.Type.ACCESS_LOG;
+		return ComponentTypes.AccessNotification.ACCESS_LOG;
 	}
 
 	@Override

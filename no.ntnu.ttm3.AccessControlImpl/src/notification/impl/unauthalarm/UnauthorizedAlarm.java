@@ -1,13 +1,15 @@
 package notification.impl.unauthalarm;
 
+import componenttypes.api.ComponentTypes;
+
 import notification.api.IAccessNotification;
 
 // notify on attempted unauthorized access
 public class UnauthorizedAlarm  implements IAccessNotification {
 
 	@Override
-	public Type getType() {
-		return IAccessNotification.Type.CONTEXT_ALARM;
+	public ComponentTypes.AccessNotification getType() {
+		return ComponentTypes.AccessNotification.CONTEXT_ALARM;
 	}
 
 	@Override

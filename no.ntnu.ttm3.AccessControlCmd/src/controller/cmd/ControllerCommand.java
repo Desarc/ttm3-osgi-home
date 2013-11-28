@@ -32,7 +32,7 @@ public class ControllerCommand extends CommunicationPoint  {
 	
 	private long keepalive_delay = 1000; //default value
 	
-	public ControllerCommand() {
+	public ControllerCommand () {
 		
 	}
 

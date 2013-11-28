@@ -43,4 +43,12 @@ public interface ComponentTypes {
 		ANY,
 	}
 
+	/*
+	 * Valid Notification/Alarm types.
+	 */
+	public enum AccessNotification {
+		ACCESS_LOG,
+		CONTEXT_ALARM,
+	}
+	
 }
