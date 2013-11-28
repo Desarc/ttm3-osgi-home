@@ -9,6 +9,7 @@ import aQute.bnd.annotation.component.Reference;
 import authorization.api.AuthorizationToken;
 import authorization.api.IAuthorization;
 import notification.api.IAccessNotification;
+import notification.api.NotificationToken;
 
 import org.apache.felix.service.command.*;
 
@@ -22,7 +23,6 @@ import componenttypes.api.ComponentTypes;
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=areaManager",
 		CommandProcessor.COMMAND_FUNCTION + ":String=run",
-		CommandProcessor.COMMAND_FUNCTION + ":String=types",
 	},
 	provide = Object.class
 )
@@ -250,8 +250,41 @@ public class AreaManagerCommand extends CommunicationPoint {
 		return authorizationSvcs.get(ComponentTypes.Authorization.valueOf(type));
 	}
 	
+	private void updateNotificationServices(NotificationToken token) {
+		for (ComponentTypes.AccessNotification id : notificationSvcs.keySet()) {
+			this.notificationSvcs.get(id).registerToken(token);
+		}
+	}
+	
+	private long handleRequestNotifications(String authType, String controller, String id, String passcode) {
+		long timestamp = System.currentTimeMillis();
+		String accessPoint = findAssociation(controller).accessPoint.id;
+		NotificationToken token;
+		if (id != null && passcode != null) {
+			token = new NotificationToken(controller, accessPoint, timestamp, ComponentTypes.Authorization.valueOf(authType), id, passcode);
+		}
+		else if (id != null && passcode == null) {
+			token = new NotificationToken(controller, accessPoint, timestamp, ComponentTypes.Authorization.valueOf(authType), id);
+		}
+		else if (id == null && passcode != null) {
+			token = new NotificationToken(controller, accessPoint, timestamp, ComponentTypes.Authorization.valueOf(authType), passcode);
+		}
+		else {
+			token = new NotificationToken(controller, accessPoint, timestamp, ComponentTypes.Authorization.valueOf(authType), null);
+		}
+		updateNotificationServices(token);
+		return timestamp;
+	}
+	
+	private void handleResultNotifications(String authType, String controller, long timestamp, boolean result) {
+		String accessPoint = findAssociation(controller).accessPoint.id;
+		NotificationToken token = new NotificationToken(controller, accessPoint, timestamp, result);
+		updateNotificationServices(token);
+	}
+	
 	private boolean handleAccessRequest(String authType, String controller, String id, String passcode) {
 		System.out.println("New access request from "+controller+": "+authType+", "+id+" - "+passcode);
+		long timestamp = handleRequestNotifications(authType, controller, id, passcode);
 		IAuthorization service = availableAuthorization(authType);
 		boolean result = false;
 		if (service != null) {
@@ -261,6 +294,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 		else {
 			System.out.println("Requested authorization service not available: "+authType);
 		}
+		handleResultNotifications(authType, controller, timestamp, result);
 		return result;
 	}
 	/*

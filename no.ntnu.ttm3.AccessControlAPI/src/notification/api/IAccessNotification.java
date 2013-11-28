@@ -8,7 +8,7 @@ import componenttypes.api.ComponentTypes;
  */
 public interface IAccessNotification {
 	
-	void registerEvent();
+	void registerToken(NotificationToken token);
 	
 	void activateAlarm();
 	
