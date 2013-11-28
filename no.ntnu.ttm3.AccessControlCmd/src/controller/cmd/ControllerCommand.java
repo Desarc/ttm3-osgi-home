@@ -46,8 +46,9 @@ public class ControllerCommand extends CommunicationPoint {
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	@Override
-	public void run() {
+	public void run(String location, String associationKeyword) {
+		this.location = location;
+		this.associationKeyword = associationKeyword;
 		setUp();
 		while (true) {
 			try {
@@ -61,13 +62,6 @@ public class ControllerCommand extends CommunicationPoint {
 			//System.out.println("Sending KEEP_ALIVE...");
 			hydnaSvc.sendMessage(Serializer.serialize(msg));
 		}
-	}
-	
-	public void activate(String location, String associationKeyword) {
-		this.location = location;
-		this.associationKeyword = associationKeyword;
-		Thread thread = new Thread(this);
-		thread.start();
 	}
 	
 	public void handleAuthorizationResponse(String result) {

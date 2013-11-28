@@ -22,7 +22,7 @@ import componenttypes.api.ComponentTypes;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=areaManager",
-		CommandProcessor.COMMAND_FUNCTION + ":String=activate",
+		CommandProcessor.COMMAND_FUNCTION + ":String=run",
 	},
 	provide = Object.class
 )
@@ -49,12 +49,13 @@ public class AreaManagerCommand extends CommunicationPoint {
 	public void setAuthorizationComponent(IAuthorization authorizationSvc) {
 		this.authorizationSvcs.put(authorizationSvc.getType(), authorizationSvc);
 		notifyAvailableAuthService(authorizationSvc.getType().name());
+		System.out.println("New authorization type: "+authorizationSvc.getType().name());
 	}
 	
 	public void removeAuthorizationComponent(IAuthorization authorizationSvc) {
 		this.authorizationSvcs.remove(authorizationSvc.getType());
 		notifyMissingAuthService(authorizationSvc.getType().name());
-		displayAvailableAuthorizationTypes();
+		System.out.println("Lost authorization type: "+authorizationSvc.getType().name());
 	}
 	
 	/*
@@ -64,20 +65,22 @@ public class AreaManagerCommand extends CommunicationPoint {
 	@Reference (type = '?', multiple = true, unbind = "removeNotificationComponent")
 	public void setNotificationComponent(IAccessNotification notificationSvc) {
 		this.notificationSvcs.put(notificationSvc.getType(), notificationSvc);
+		System.out.println("New notification type: "+notificationSvc.getType().name());
 	}
 	
 	
 	public void removeNotificationComponent(IAccessNotification notificationSvc) {
 		this.notificationSvcs.remove(notificationSvc.getType());
-		displayAvailableNotificationTypes();
+		System.out.println("Lost notification type: "+notificationSvc.getType().name());
 	}
 	
 	@Reference
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
 		this.hydnaSvc = hydnaSvc;
+		System.out.println("Hydna service added!");
 	}
 	
-	@Override
+	/*@Override
 	public void run() {
 		setUp();
 		while (true) {
@@ -98,9 +101,9 @@ public class AreaManagerCommand extends CommunicationPoint {
 		this.associationKeyword = associationKeyword;
 		Thread thread = new Thread(this);
 		thread.start();		
-	}
+	}*/
 	
-	/*public void activate(String location, String associationKeyword) {
+	public void run(String location, String associationKeyword) {
 		this.id = Message.MANAGER;
 		this.type = Message.MANAGER;
 		this.location = location;
@@ -115,20 +118,22 @@ public class AreaManagerCommand extends CommunicationPoint {
 			}
 			checkAlive();
 		}
-	}*/
+	}
 	
 	private void displayAvailableAuthorizationTypes() {
-		System.out.println("Available authorization types:");
+		String line = "Available authorization types: ";
 		for (ComponentTypes.Authorization type : authorizationSvcs.keySet()) {
-			System.out.println(type.name());
+			line += type.name()+" ";
 		}
+		System.out.println(line);
 	}
 	
 	private void displayAvailableNotificationTypes() {
-		System.out.println("Available notification types:");
+		String line = "Available notification types: ";
 		for (ComponentTypes.AccessNotification type : notificationSvcs.keySet()) {
-			System.out.println(type.name());
+			line += type.name()+" ";
 		}
+		System.out.println(line);
 	}
 	
 	public void printInfo() {
@@ -418,6 +423,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 	
 	protected void registerCommunicationPoint() {
 		//does not need to register
+		printInfo();
 	}
 	
 	private AccessAssociation findAssociation(String id) {
