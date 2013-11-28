@@ -22,13 +22,13 @@ import componenttypes.api.ComponentTypes;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=areaManager",
-		CommandProcessor.COMMAND_FUNCTION + ":String=run",
+		CommandProcessor.COMMAND_FUNCTION + ":String=activate",
 	},
 	provide = Object.class
 )
 
 public class AreaManagerCommand extends CommunicationPoint {
-
+	
 	private HashMap<ComponentTypes.Authorization, IAuthorization> authorizationSvcs;
 	private HashMap<ComponentTypes.AccessNotification, IAccessNotification> notificationSvcs;
 	private HashMap<String, ComponentEntry> accessPoints;
@@ -77,11 +77,8 @@ public class AreaManagerCommand extends CommunicationPoint {
 		this.hydnaSvc = hydnaSvc;
 	}
 	
-	public void run(String location, String associationKeyword) {
-		this.id = Message.MANAGER;
-		this.type = Message.MANAGER;
-		this.location = location;
-		this.associationKeyword = associationKeyword;
+	@Override
+	public void run() {
 		setUp();
 		while (true) {
 			try {
@@ -93,6 +90,32 @@ public class AreaManagerCommand extends CommunicationPoint {
 			checkAlive();
 		}
 	}
+	
+	public void activate(String location, String associationKeyword) {
+		this.id = Message.MANAGER;
+		this.type = Message.MANAGER;
+		this.location = location;
+		this.associationKeyword = associationKeyword;
+		Thread thread = new Thread(this);
+		thread.start();		
+	}
+	
+	/*public void activate(String location, String associationKeyword) {
+		this.id = Message.MANAGER;
+		this.type = Message.MANAGER;
+		this.location = location;
+		this.associationKeyword = associationKeyword;	
+		setUp();
+		while (true) {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				System.out.println("Sleep interrupted...");
+				e.printStackTrace();
+			}
+			checkAlive();
+		}
+	}*/
 	
 	private void displayAvailableAuthorizationTypes() {
 		System.out.println("Available authorization types:");
@@ -378,7 +401,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 				handleAuthorizationResult(msg.getFrom(), result);
 			}
 			else if (msg.getType().equals(Message.Type.KEEP_ALIVE)) {
-				System.out.println("KEEP_ALIVE from "+msg.getFrom());
+				//System.out.println("KEEP_ALIVE from "+msg.getFrom());
 				if (msg.getData(Message.Field.COMPONENT_TYPE).equals(Message.ComponentType.ACCESSPOINT.name())) {
 					if (this.accessPoints.get(msg.getFrom()) != null) {
 						this.accessPoints.get(msg.getFrom()).timestamp = System.currentTimeMillis();
@@ -395,7 +418,6 @@ public class AreaManagerCommand extends CommunicationPoint {
 	
 	protected void registerCommunicationPoint() {
 		//does not need to register
-		printInfo();
 	}
 	
 	private AccessAssociation findAssociation(String id) {

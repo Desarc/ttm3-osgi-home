@@ -1,8 +1,10 @@
 package notification.impl.accesslog;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
@@ -15,16 +17,16 @@ import notification.api.NotificationToken;
 @Component
 public class AccessLogger implements IAccessNotification {
 
-	PrintWriter writer;
+	BufferedWriter output;
 	
 	@Activate
 	public void openLogFile() {
-		try {
-			writer = new PrintWriter("access-log.txt", "UTF-8");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
+		File file = new File("access-log.txt");
+        try {
+			output = new BufferedWriter(new FileWriter(file));
+			output.write("Log file\n");
+			output.flush();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -32,7 +34,13 @@ public class AccessLogger implements IAccessNotification {
 	
 	@Deactivate
 	public void closeLogFile() {
-		writer.close();
+		try {
+			output.flush();
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -76,7 +84,14 @@ public class AccessLogger implements IAccessNotification {
 				logData += "Passcode: "+token.getPasscode()+"\n\n";
 			}
 		}
-		writer.println(logData);
+		System.out.println("Logging data: \n"+logData);
+		try {
+			output.write(logData);
+			output.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	

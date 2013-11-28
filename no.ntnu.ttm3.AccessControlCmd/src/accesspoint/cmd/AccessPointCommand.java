@@ -15,7 +15,7 @@ import componenttypes.api.ComponentTypes;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=accessPoint",
-		CommandProcessor.COMMAND_FUNCTION + ":String=run",
+		CommandProcessor.COMMAND_FUNCTION + ":String=activate",
 	},
 	provide = Object.class
 )
@@ -49,10 +49,9 @@ public class AccessPointCommand extends CommunicationPoint {
 	public void setHydnaSvc(HydnaApi hydnaSvc) {
 		this.hydnaSvc = hydnaSvc;
 	}
-	
-	public void run(String location, String associationKeyword) {
-		this.location = location;
-		this.associationKeyword = associationKeyword;
+
+	@Override
+	public void run() {
 		setUp();
 		while (true) {
 			try {
@@ -63,9 +62,16 @@ public class AccessPointCommand extends CommunicationPoint {
 			}
 			Message msg = new Message(Message.Type.KEEP_ALIVE, Message.MANAGER, this.id);
 			msg.addData(Message.Field.COMPONENT_TYPE, Message.ComponentType.ACCESSPOINT.name());
-			System.out.println("Sending KEEP_ALIVE...");
+			//System.out.println("Sending KEEP_ALIVE...");
 			hydnaSvc.sendMessage(Serializer.serialize(msg));
 		}
+	}
+	
+	public void activate(String location, String associationKeyword) {
+		this.location = location;
+		this.associationKeyword = associationKeyword;
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 	
 	public void grantAccess() {

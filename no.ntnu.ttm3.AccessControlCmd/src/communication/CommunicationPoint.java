@@ -9,7 +9,7 @@ import hydna.ntnu.student.listener.api.HydnaListener;
 /**
  * Simple class for communication through the Hydna service API
  */
-public abstract class CommunicationPoint {
+public abstract class CommunicationPoint implements Runnable {
 
 	protected HydnaApi hydnaSvc;
 	protected HydnaListener listener;
@@ -51,7 +51,7 @@ public abstract class CommunicationPoint {
 	
 	public abstract void setHydnaSvc(HydnaApi hydnaSvc);
 	
-	public abstract void run(String location, String associationKeyword);
+	public abstract void activate(String location, String associationKeyword);
 	
 	protected abstract void handleMessage(Message msg);
 	

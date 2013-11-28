@@ -11,6 +11,7 @@
 	no.ntnu.ttm3.AccessControlAPI.ComponentTypes;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.NotificationAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlCmd.AreaManagerCommand;version=latest,\
+	no.ntnu.ttm3.AccessControlImpl.AccessLogger;version=latest,\
 	no.ntnu.ttm3.AccessControlImpl.DBPasscodeAuthorization;version=latest,\
 	no.ntnu.ttm3.AccessControlImpl.TimedAuthorization;version=latest,\
 	org.apache.felix.configadmin;version='[1.6.0,1.6.1)',\
@@ -25,5 +26,6 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
 	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlCmd.AreaManagerCommand)',\
 	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.DBPasscodeAuthorization)',\
-	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.TimedAuthorization)'
+	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.TimedAuthorization)',\
+	osgi.identity;filter:='(osgi.identity=no.ntnu.ttm3.AccessControlImpl.AccessLogger)'
 -resolve: auto
