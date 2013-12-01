@@ -1,15 +1,10 @@
 package controller.impl.motiondetector;
 
 import aQute.bnd.annotation.component.Component;
-import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import controller.api.IAccessController;
 import controller.api.IdentificationCallback;
 
-/**
- * This class is the implementation of the enum type MOTION_DETECT in {@link IAccessController}.
- *
- */
 @Component
 public class MotionDetectController implements IAccessController {
 
@@ -45,7 +40,13 @@ public class MotionDetectController implements IAccessController {
 	}
 
 	@Override
-	public void deactivate() {
+	public void setInactive() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void displayResult(boolean success) {
 		// TODO Auto-generated method stub
 		
 	}

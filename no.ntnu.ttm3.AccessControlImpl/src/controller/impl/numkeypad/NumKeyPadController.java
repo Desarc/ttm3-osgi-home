@@ -8,10 +8,6 @@ import aQute.bnd.annotation.component.Component;
 import controller.api.IAccessController;
 import controller.api.IdentificationCallback;
 
-/**
- * This class is the implementation of the enum type NUM_KEY_PAD in {@link IAccessController}.
- *
- */
 @Component
 public class NumKeyPadController implements IAccessController {
 
@@ -28,17 +24,6 @@ public class NumKeyPadController implements IAccessController {
 		});
 	}
 	
-	/* (non-Javadoc)
-	 * Standard method for getting a String that is guaranteed unique for each type,
-	 * but guaranteed the same for different versions of the same type.
-	 * In this case it is safe to use #getClass(), because the fact that this code is running
-	 * means we're dealing with the real object and not a composed object.
-	 */
-	/* see comment in LockedDoor.java
-	 * public String getType() {
-		return getClass().getName();
-	}*/
-	
 	public ComponentTypes.AccessController getType() {
 		return ComponentTypes.AccessController.NUM_KEY_PAD;
 	}
@@ -48,7 +33,7 @@ public class NumKeyPadController implements IAccessController {
 		gui.activate();
 	}
 	
-	public void deactivate() {
+	public void setInactive() {
 		gui.reset();
 	}
 	
@@ -70,6 +55,17 @@ public class NumKeyPadController implements IAccessController {
 
 	public void dispose() {
 		// TODO Indicate that the GUI is closed
+	}
+
+	@Override
+	public void displayResult(boolean success) {
+		if (success) {
+			System.out.println("Authorization success!");
+		}
+		else {
+			System.out.println("Authorization failed.");
+		}
+		
 	}
 	
 }

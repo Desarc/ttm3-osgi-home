@@ -1,6 +1,5 @@
 package controller.impl.nfc;
 
-import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import controller.api.IAccessController;
@@ -45,7 +44,13 @@ public class NFCController implements IAccessController {
 	}
 
 	@Override
-	public void deactivate() {
+	public void setInactive() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void displayResult(boolean success) {
 		// TODO Auto-generated method stub
 		
 	}
