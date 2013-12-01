@@ -50,7 +50,7 @@ public class NumKeyPadController implements IAccessController {
 
 	@Override
 	public ComponentTypes.Authorization getAltAuthorizationType() {
-		return ComponentTypes.Authorization.NONE_TRUE;
+		return ComponentTypes.Authorization.TIMED;
 	}
 
 	public void dispose() {

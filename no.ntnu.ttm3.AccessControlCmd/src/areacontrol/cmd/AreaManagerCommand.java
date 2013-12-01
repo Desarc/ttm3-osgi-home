@@ -192,6 +192,7 @@ public class AreaManagerCommand extends CommunicationPoint {
 				Message msg = new Message(Message.Type.CHANGE_AUTH, ac.id, Message.MANAGER);
 				msg.addData(Message.Field.AUTH_TYPE, type);
 				hydnaSvc.sendMessage(Serializer.serialize(msg));
+				System.out.println("Changed authorization type for "+ac.id+" to "+type);
 			}
 		}
 	}
@@ -207,15 +208,19 @@ public class AreaManagerCommand extends CommunicationPoint {
 					available = availableAuthorization(ac.altType);
 				}
 				Message msg = new Message(Message.Type.CHANGE_AUTH, ac.id, Message.MANAGER);
+				String newType;
 				if (available != null) {
 					ac.activeType = available.getType().name();
+					newType = ac.activeType;
 					msg.addData(Message.Field.AUTH_TYPE, available.getType().name());
 				}
 				else {
 					ac.activeType = null;
+					newType = ComponentTypes.Authorization.NOT_AVAILABLE.name();
 					msg.addData(Message.Field.AUTH_TYPE, ComponentTypes.Authorization.NOT_AVAILABLE.name());
 				}
 				hydnaSvc.sendMessage(Serializer.serialize(msg));
+				System.out.println("Changed authorization type for "+ac.id+" to "+newType);
 			}
 		}
 	}

@@ -150,6 +150,7 @@ public class ControllerCommand extends CommunicationPoint {
 					this.activeAuthorizationType = ComponentTypes.Authorization.NOT_AVAILABLE.name();
 					this.authorizable = false;
 					accessControllerSvc.setInactive();
+					System.out.println("Authorization not available, deactivating...");
 				}
 				else {
 					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
@@ -157,7 +158,9 @@ public class ControllerCommand extends CommunicationPoint {
 						requestIdentification();
 					}
 					this.authorizable = true;
+					System.out.println("New authorization type assigned: "+this.activeAuthorizationType);
 				}
+				
 			}
 		}
 	}
