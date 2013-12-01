@@ -2,8 +2,6 @@ package accesspoint.impl.internetterminal;
 
 import java.io.IOException;
 
-import javax.swing.SwingUtilities;
-
 public class InternetTerminalGUI {
 
 	private static final String BROWSER_BINARY = 

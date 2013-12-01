@@ -8,14 +8,18 @@ import java.nio.charset.Charset;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 
 public class LockedDoorGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String TEXT_STOP =
+	private static final String TEXT_ERROR =
 			new String(
 					new byte[]{(byte)0xC3, (byte)0x97}, 
+					Charset.forName("UTF-8")
+				);
+	private static final String TEXT_STOP =
+			new String(
+					new byte[]{(byte)0xE2, (byte)0x97, (byte)0xBC, (byte)0xEF, (byte)0xB8, (byte)0x8E}, 
 					Charset.forName("UTF-8")
 				);
 	private static final String TEXT_WALK =
@@ -24,6 +28,7 @@ public class LockedDoorGUI extends JFrame {
 					Charset.forName("UTF-8")
 				);
 	
+	protected JLabel errorLabel;
 	protected JLabel stopLabel;
 	protected JLabel walkLabel;
 
@@ -40,9 +45,14 @@ public class LockedDoorGUI extends JFrame {
 		
 		getContentPane().setBackground(Color.BLACK);
 		
+		errorLabel = new JLabel(TEXT_ERROR);
+		errorLabel.setFont(errorLabel.getFont().deriveFont(errorLabel.getFont().getSize2D()*3.5F));
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+		
 		stopLabel = new JLabel(TEXT_STOP);
 		stopLabel.setFont(stopLabel.getFont().deriveFont(stopLabel.getFont().getSize2D()*3.5F));
-		stopLabel.setForeground(Color.RED);
+		stopLabel.setForeground(Color.ORANGE);
 		stopLabel.setVisible(false);
 		stopLabel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 		
@@ -52,6 +62,7 @@ public class LockedDoorGUI extends JFrame {
 		walkLabel.setVisible(false);
 		walkLabel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 		
+		add(errorLabel);
 		add(stopLabel);
 		add(walkLabel);
 		
@@ -59,16 +70,19 @@ public class LockedDoorGUI extends JFrame {
 	}
 	
 	public void reset() {
+		errorLabel.setVisible(true);
 		stopLabel.setVisible(false);
 		walkLabel.setVisible(false);
 	}
 	
 	public void allow() {
+		errorLabel.setVisible(false);
 		stopLabel.setVisible(false);
 		walkLabel.setVisible(true);
 	}
 	
 	public void deny() {
+		errorLabel.setVisible(false);
 		walkLabel.setVisible(false);
 		stopLabel.setVisible(true);
 	}

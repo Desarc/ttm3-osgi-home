@@ -54,11 +54,12 @@ public class InternetTerminal implements IAccessPoint {
 
 	@Override
 	public void deactivate() {
-		gui.dispose();
+		gui.reset();
 	}
 
 	@Override
 	public long getRevokeDelay() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -68,7 +69,7 @@ public class InternetTerminal implements IAccessPoint {
 
 	@Override
 	public void activate() {
-		gui.deny();		
+		gui.deny();
 	}
 
 

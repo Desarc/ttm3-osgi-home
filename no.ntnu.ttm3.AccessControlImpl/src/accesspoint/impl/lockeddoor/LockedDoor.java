@@ -17,6 +17,21 @@ public class LockedDoor implements IAccessPoint {
 		gui = new LockedDoorGUI(this);
 	}
 	
+	/* (non-Javadoc)
+	 * Standard method for getting a String that is guaranteed unique for each type,
+	 * but guaranteed the same for different versions of the same type.
+	 * In this case it is safe to use #getClass(), because the fact that this code is running
+	 * means we're dealing with the real object and not a composed object.
+	 * 
+	 * comment:
+	 * How is the problem of finding all possible AccessPoint types solved? AccessControllers and AreaManager might need
+	 * to be preconfigured to work with a specific type of AccessPoint (though this is probably more relevant for
+	 * AccessController and AuthorizationServer)
+	 */
+	/*public String getType() {
+		return getClass().getName();
+	}*/
+	
 	public ComponentTypes.AccessPoint getType() {
 		return ComponentTypes.AccessPoint.LOCKED_DOOR;
 	}
@@ -50,7 +65,7 @@ public class LockedDoor implements IAccessPoint {
 
 	@Override
 	public void deactivate() {
-		gui.dispose();
+		gui.reset();
 	}
 
 	public void dispose() {
