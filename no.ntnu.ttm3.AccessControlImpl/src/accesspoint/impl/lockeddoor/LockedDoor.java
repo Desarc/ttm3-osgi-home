@@ -60,4 +60,8 @@ public class LockedDoor implements IAccessPoint {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void dispose() {
+		// TODO Indicate that the GUI is closed
+	}
 }

@@ -11,6 +11,12 @@ import accesspoint.api.IAccessPoint;
 @Component
 public class AutomaticDoor implements IAccessPoint {
 
+	protected AutomaticDoorGUI gui;
+
+	public AutomaticDoor() {
+		gui = new AutomaticDoorGUI(this);
+	}
+	
 	/* (non-Javadoc)
 	 * Standard method for getting a String that is guaranteed unique for each type,
 	 * but guaranteed the same for different versions of the same type.
@@ -23,6 +29,7 @@ public class AutomaticDoor implements IAccessPoint {
 
 	public void grantAccess() {
 		System.out.println("Door opened!");
+		gui.allow();
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
@@ -35,6 +42,7 @@ public class AutomaticDoor implements IAccessPoint {
 	
 	public void revokeAccess() {
 		System.out.println("Door closed.");
+		gui.deny();
 	}
 
 
@@ -67,6 +75,11 @@ public class AutomaticDoor implements IAccessPoint {
 	public long getRevokeDelay() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	public void dispose() {
+		// TODO Indicate that the GUI is closed
 	}
 
 

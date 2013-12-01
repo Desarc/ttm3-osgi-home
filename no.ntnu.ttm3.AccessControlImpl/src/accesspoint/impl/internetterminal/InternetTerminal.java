@@ -57,5 +57,9 @@ public class InternetTerminal implements IAccessPoint {
 		return 0;
 	}
 
+	public void dispose() {
+		// TODO Indicate that the GUI is closed
+	}
+
 
 }
