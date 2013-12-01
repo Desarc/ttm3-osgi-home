@@ -53,7 +53,7 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	@Override
-	public void deactivate() {
+	public void setInactive() {
 		gui.reset();
 	}
 
