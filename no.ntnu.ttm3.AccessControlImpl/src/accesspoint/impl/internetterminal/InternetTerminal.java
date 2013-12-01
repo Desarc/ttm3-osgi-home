@@ -11,6 +11,8 @@ import accesspoint.api.IAccessPoint;
 @Component
 public class InternetTerminal implements IAccessPoint {
 
+	protected InternetTerminalGUI gui;
+
 	/* (non-Javadoc)
 	 * Standard method for getting a String that is guaranteed unique for each type,
 	 * but guaranteed the same for different versions of the same type.
@@ -21,13 +23,18 @@ public class InternetTerminal implements IAccessPoint {
 		return getClass().getName();
 	}*/
 	
+	public InternetTerminal() {
+		gui = new InternetTerminalGUI(this);
+	}
 
 	public void grantAccess() {
 		System.out.println("Welcome to the inernet!");
+		gui.allow();
 	}
 
 	public void revokeAccess() {
 		System.out.println("Disconnected.");
+		gui.reset();
 	}
 
 	@Override
@@ -47,8 +54,7 @@ public class InternetTerminal implements IAccessPoint {
 
 	@Override
 	public void deactivate() {
-		// TODO Auto-generated method stub
-		
+		gui.dispose();
 	}
 
 	@Override

@@ -11,6 +11,12 @@ import accesspoint.api.IAccessPoint;
 @Component
 public class LockedDoor implements IAccessPoint {
 	
+	protected LockedDoorGUI gui;
+
+	public LockedDoor() {
+		gui = new LockedDoorGUI(this);
+	}
+	
 	/* (non-Javadoc)
 	 * Standard method for getting a String that is guaranteed unique for each type,
 	 * but guaranteed the same for different versions of the same type.
@@ -33,11 +39,13 @@ public class LockedDoor implements IAccessPoint {
 	@Override
 	public void grantAccess() {
 		System.out.println("Door unlocked!");
+		gui.allow();
 	}
 
 	@Override
 	public void revokeAccess() {
 		System.out.println("Door locked!");
+		gui.deny();
 	}
 	
 	//@Override
@@ -57,8 +65,7 @@ public class LockedDoor implements IAccessPoint {
 
 	@Override
 	public void deactivate() {
-		// TODO Auto-generated method stub
-		
+		gui.dispose();
 	}
 
 	public void dispose() {

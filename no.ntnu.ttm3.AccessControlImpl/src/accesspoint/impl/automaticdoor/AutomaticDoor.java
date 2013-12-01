@@ -66,8 +66,7 @@ public class AutomaticDoor implements IAccessPoint {
 
 	@Override
 	public void deactivate() {
-		// TODO Auto-generated method stub
-		
+		gui.dispose();
 	}
 
 
