@@ -16,7 +16,7 @@ import controller.api.IdentificationCallback;
 @Component(properties =	{
 		/* Felix GoGo Shell Commands */
 		CommandProcessor.COMMAND_SCOPE + ":String=accessController",
-		CommandProcessor.COMMAND_FUNCTION + ":String=activate",
+		CommandProcessor.COMMAND_FUNCTION + ":String=run",
 	},
 	provide = Object.class
 )

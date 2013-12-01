@@ -58,10 +58,6 @@ public class AreaManagerCommand extends CommunicationPoint {
 		System.out.println("Lost authorization type: "+authorizationSvc.getType().name());
 	}
 	
-	/*
-	 * note: if this code is enabled, an IAccessNotification service must be available for this component to work.
-	 * this is probably true for any such service references...
-	 */
 	@Reference (type = '?', multiple = true, unbind = "removeNotificationComponent")
 	public void setNotificationComponent(IAccessNotification notificationSvc) {
 		this.notificationSvcs.put(notificationSvc.getType(), notificationSvc);

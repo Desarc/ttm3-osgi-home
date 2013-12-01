@@ -59,7 +59,6 @@ public class InternetTerminal implements IAccessPoint {
 
 	@Override
 	public long getRevokeDelay() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
