@@ -15,6 +15,7 @@ public class LockedDoor implements IAccessPoint {
 
 	public LockedDoor() {
 		gui = new LockedDoorGUI(this);
+		gui.reset();
 		gui.setVisible(true);
 	}
 	

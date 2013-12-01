@@ -8,7 +8,6 @@ import java.nio.charset.Charset;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 
 public class AutomaticDoorGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
