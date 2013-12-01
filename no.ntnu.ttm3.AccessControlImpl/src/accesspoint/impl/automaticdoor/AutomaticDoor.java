@@ -15,6 +15,7 @@ public class AutomaticDoor implements IAccessPoint {
 
 	public AutomaticDoor() {
 		gui = new AutomaticDoorGUI(this);
+		gui.setVisible(true);
 	}
 
 	public void grantAccess() {
