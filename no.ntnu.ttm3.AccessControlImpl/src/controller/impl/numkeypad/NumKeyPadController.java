@@ -59,6 +59,7 @@ public class NumKeyPadController implements IAccessController {
 
 	@Override
 	public void displayResult(boolean success) {
+		gui.displayResult(success);
 		if (success) {
 			System.out.println("Authorization success!");
 		}

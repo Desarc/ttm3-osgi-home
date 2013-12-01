@@ -155,5 +155,27 @@ public class NumKeyPadGUI extends JFrame {
 		super.dispose();
 		controller.dispose();
 	}
+	
+	public void displayResult(boolean success) {
+		String text;
+		if (success) {
+			text = "Success!";
+		}
+		else {
+			text = "Failed.";
+		}
+		display.setText(text);
+		display.setEchoChar((char) 0);
+		display.setEditable(false);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		display.setText("");
+		display.setEchoChar(passwordChar);
+		display.setEditable(true);
+	}
 
 }

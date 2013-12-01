@@ -7,7 +7,6 @@
 -runbundles: hydna-bundle;version=latest,\
 	hydna-ntnu-student-bundle;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.AccessControllerAPI;version=latest,\
-	no.ntnu.ttm3.AccessControlAPI.CommandAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.CommunicationAPI;version=latest,\
 	no.ntnu.ttm3.AccessControlAPI.ComponentTypes;version=latest,\
 	no.ntnu.ttm3.AccessControlCmd.ControllerCommand;version=latest,\

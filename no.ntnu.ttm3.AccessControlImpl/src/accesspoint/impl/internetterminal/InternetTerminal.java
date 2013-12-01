@@ -28,7 +28,7 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	public void grantAccess() {
-		System.out.println("Welcome to the inernet!");
+		System.out.println("Welcome to the Internet!");
 		gui.allow();
 	}
 
