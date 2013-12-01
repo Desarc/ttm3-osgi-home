@@ -75,7 +75,7 @@ public class LockedDoor implements IAccessPoint {
 	}
 
 	@Override
-	public void activate() {
+	public void setActive() {
 		gui.deny();
 	}
 }

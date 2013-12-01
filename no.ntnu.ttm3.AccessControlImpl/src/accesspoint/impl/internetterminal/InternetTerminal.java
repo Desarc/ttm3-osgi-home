@@ -68,7 +68,7 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	@Override
-	public void activate() {
+	public void setActive() {
 		gui.deny();
 	}
 
