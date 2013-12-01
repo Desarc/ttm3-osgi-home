@@ -66,7 +66,6 @@ public class NumKeyPadController implements IAccessController {
 		else {
 			System.out.println("Authorization failed.");
 		}
-		
 	}
 	
 }

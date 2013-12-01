@@ -122,7 +122,7 @@ public class NumKeyPadGUI extends JFrame {
 	public void reset() {
 		if (failed)
 			throw new IllegalStateException("GUI is failed.");
-		display.setText("inaktiv");
+		display.setText("Inactive");
 		display.setEchoChar((char) 0);
 		display.setEditable(false);
 		display.setSelectionStart(display.getCaretPosition());
@@ -162,7 +162,7 @@ public class NumKeyPadGUI extends JFrame {
 			text = "Success!";
 		}
 		else {
-			text = "Failed.";
+			text = "Failed";
 		}
 		display.setText(text);
 		display.setEchoChar((char) 0);
