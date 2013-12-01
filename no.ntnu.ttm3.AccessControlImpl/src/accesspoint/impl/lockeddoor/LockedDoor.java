@@ -56,4 +56,9 @@ public class LockedDoor implements IAccessPoint {
 	public void dispose() {
 		// TODO Indicate that the GUI is closed
 	}
+
+	@Override
+	public void activate() {
+		gui.deny();
+	}
 }

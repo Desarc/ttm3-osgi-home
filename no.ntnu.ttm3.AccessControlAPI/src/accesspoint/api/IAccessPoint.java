@@ -22,6 +22,8 @@ public interface IAccessPoint {
 	
 	void deactivate();
 	
+	void activate();
+	
 	/**
 	 * Time to wait until automatically revoking access. Set to 0 if this should not be done automatically.
 	 * @return

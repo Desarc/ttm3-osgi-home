@@ -66,5 +66,10 @@ public class InternetTerminal implements IAccessPoint {
 		// TODO Indicate that the GUI is closed
 	}
 
+	@Override
+	public void activate() {
+		gui.deny();		
+	}
+
 
 }

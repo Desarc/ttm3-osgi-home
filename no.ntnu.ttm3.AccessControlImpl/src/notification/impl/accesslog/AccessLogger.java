@@ -84,7 +84,7 @@ public class AccessLogger implements IAccessNotification {
 				logData += "Passcode: "+token.getPasscode()+"\n\n";
 			}
 		}
-		System.out.println("Logging data: \n"+logData);
+		//System.out.println("Logging data: \n"+logData);
 		try {
 			output.write(logData);
 			output.flush();
