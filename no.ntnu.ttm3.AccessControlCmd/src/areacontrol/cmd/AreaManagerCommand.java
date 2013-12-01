@@ -454,12 +454,12 @@ public class AreaManagerCommand extends CommunicationPoint {
 		if (aa != null) {
 			this.accessAssociations.remove(aa);
 			if (!associateAccessPoint(aa.accessPoint)) {
-				System.out.println("Dissassociating "+aa.accessPoint.id);
 				if (findAssociation(aa.accessPoint.id) == null) {
 					aa.accessPoint.associated = false;
+					System.out.println("Dissassociating "+aa.accessPoint.id);
+					Message msg = new Message(Message.Type.DISASSOCIATE, aa.accessPoint.id, Message.MANAGER);
+					hydnaSvc.sendMessage(Serializer.serialize(msg));
 				}
-				Message msg = new Message(Message.Type.DISASSOCIATE, aa.accessPoint.id, Message.MANAGER);
-				hydnaSvc.sendMessage(Serializer.serialize(msg));
 			}
 			
 		}
