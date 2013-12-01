@@ -48,6 +48,7 @@ public class AutomaticDoorGUI extends JFrame {
 		errorLabel = new JLabel(TEXT_ERROR);
 		errorLabel.setFont(errorLabel.getFont().deriveFont(errorLabel.getFont().getSize2D()*3.5F));
 		errorLabel.setForeground(Color.RED);
+		errorLabel.setVisible(true);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 		
 		stopLabel = new JLabel(TEXT_STOP);

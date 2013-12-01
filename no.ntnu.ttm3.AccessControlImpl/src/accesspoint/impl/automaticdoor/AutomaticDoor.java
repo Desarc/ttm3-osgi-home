@@ -15,8 +15,8 @@ public class AutomaticDoor implements IAccessPoint {
 
 	public AutomaticDoor() {
 		gui = new AutomaticDoorGUI(this);
-		gui.reset();
 		gui.setVisible(true);
+		deactivate();
 	}
 	
 	/* (non-Javadoc)
@@ -32,13 +32,6 @@ public class AutomaticDoor implements IAccessPoint {
 	public void grantAccess() {
 		System.out.println("Door opened!");
 		gui.allow();
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		revokeAccess();
 	}
 
 	
@@ -74,8 +67,7 @@ public class AutomaticDoor implements IAccessPoint {
 
 	@Override
 	public long getRevokeDelay() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 10000;
 	}
 
 
