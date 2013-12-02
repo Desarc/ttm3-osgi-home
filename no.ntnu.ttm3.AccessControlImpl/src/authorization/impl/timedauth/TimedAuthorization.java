@@ -17,7 +17,7 @@ import authorization.api.IAuthorization;
 public class TimedAuthorization implements IAuthorization {
 	
 	private int minHour = 8;
-	private int maxHour = 16;
+	private int maxHour = 22;
 
 	@Override
 	public ComponentTypes.Authorization getType() {

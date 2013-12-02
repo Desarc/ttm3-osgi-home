@@ -128,13 +128,13 @@ public class AccessPointCommand extends CommunicationPoint {
 				this.accessControllerType = msg.getData(Message.Field.COMPONENT_SUBTYPE);
 				this.associated = true;
 				printInfo();
-				this.accessPointSvc.activate();
+				this.accessPointSvc.setActive();
 			}
 			else if (msg.getType().equals(Message.Type.DISASSOCIATE)) {
 				this.accessControllerId = null;
 				this.accessControllerType = null;
 				this.associated = false;
-				this.accessPointSvc.deactivate();
+				this.accessPointSvc.setInactive();
 				System.out.println("Disassociated, waiting for new association...");
 			}
 		}

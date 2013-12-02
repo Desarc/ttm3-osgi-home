@@ -20,9 +20,9 @@ public interface IAccessPoint {
 	 */
 	void revokeAccess();
 	
-	void deactivate();
+	void setInactive();
 	
-	void activate();
+	void setActive();
 	
 	/**
 	 * Time to wait until automatically revoking access. Set to 0 if this should not be done automatically.

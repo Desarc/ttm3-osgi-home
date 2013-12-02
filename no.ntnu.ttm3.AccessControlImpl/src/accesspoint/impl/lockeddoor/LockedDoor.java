@@ -15,6 +15,7 @@ public class LockedDoor implements IAccessPoint {
 
 	public LockedDoor() {
 		gui = new LockedDoorGUI(this);
+		gui.reset();
 		gui.setVisible(true);
 	}
 	
@@ -65,7 +66,7 @@ public class LockedDoor implements IAccessPoint {
 	}
 
 	@Override
-	public void deactivate() {
+	public void setInactive() {
 		gui.reset();
 	}
 
@@ -74,7 +75,7 @@ public class LockedDoor implements IAccessPoint {
 	}
 
 	@Override
-	public void activate() {
+	public void setActive() {
 		gui.deny();
 	}
 }

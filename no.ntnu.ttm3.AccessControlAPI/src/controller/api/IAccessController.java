@@ -12,7 +12,9 @@ public interface IAccessController {
 	
 	void requestIdentification(IdentificationCallback callback);
 	
-	void deactivate();
+	void setInactive();
+	
+	void displayResult(boolean success);
 	
 	ComponentTypes.Authorization getPreferredAuthorizationType();
 	

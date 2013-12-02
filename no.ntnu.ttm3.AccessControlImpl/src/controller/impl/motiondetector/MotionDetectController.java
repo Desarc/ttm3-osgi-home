@@ -1,32 +1,33 @@
 package controller.impl.motiondetector;
 
+import javax.swing.SwingUtilities;
+
 import aQute.bnd.annotation.component.Component;
 import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import controller.api.IAccessController;
 import controller.api.IdentificationCallback;
 
-/**
- * This class is the implementation of the enum type MOTION_DETECT in {@link IAccessController}.
- *
- */
 @Component
 public class MotionDetectController implements IAccessController {
 
-	/* (non-Javadoc)
-	 * Standard method for getting a String that is guaranteed unique for each type,
-	 * but guaranteed the same for different versions of the same type.
-	 * In this case it is safe to use #getClass(), because the fact that this code is running
-	 * means we're dealing with the real object and not a composed object.
-	 */
-	/*public String getType() {
-		return getClass().getName();
-	}*/
+	protected MotionDetectGUI gui;
+	private IdentificationCallback callback;
 	
-
+	public MotionDetectController() {
+		gui = new MotionDetectGUI(this);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				gui.setVisible(true);
+			}
+		});
+	}
+	
 	@Override
 	public void requestIdentification(IdentificationCallback callback) {
-		// TODO Auto-generated method stub
+		this.callback = callback;
+		gui.activate();
 	}
 
 	@Override
@@ -43,11 +44,26 @@ public class MotionDetectController implements IAccessController {
 	public ComponentTypes.Authorization getAltAuthorizationType() {
 		return ComponentTypes.Authorization.NONE_TRUE;
 	}
+	
+	public void createAuthorizationRequest() {
+		Message msg = new Message(Message.Type.ACCESS_REQ, Message.MANAGER, null); // id is stored in ControllerCommand
+		callback.callback(msg);
+	}
 
 	@Override
-	public void deactivate() {
-		// TODO Auto-generated method stub
-		
+	public void setInactive() {
+		gui.reset();
+	}
+
+	@Override
+	public void displayResult(boolean success) {
+		gui.displayResult(success);
+		if (success) {
+			System.out.println("Authorization success!");
+		}
+		else {
+			System.out.println("Authorization failed.");
+		}
 	}
 
 	

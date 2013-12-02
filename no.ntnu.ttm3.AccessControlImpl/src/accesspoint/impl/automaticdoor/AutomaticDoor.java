@@ -16,28 +16,12 @@ public class AutomaticDoor implements IAccessPoint {
 	public AutomaticDoor() {
 		gui = new AutomaticDoorGUI(this);
 		gui.setVisible(true);
+		setInactive();
 	}
-	
-	/* (non-Javadoc)
-	 * Standard method for getting a String that is guaranteed unique for each type,
-	 * but guaranteed the same for different versions of the same type.
-	 * In this case it is safe to use #getClass(), because the fact that this code is running
-	 * means we're dealing with the real object and not a composed object.
-	 */
-	/*public String getType() {
-		return getClass().getName();
-	}*/
 
 	public void grantAccess() {
 		System.out.println("Door opened!");
 		gui.allow();
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		revokeAccess();
 	}
 
 	
@@ -66,15 +50,14 @@ public class AutomaticDoor implements IAccessPoint {
 
 
 	@Override
-	public void deactivate() {
+	public void setInactive() {
 		gui.reset();
 	}
 
 
 	@Override
 	public long getRevokeDelay() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 10000;
 	}
 
 
@@ -83,7 +66,7 @@ public class AutomaticDoor implements IAccessPoint {
 	}
 
 	@Override
-	public void activate() {
+	public void setActive() {
 		gui.deny();
 	}
 

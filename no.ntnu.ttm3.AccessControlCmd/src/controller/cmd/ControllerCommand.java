@@ -66,10 +66,10 @@ public class ControllerCommand extends CommunicationPoint {
 	
 	public void handleAuthorizationResponse(String result) {
 		if (result.equals("true")) {
-			System.out.println("Authorization success!");
+			this.accessControllerSvc.displayResult(true);
 		}
 		else {
-			System.out.println("Authorization failed.");
+			this.accessControllerSvc.displayResult(false);
 		}
 	}
 	
@@ -142,14 +142,15 @@ public class ControllerCommand extends CommunicationPoint {
 				this.accessPointId = null;
 				this.accessPointType = null;
 				associated = false;
-				accessControllerSvc.deactivate();
+				accessControllerSvc.setInactive();
 				System.out.println("Disassociated, waiting for new association...");
 			}
 			else if (msg.getType().equals(Message.Type.CHANGE_AUTH)) {
 				if (msg.getData(Message.Field.AUTH_TYPE).equals(ComponentTypes.Authorization.NOT_AVAILABLE.name())) {
 					this.activeAuthorizationType = ComponentTypes.Authorization.NOT_AVAILABLE.name();
 					this.authorizable = false;
-					accessControllerSvc.deactivate();
+					accessControllerSvc.setInactive();
+					System.out.println("Authorization not available, deactivating...");
 				}
 				else {
 					this.activeAuthorizationType = msg.getData(Message.Field.AUTH_TYPE);
@@ -157,7 +158,9 @@ public class ControllerCommand extends CommunicationPoint {
 						requestIdentification();
 					}
 					this.authorizable = true;
+					System.out.println("New authorization type assigned: "+this.activeAuthorizationType);
 				}
+				
 			}
 		}
 	}

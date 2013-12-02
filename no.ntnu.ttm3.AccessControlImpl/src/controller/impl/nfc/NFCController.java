@@ -1,6 +1,5 @@
 package controller.impl.nfc;
 
-import communication.api.Message;
 import componenttypes.api.ComponentTypes;
 import aQute.bnd.annotation.component.Component;
 import controller.api.IAccessController;
@@ -12,16 +11,6 @@ import controller.api.IdentificationCallback;
  */
 @Component
 public class NFCController implements IAccessController {
-
-	/* (non-Javadoc)
-	 * Standard method for getting a String that is guaranteed unique for each type,
-	 * but guaranteed the same for different versions of the same type.
-	 * In this case it is safe to use #getClass(), because the fact that this code is running
-	 * means we're dealing with the real object and not a composed object.
-	 */
-	/*public String getType() {
-		return getClass().getName();
-	}*/
 
 	@Override
 	public void requestIdentification(IdentificationCallback callback) {
@@ -45,7 +34,13 @@ public class NFCController implements IAccessController {
 	}
 
 	@Override
-	public void deactivate() {
+	public void setInactive() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void displayResult(boolean success) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -28,7 +28,7 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	public void grantAccess() {
-		System.out.println("Welcome to the inernet!");
+		System.out.println("Welcome to the Internet!");
 		gui.allow();
 	}
 
@@ -53,7 +53,7 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	@Override
-	public void deactivate() {
+	public void setInactive() {
 		gui.reset();
 	}
 
@@ -68,7 +68,7 @@ public class InternetTerminal implements IAccessPoint {
 	}
 
 	@Override
-	public void activate() {
+	public void setActive() {
 		gui.deny();
 	}
 
