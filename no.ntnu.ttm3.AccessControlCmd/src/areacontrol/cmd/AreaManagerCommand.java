@@ -340,6 +340,13 @@ public class AreaManagerCommand extends CommunicationPoint {
 				hydnaSvc.sendMessage(Serializer.serialize(msg2));
 			}
 		}
+		else {
+			AccessAssociation aa = findAssociation(controllerId);
+			if (aa != null) {
+				Message msg2 = new Message(Message.Type.CLOSE, aa.accessPoint.id, Message.MANAGER);
+				hydnaSvc.sendMessage(Serializer.serialize(msg2));
+			}
+		}
 	}
 	
 	private void handleNewAccessPoint(String oldId, String type, String subtype, String associationKey, String preferred, String alt) {
