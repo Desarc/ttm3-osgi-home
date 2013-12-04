@@ -26,7 +26,11 @@ public class InternetTerminalGUI {
 	
 	public void allow() {
 		try {
+			if (process != null)
+				process.exitValue();
 			process = Runtime.getRuntime().exec(BROWSER_BINARY);
+		} catch (IllegalThreadStateException e) {
+			/* process is still running */
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
