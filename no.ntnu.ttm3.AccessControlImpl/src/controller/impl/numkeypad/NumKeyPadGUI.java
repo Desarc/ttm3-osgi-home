@@ -159,20 +159,26 @@ public class NumKeyPadGUI extends JFrame {
 	public void displayResult(boolean success) {
 		String text;
 		if (success) {
+			display.setForeground(Color.GREEN);
 			text = "Success!";
 		}
 		else {
+			display.setForeground(Color.RED);
 			text = "Failed";
 		}
 		display.setText(text);
 		display.setEchoChar((char) 0);
 		display.setEditable(false);
+		for(int i=0;i<buttons.length;i++)
+			buttons[i].setEnabled(false);
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		for(int i=0;i<buttons.length;i++)
+			buttons[i].setEnabled(true);
 		display.setText("");
 		display.setEchoChar(passwordChar);
 		display.setEditable(true);
